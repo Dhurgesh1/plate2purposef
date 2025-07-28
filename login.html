@@ -1,0 +1,508 @@
+<!-- N1.html - Our Story Page with Preloader and Transitions -->
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Plate2Purpose - Login</title>
+  <link rel="icon" href="images/recycle-sign.png" type="image/png">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Playfair+Display&display=swap" rel="stylesheet">
+
+  <!-- CSS FILES -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/magnific-popup.css">
+  <link rel="stylesheet" href="css/tooplate-wedding-lite.css">
+  <style>
+    .spinner-rotate img {
+      animation: spin 2s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+        .side-semicircle {
+        position: fixed;
+        bottom: 30px;
+        right: 0;
+        height: 60px;
+        background-color: #cb7575;
+        border-top-left-radius: 60px;
+        border-bottom-left-radius: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0 15px 0 10px;
+        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        overflow: hidden;
+        }
+
+        /* Inner Content Layer (Above Stars) */
+        .side-semicircle .semicircle-content {
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+        }
+
+        /* Circular AI Button */
+        .rounded-button-link {
+        background-color: white;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: #cb7575;
+        text-decoration: none;
+        margin-right: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        }
+
+        .rounded-button-link:hover {
+        transform: scale(1.1);
+        }
+
+        /* AI Label */
+        .semicircle-label {
+        font-family: 'Amatic SC', cursive;
+        font-size: 22px;
+        color: white;
+        white-space: nowrap;
+        }
+
+        /* Twinkling Stars Behind Button & Text */
+        .star {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background-image: url("data:image/svg+xml;utf8,<svg fill='white' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><polygon points='12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9'/></svg>");
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0.8;
+        filter: drop-shadow(0 0 4px white);
+        animation: twinkle 2s infinite ease-in-out;
+        z-index: 1;
+        }
+
+        /* Individual Star Positions */
+        .star-1 { top: 10px; right: 10px; animation-delay: 0s; }
+        .star-2 { top: 25px; right: 30px; animation-delay: 0.4s; }
+        .star-3 { top: 40px; right: 15px; animation-delay: 0.8s; }
+
+        /* Star Twinkle Animation */
+        @keyframes twinkle {
+        0%, 100% {
+            opacity: 0.3;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.8);
+        }
+        }
+        .google-btn-custom {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          background-color: white;
+          color: #444;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          font-weight: 500;
+          padding: 8px 14px;
+          transition: all 0.3s ease;
+          font-family: 'Poppins', sans-serif;
+          height: 42px;
+          width: 260px; /* 🎯 Reduced width */
+        }
+
+
+        .google-btn-custom img {
+          height: 18px;
+          width: 18px;
+        }
+
+        .google-btn-custom:hover {
+          border-color: #cb7575;
+          box-shadow: 0 4px 10px rgba(203, 117, 117, 0.15);
+          transform: scale(1.015);
+          color: #cb7575;
+        }
+  </style>
+</head>
+<body>
+  <!-- Preloader -->
+  <section class="preloader">
+    <div class="spinner">
+      <span class="spinner-rotate">
+        <img src="images/recycle-sign.png" alt="Loading..." style="width: 60px; height: 60px;">
+      </span>
+    </div>
+  </section>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a href="index.html" class="navbar-brand mx-auto mx-lg-0">
+        <span>Plate</span><span class="brand-icon">2♻️</span><span>Purpose</span>
+      </a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Homepage</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Our Story Section -->
+            <section class="people-section section-padding" id="section_4">
+            <style>
+                .auth-form {
+                background-color: #ffffff;
+                padding: 30px;
+                border-radius: 16px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+                }
+                .auth-form h2 {
+                font-family: 'Amatic SC', cursive;
+                font-size: 36px;
+                }
+                .auth-form label {
+                font-weight: 600;
+                color: #374151;
+                }
+                .auth-form .input-group {
+                position: relative;
+                }
+                .auth-form .form-control {
+                border-radius: 8px;
+                padding-right: 40px;
+                }
+                .toggle-password {
+                position: absolute;
+                top: 50%;
+                right: 10px;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: #6b7280;
+                font-size: 16px;
+                }
+            </style>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+            <div class="container">
+                <div class="row">
+
+                <div class="col-lg-12 col-12">
+                    <div class="section-title-wrap mb-5">
+                    <h2 class="section-title">Sign In & Sign Up</h2>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-5 col-12 me-auto">
+                    <nav>
+                    <div class="nav nav-tabs flex-lg-column align-items-baseline" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-signin-tab" data-bs-toggle="tab" data-bs-target="#nav-signin" type="button" role="tab" aria-controls="nav-signin" aria-selected="true">
+                        <h3 style="font-family: 'Amatic SC', cursive;">Sign In</h3>
+                        </button>
+
+                        <button class="nav-link" id="nav-signup-tab" data-bs-toggle="tab" data-bs-target="#nav-signup" type="button" role="tab" aria-controls="nav-signup" aria-selected="false">
+                        <h3 style="font-family: 'Amatic SC', cursive;">Sign Up</h3>
+                        </button>
+                    </div>
+                    </nav>
+                </div>
+
+                <div class="col-lg-8 col-md-6 col-12">
+                    <div class="tab-content" id="nav-tabContent">
+
+                    <!-- Sign In Tab -->
+                    <div class="tab-pane fade show active auth-form" id="nav-signin" role="tabpanel" aria-labelledby="nav-signin-tab">
+                        <h2 class="text-center mb-4">Welcome Back!</h2>
+                        <form id="signin-form">
+
+                        <div class="mb-3">
+                            <label for="signin-email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="signin-email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signin-password" class="form-label">Password</label>
+                            <div class="input-group">
+                            <input type="password" class="form-control" id="signin-password" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('signin-password', this)"><i class="fa-regular fa-eye"></i></button>
+                            </div>
+                        </div>
+                          <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 w-100 mb-4">Sign In</button>
+                          </form>
+                          <div class="row text-center justify-content-center">
+                            <!-- Google -->
+                            <div class="col-6 mb-3">
+                              <button onclick="loginWithGoogle()" class="google-btn-custom w-100">
+                                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo">
+                                <span>Sign In with Google</span>
+                              </button>
+                            </div>
+
+                            <!-- Microsoft -->
+                            <div class="col-6 mb-3">
+                              <button onclick="loginWithMicrosoft()" class="google-btn-custom w-100">
+                                <img src="https://img.icons8.com/color/48/microsoft.png" alt="Microsoft logo" style="height:18px;width:18px;" />
+                                <span>Sign In with Microsoft</span>
+                              </button>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="col-6">
+                              <a href="phone-login.html" class="google-btn-custom w-100 text-decoration-none d-flex align-items-center justify-content-center gap-2">
+                                <img src="https://img.icons8.com/ios-filled/50/phone.png" style="height:18px;width:18px;" />
+                                <span>Sign In with Phone</span>
+                              </a>
+                            </div>
+
+  
+                            </div>
+
+
+
+                          </div>
+
+                    <!-- Sign Up Tab -->
+                    <div class="tab-pane fade auth-form" id="nav-signup" role="tabpanel" aria-labelledby="nav-signup-tab">
+                        <h2 class="text-center mb-4">Create Account</h2>
+                        <form id="signup-form">
+
+                        <div class="mb-3">
+                            <label for="signup-name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="signup-name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signup-email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="signup-email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signup-password" class="form-label">Password</label>
+                            <div class="input-group">
+                            <input type="password" class="form-control" id="signup-password" placeholder="Create a password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('signup-password', this)"><i class="fa-regular fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 w-100 mb-4">Sign Up</button>
+                        </form>
+
+                        <button onclick="loginWithGoogle()" class="google-btn-custom mb-4 mx-auto d-block">
+                          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo">
+                          <span>Sign up with Google</span>
+                        </button>
+
+                        <!-- Phone Auth -->
+                        
+
+                        
+                    </div>
+
+                    </div>
+                </div>
+
+                </div>
+            </div>
+
+            <!-- ✅ Supabase Auth Integration -->
+            <!-- ✅ Supabase Auth Integration -->
+            <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+            <script>
+              const client = supabase.createClient(
+                'https://pljmachiuahkrkiddehc.supabase.co',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsam1hY2hpdWFoa3JraWRkZWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMTAyNDEsImV4cCI6MjA2NjY4NjI0MX0.ke4EYw5lGX5DHrgu1GCDxRUbMYU-M6KzbLZVeesoVm8'
+              );
+
+              // 👁️ Toggle password visibility
+              function togglePassword(id, btn) {
+                const input = document.getElementById(id);
+                const icon = btn.querySelector('i');
+                if (input.type === 'password') {
+                  input.type = 'text';
+                  icon.classList.remove('fa-eye');
+                  icon.classList.add('fa-eye-slash');
+                } else {
+                  input.type = 'password';
+                  icon.classList.remove('fa-eye-slash');
+                  icon.classList.add('fa-eye');
+                }
+              }
+
+              // ✅ SIGN IN
+              document.querySelector("#signin-form").addEventListener("submit", async function (e) {
+                e.preventDefault();
+                const email = document.getElementById("signin-email").value.trim();
+                const password = document.getElementById("signin-password").value.trim();
+
+                const { error } = await client.auth.signInWithPassword({ email, password });
+
+                if (error) {
+                  alert("❌ " + error.message);
+                } else {
+                  window.location.href = "mode-select.html";
+                }
+              });
+
+              // ✅ SIGN UP
+              document.querySelector("#signup-form").addEventListener("submit", async function (e) {
+                e.preventDefault();
+
+                const name = document.getElementById("signup-name").value.trim();
+                const email = document.getElementById("signup-email").value.trim();
+                const password = document.getElementById("signup-password").value.trim();
+
+                const { data, error } = await client.auth.signUp({
+                  email,
+                  password,
+                  options: {
+                    data: { full_name: name } // ✅ This saves the name in Supabase user_metadata
+                  }
+                });
+
+                if (error) {
+                  alert("❌ " + error.message);
+                } else {
+                  // Also store it locally for instant use
+                  localStorage.setItem("username", name);
+
+                  alert("✅ Signup successful! Check your email to confirm.");
+                }
+              });
+
+            </script>
+
+
+            </section>
+
+            <div class="side-semicircle">
+            <!-- Stars container moved below for layering -->
+            <div class="star star-1"></div>
+            <div class="star star-2"></div>
+            <div class="star star-3"></div>
+
+            <div class="semicircle-content">
+                <a href="https://www.chatbase.co/chatbot-iframe/mNj1B_5a_O7dnNtvOHAJY" class="rounded-button-link">
+                <i class="bi bi-cpu"></i>
+                </a>
+                <span class="semicircle-label">AI</span>
+            </div>
+            </div>
+
+
+
+
+
+
+  <!-- JavaScript Files for Smooth Preloader and Transitions -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.sticky.js"></script>
+  <script src="js/click-scroll.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/magnific-popup-options.js"></script>
+  <script src="js/custom.js"></script>
+
+  <!-- Optional: Auto-highlight active nav link -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const currentPage = location.pathname.split("/").pop();
+      document.querySelectorAll(".navbar-nav .nav-link").forEach(link => {
+        if (link.getAttribute("href") === currentPage) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+    });
+  </script>
+
+  <script>
+    function loginWithGoogle() {
+      client.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: 'http://localhost:5500/auth-callback.html', // ✅ must match
+          queryParams: { prompt: 'select_account' }
+        }
+      });
+    }
+
+    
+
+
+
+  </script>
+
+  <script>
+    function loginWithMicrosoft() {
+      client.auth.signInWithOAuth({
+        provider: 'azure',
+        options: {
+          redirectTo: 'http://localhost:5500/auth-callback.html', // ✅ must match
+          queryParams: { prompt: 'select_account' }
+        }
+      });
+    }
+  </script>
+  
+  <script>
+    async function sendOtp() {
+      const phone = document.getElementById("phoneNumber").value.trim();
+
+      if (!phone.startsWith('+')) {
+        alert("❌ Please enter phone in international format (e.g. +91...)");
+        return;
+      }
+
+      const { error } = await client.auth.signInWithOtp({ phone });
+
+      if (error) {
+        alert("❌ " + error.message);
+      } else {
+        alert("✅ OTP sent successfully!");
+        document.getElementById("otpSection").style.display = "block";
+      }
+    }
+
+    async function verifyOtp() {
+      const phone = document.getElementById("phoneNumber").value.trim();
+      const token = document.getElementById("otpCode").value.trim();
+
+      const { data, error } = await client.auth.verifyOtp({
+        phone,
+        token,
+        type: 'sms'
+      });
+
+      if (error) {
+        alert("❌ " + error.message);
+      } else {
+        alert("✅ Phone verified!");
+        localStorage.setItem("username", phone); // or fetch name later
+        window.location.href = "mode-select.html";
+      }
+    }
+  </script>
+
+  
+
+
+
+</body>
+</html>

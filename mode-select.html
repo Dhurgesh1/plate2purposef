@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Select Mode | Plate2Purpose</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/recycle-sign.png" type="image/png">
+
+  <!-- Fonts & Bootstrap -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Playfair+Display&display=swap" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/bootstrap-icons.css" rel="stylesheet">
+  <link href="css/tooplate-wedding-lite.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #fdfaf6;
+      font-family: 'Playfair Display', serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Navbar */
+    .navbar-brand {
+      font-family: 'Amatic SC', cursive;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .brand-icon {
+      color: #2979ff;
+      font-size: 28px;
+      margin: 0 5px;
+    }
+
+    .mode-section {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mode-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      padding: 40px 30px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .mode-card h2 {
+      font-family: 'Amatic SC', cursive;
+      font-size: 36px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .mode-btn {
+      width: 100%;
+      font-size: 20px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      border: 2px solid;
+      transition: all 0.3s ease;
+      background-color: transparent;
+    }
+
+    .btn-cafe {
+      border-color: #2979ff;
+      color: #2979ff;
+    }
+
+    .btn-cafe:hover {
+      background-color: #2979ff;
+      color: #fff;
+    }
+
+    .btn-restaurant {
+      border-color: #ffc107;
+      color: #ffc107;
+    }
+
+    .btn-restaurant:hover {
+      background-color: #ffc107;
+      color: #fff;
+    }
+
+    .footer-note {
+      font-size: 14px;
+      color: #888;
+      margin-top: 10px;
+    }
+
+    /* ✅ Preloader Styles */
+    .preloader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #fdfaf6;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.6s ease; /* ✅ Smooth transition */
+    pointer-events: none;
+    }
+
+    .preloader.fade-out {
+    opacity: 0;
+    }
+
+
+    .spinner-rotate img {
+    animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a href="index.html" class="navbar-brand mx-auto mx-lg-0">
+        <span>Plate2♻️Purpose</span>
+        
+      </a>
+    </div>
+  </nav>
+
+  <!-- ✅ Mode Selection Card -->
+  <section class="mode-section">
+    <div class="mode-card">
+      <h2>Select Mode</h2>
+
+      <button onclick="selectMode('cafeteria')" class="mode-btn btn-cafe">
+        Cafeteria Mode
+      </button>
+
+      <button onclick="selectMode('restaurant')" class="mode-btn btn-restaurant">
+        Restaurant Mode
+      </button>
+
+      <div class="footer-note">You can switch mode later from the dashboard.</div>
+    </div>
+  </section>
+
+  <!-- ✅ Script -->
+  <script>
+    function selectMode(mode) {
+        localStorage.setItem("app_mode", mode);
+
+        if (mode === "cafeteria") {
+        window.location.href = "dashboard.html";
+        } else if (mode === "restaurant") {
+        window.location.href = "dashboard2.html";
+        }
+    }
+  </script>
+
+  <!-- ✅ Preloader -->
+    <section class="preloader">
+    <div class="spinner">
+        <span class="spinner-rotate">
+        <img src="images/recycle-sign.png" alt="Loading..." style="width: 60px; height: 60px;">
+        </span>
+    </div>
+    </section>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const preloader = document.querySelector(".preloader");
+
+        setTimeout(() => {
+        if (preloader) {
+            preloader.classList.add("fade-out");
+
+            // Hide after fade-out is complete (after 0.6s)
+            setTimeout(() => {
+            preloader.style.display = "none";
+            }, 600);
+        }
+        }, 1000); // ⏱️ Wait for 3 seconds before fading
+    });
+    </script>
+
+
+
+
+
+</body>
+</html>

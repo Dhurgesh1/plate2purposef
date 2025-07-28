@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Redirecting...</title>
+  <link rel="icon" href="images/recycle-sign.png" type="image/png">
+
+  <style>
+    body { font-family: sans-serif; text-align: center; padding-top: 100px; }
+  </style>
+</head>
+<body>
+  
+
+  <!-- ✅ ES Module version of Supabase -->
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const client = createClient(
+      'https://pljmachiuahkrkiddehc.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsam1hY2hpdWFoa3JraWRkZWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMTAyNDEsImV4cCI6MjA2NjY4NjI0MX0.ke4EYw5lGX5DHrgu1GCDxRUbMYU-M6KzbLZVeesoVm8'
+    );
+
+    const { data: { session }, error } = await client.auth.getSession();
+
+    if (!session || error) {
+      alert("❌ Login failed or cancelled.");
+      window.location.href = "login.html";
+    } else {
+      const user = session.user;
+      const userId = user.id;
+      const name = user.user_metadata?.full_name || user.user_metadata?.name || "User";
+
+      // ✅ Store name locally
+      localStorage.setItem("username", name);
+
+      // ✅ Save to 'user_data' table in Supabase
+      const { error: upsertError } = await client
+        .from("user_data")
+        .upsert({
+          id: userId,          // match auth UID
+          name: name,
+          updated_at: new Date().toISOString()
+        });
+
+      if (upsertError) {
+        console.error("❌ Failed to save user data:", upsertError.message);
+      }
+
+      // ✅ Redirect to dashboard
+      window.location.href = "mode-select.html";
+    }
+  </script>
+
+
+  
+</body>
+</html>
+
+

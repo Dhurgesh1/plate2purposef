@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plate2Purpose - Dashboard</title>
+  <link rel="icon" href="images/recycle-sign.png" type="image/png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Playfair+Display&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff5f0;
+    }
+
+    .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff5f0; /* Match your site's theme */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease;
+        z-index: 2000;
+    }
+
+    .spinner-rotate img {
+    animation: spin-pulse 2s linear infinite;
+    }
+
+    @keyframes spin-pulse {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+    }
+    .navbar {
+    height: 100px; /* set desired height */
+    display: flex;
+    align-items: center;
+    }
+    
+
+    .navbar .nav-link {
+        color: #717275;
+        height: 100px;
+        font-size: 14px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 300;
+        letter-spacing: 0px;
+        word-spacing: -2px;
+        margin: 0 20px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+    .navbar .nav-link {
+      color: #222;
+      transition: all 0.3s;
+      font-family: 'Poppins', sans-serif;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+    .navbar .nav-link:hover,
+    .navbar .nav-link.active {
+      color: #cb7575;
+    }
+    .navbar-brand {
+      color: #ff5500 !important;
+    }
+    .sidebar {
+      position: fixed;
+      top: 110px;
+      left: 20px;
+      height: 550px;
+      width: 230px;
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding-top: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start; /* keep buttons grouped at top */
+      gap: 12px; /* ✅ adds space between buttons */
+      padding: 20px 10px;
+    }
+    .sidebar a {
+      color: #333;
+      text-decoration: none;
+      padding: 15px 8px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: background 0.3s, color 0.3s;
+      border-radius: 8px;
+      margin: 0 10px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .sidebar a:hover, .sidebar a.active {
+      background-color: #cb7575;
+      color: white;
+    }
+    .main {
+      margin-left: 270px;
+      margin-top: 80px; /* 👈 lowered from 130px */
+      padding: 30px;
+    }
+
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+    .section > .bg-white {
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* subtle shadow */
+      background-color: white; /* ensure background is visible */
+      min-height: 550px; /* optional height */
+    }
+
+    h2 {
+      color: #cb7575;
+    }
+
+        .side-semicircle {
+        position: fixed;
+        bottom: 30px;
+        right: 0;
+        height: 60px;
+        background-color: #cb7575;
+        border-top-left-radius: 60px;
+        border-bottom-left-radius: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0 15px 0 10px;
+        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        overflow: hidden;
+        }
+
+        /* Inner Content Layer (Above Stars) */
+        .side-semicircle .semicircle-content {
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+        }
+
+        /* Circular AI Button */
+        .rounded-button-link {
+        background-color: white;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: #cb7575;
+        text-decoration: none;
+        margin-right: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        }
+
+        .rounded-button-link:hover {
+        transform: scale(1.1);
+        }
+
+        /* AI Label */
+        .semicircle-label {
+        font-family: 'Amatic SC', cursive;
+        font-size: 22px;
+        color: white;
+        white-space: nowrap;
+        }
+
+        /* Twinkling Stars Behind Button & Text */
+        .star {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background-image: url("data:image/svg+xml;utf8,<svg fill='white' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><polygon points='12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9'/></svg>");
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0.8;
+        filter: drop-shadow(0 0 4px white);
+        animation: twinkle 2s infinite ease-in-out;
+        z-index: 1;
+        }
+
+        /* Individual Star Positions */
+        .star-1 { top: 10px; right: 10px; animation-delay: 0s; }
+        .star-2 { top: 25px; right: 30px; animation-delay: 0.4s; }
+        .star-3 { top: 40px; right: 15px; animation-delay: 0.8s; }
+
+        /* Star Twinkle Animation */
+        @keyframes twinkle {
+        0%, 100% {
+            opacity: 0.3;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.8);
+        }
+        }
+        .mark-btn.active {
+          background-color: #0d6efd; /* Bootstrap primary blue */
+          color: white;
+          border-color: #0d6efd;
+        }
+
+        .edit-btn.active {
+          background-color: #ffc107; /* Bootstrap warning yellow */
+          color: black;
+          border-color: #ffc107;
+        }
+
+        .attendance-toggle {
+        transition: all 0.2s ease;
+      }
+
+      .attendance-toggle:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .menu-checkbox {
+      width: 20px;
+      height: 20px;
+      appearance: none;
+      border: 2px dotted #cb7575;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .menu-checkbox:checked::before {
+      content: "✔";
+      position: absolute;
+      top: -2px;
+      left: 2px;
+      color: #cb7575;
+      font-size: 14px;
+    }
+
+    
+    /* Hide native radio */
+    .custom-radio input[type="radio"] {
+      display: none;
+    }
+
+    /* Create custom radio */
+    .custom-radio .radio-style {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #cb7575;
+      border-radius: 50%;
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+    }
+
+    /* Fill selected radio */
+    .custom-radio input[type="radio"]:checked + .radio-style::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background-color: #cb7575;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+    }
+
+    .profile-box {
+      background-color: #fff0eb;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      margin-top: 20px;
+      padding: 15px;
+      max-width: 100%;        /* prevent overflow */
+      word-wrap: break-word;  /* wraps long email text */
+      overflow-wrap: break-word;
+      font-size: 14px;         /* optional: to make content fit nicely */
+    }
+
+
+
+    .profile-name {
+      color: #cb7575;
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      width: 100%;  
+    }
+
+    .profile-email {
+      font-size: 13px;
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      width: 100%;  
+    }
+
+    .profile-info .text-truncate {
+      white-space: nowrap;         /* Don't allow text to wrap */
+      overflow: hidden;            /* Hide the overflow */
+      text-overflow: ellipsis;     /* Show '...' when text is too long */
+      display: block;              /* Ensure block element */
+      max-width: 100%;             /* Restrict width to container */
+    }
+
+    .btn-theme {
+      background-color: #cb7575;
+      color: white;
+      border: none;
+    }
+
+    .btn-theme:hover {
+      background-color: #b14c4c;
+      color: white;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 230, 220, 0.6); /* soft peach blur */
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+    }
+
+    .profile-modal {
+      background-color: #fff5f0;
+      border-radius: 24px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .profile-modal input {
+      margin-bottom: 10px;
+    }
+
+    /* ✅ Ultimate animated save button */
+    .save-animated-btn {
+      position: relative;
+      padding: 10px 24px;
+      border: 2px solid #0d6efd;
+      background-color: #0d6efd;
+      color: #fff;
+      font-weight: 600;
+      font-size: 16px;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: background-color 0.3s, transform 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .save-animated-btn:hover {
+      background-color: #0b5ed7;
+      transform: scale(1.05);
+    }
+
+    .save-loader {
+      display: inline-block;
+      width: 0;
+      height: 0;
+      border: 3px solid transparent;
+      border-top: 3px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+      opacity: 0;
+      transition: width 0.2s, height 0.2s, opacity 0.2s;
+    }
+
+    .save-animated-btn.saving .save-text {
+      opacity: 0.6;
+    }
+
+    .save-animated-btn.saving .save-loader {
+      width: 16px;
+      height: 16px;
+      opacity: 1;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ✅ STYLISH SAVE BUTTON */
+    .save-button {
+      position: relative;
+      padding: 14px 32px;
+      font-size: 16px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #00c9ff, #92fe9d);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 15px rgba(0, 201, 255, 0.6);
+    }
+
+    .save-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 201, 255, 0.9), 0 0 40px #92fe9d;
+    }
+
+    .save-label {
+      display: inline-block;
+      transition: opacity 0.3s ease;
+    }
+
+    .save-feedback {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      font-size: 16px;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    /* Show feedback */
+    .save-button.saved .save-label {
+      opacity: 0;
+    }
+
+    .save-button.saved .save-feedback {
+      opacity: 1;
+    }
+
+    /* ✅ Clean Modern Save Button */
+    .save-btn {
+      position: relative;
+      padding: 12px 28px;
+      font-size: 15px;
+      font-weight: 600;
+      background-color: #0d6efd;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .save-btn:hover {
+      background-color: #0b5ed7;
+      transform: scale(1.03);
+    }
+
+    .btn-loader {
+      width: 16px;
+      height: 16px;
+      border: 3px solid transparent;
+      border-top: 3px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: none;
+    }
+
+    .btn-check {
+      font-size: 16px;
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .save-btn.loading .btn-text {
+      opacity: 0.6;
+    }
+
+    .save-btn.loading .btn-loader {
+      display: inline-block;
+    }
+
+    .save-btn.saved .btn-loader,
+    .save-btn.saved .btn-text {
+      display: none;
+    }
+
+    .save-btn.saved .btn-check {
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </style>
+  <!-- ✅ Supabase Auth Protection -->
+  <!-- ✅ Supabase Auth Protection -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const client = supabase.createClient(
+      'https://pljmachiuahkrkiddehc.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsam1hY2hpdWFoa3JraWRkZWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMTAyNDEsImV4cCI6MjA2NjY4NjI0MX0.ke4EYw5lGX5DHrgu1GCDxRUbMYU-M6KzbLZVeesoVm8'
+    );
+
+    document.addEventListener("DOMContentLoaded", async () => {
+    const { data, error } = await client.auth.getUser();
+
+    if (!data?.user) {
+      window.location.href = "login.html";
+    } else {
+      const name = data.user.user_metadata?.full_name || "User";
+
+      const email = data.user.email || "unknown@example.com";
+
+      // ✅ Set in sidebar profile
+      document.getElementById("profileNameDisplay").innerText = name;
+      document.getElementById("profileEmailDisplay").innerText = email;
+
+      // ✅ Set in modal when it's opened
+      document.getElementById("profileName").value = name;
+      document.getElementById("profileEmail").value = email;
+
+      console.log("✅ Logged in:", name, email);
+    }
+  });
+
+  </script>
+
+
+</head>
+<body>
+
+
+    <section class="preloader" id="preloader">
+        <div class="spinner">
+            <span class="spinner-rotate">
+                <img src="images/recycle-sign.png" alt="Loading..." style="width: 60px; height: 60px;">
+            </span>
+        </div>
+    </section>
+
+  <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
+    <div class="container">
+      <a href="index.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
+        <span style="color: #ff5500;">Plate </span><span class="brand-icon" style="color: #ff5500;">2♻️</span><span style="color: #ff5500;">Purpose</span>
+      </a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link active" href="dashboard.html">DASHBOARD</a></li>
+          <li class="nav-item"><a class="nav-link" href="about2.html">ABOUT US</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact2.html">CONTACT US</a></li>
+          <button id="saveBtn" class="btn btn-outline-primary d-flex align-items-center gap-2">
+            <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
+            <span id="saveText">Save Changes</span>
+          </button>
+
+
+
+
+
+
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar">
+    <a href="#" class="sidebar-link active" data-target="attendance"><i class="bi bi-people-fill"></i> Attendance</a>
+    <a href="#" class="sidebar-link" data-target="calculator"><i class="bi bi-calculator"></i> Food Calculator</a>
+    <a href="#" class="sidebar-link" data-target="payments"><i class="bi bi-credit-card"></i> UPI Payments</a>
+    <a href="#" class="sidebar-link" data-target="menu"><i class="bi bi-list"></i> Menu</a>
+    <a href="#" class="sidebar-link" data-target="feedback"><i class="bi bi-chat-dots"></i> Feedback</a>
+    
+
+
+    <div class="profile-box text-center mx-3 p-3 mt-auto" onclick="openProfileModal()" style="cursor: pointer;">
+      <div class="profile-name fw-semibold" id="profileNameDisplay">Dhurgesh Maloth</div>
+      <div class="profile-email text-muted small" id="profileEmailDisplay">malothdhurgesh@gmail.com</div>
+      
+      <button class="btn btn-outline-danger btn-sm mt-2 w-100" onclick="logout(); event.stopPropagation();">Logout</button>
+    </div>
+
+
+  </div>
+
+  <div class="main">
+    <div id="attendance" class="section active">
+      <div class="bg-white" >
+        <h2>Attendance Tracking</h2>
+
+        <div class="mb-3 d-flex gap-2">
+          <button class="btn btn-outline-primary mode-btn mark-btn active" onclick="setMode('mark')">Mark Attendance</button>
+          <button class="btn btn-outline-warning mode-btn edit-btn" onclick="setMode('edit')">Edit Students</button>
+        </div>
+
+
+
+        <div class="mb-3">
+          <input type="text" id="studentName" placeholder="Enter student name" class="form-control mb-2" />
+          
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="prefBreak" value="Breakfast">
+            <label class="form-check-label" for="prefBreak">Breakfast</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="prefLunch" value="Lunch">
+            <label class="form-check-label" for="prefLunch">Lunch</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="prefDinner" value="Dinner">
+            <label class="form-check-label" for="prefDinner">Dinner</label>
+          </div>
+
+
+          <button class="btn btn-primary mt-2" onclick="addStudent()">Add Student</button>
+        </div>
+
+        <ul id="studentList" class="list-group"></ul>
+
+
+        <script>
+          function renderStudents() {
+          const list = document.getElementById("studentList");
+          list.innerHTML = "";
+
+          students.forEach((student, i) => {
+            const li = document.createElement("li");
+            li.className = "list-group-item";
+
+            if (currentMode === 'mark') {
+            li.innerHTML = `
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>${student.name}</strong> - ${student.preferences.join(", ")}
+              </div>
+              <div>
+                <button 
+                  class="btn btn-sm attendance-toggle"
+                  style="
+                    background-color: ${student.present ? '#90ee90' : '#f08080'};
+                    color: black;
+                    
+                  "
+                  onclick="toggleAttendance(${i})"
+                >
+                  ${student.present ? 'Present' : 'Absent'}
+                </button>
+              </div>
+            </div>
+          `;
+
+          
+
+            } else if (currentMode === 'edit') {
+              li.innerHTML = `
+                <div class="row align-items-center">
+                  <div class="col-md-3">
+                    <input type="text" class="form-control" id="name-${i}" value="${student.name}">
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="edit-break-${i}" ${student.preferences.includes("Break") ? "checked" : ""}>
+                      <label class="form-check-label">Break</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="edit-lunch-${i}" ${student.preferences.includes("Lunch") ? "checked" : ""}>
+                      <label class="form-check-label">Lunch</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="edit-dinner-${i}" ${student.preferences.includes("Dinner") ? "checked" : ""}>
+                      <label class="form-check-label" for="edit-dinner-${i}">Dinner</label>
+                    </div>
+
+
+                  </div>
+                  <div class="col-md-5 d-flex gap-2">
+                    <button class="btn btn-sm btn-success" onclick="saveEdit(${i})">Save</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteStudent(${i})">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              `;
+            }
+
+            list.appendChild(li);
+          });
+        }
+        
+
+
+        </script>
+
+      </div>
+    
+    </div>
+
+
+    <div id="calculator" class="section">
+      <div class="bg-white">
+        <h2>Food Calculator</h2>
+        <button class="btn btn-primary mb-3" onclick="calculateFood()">📊 Calculate</button>
+        <p>This calculates the total ingredients needed based on attendance and recipes.</p>
+      </div>
+    </div>
+
+
+    <div id="payments" class="section">
+      <div class="bg-white">
+        <h2>UPI Payments</h2>
+        <p>Feature: track and display UPI-based payments.</p>
+      </div>
+    </div>
+
+    <div id="menu" class="section">
+      <div class="bg-white" >
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2>Food Menu</h2>
+          <div class="btn-group">
+            <button id="chooseBtn" class="btn btn-outline-success" onclick="setRecipeMode('choose')">Choose Recipes</button>
+            <button id="editBtn" class="btn btn-outline-warning" onclick="setRecipeMode('edit')">Edit Recipes</button>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <input type="text" id="recipeName" class="form-control mb-2" placeholder="Recipe Name">
+
+          
+
+
+          <div class="d-flex gap-2 mb-2">
+            <input type="text" id="ingredientName" class="form-control" placeholder="Ingredient Name">
+            <input type="text" id="ingredientQty" class="form-control" placeholder="Quantity">
+            <button class="btn btn-outline-secondary" onclick="addTempIngredient()">➕ Add Ingredient</button>
+          </div>
+
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="mealBreak" value="Break">
+            <label class="form-check-label">Breakfast</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="mealLunch" value="Lunch">
+            <label class="form-check-label">Lunch</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="mealDinner" value="Dinner">
+            <label class="form-check-label">Dinner</label>
+          </div>
+
+          <ul id="ingredientPreview" class="list-group mb-3"></ul>
+
+          <button class="btn btn-success" onclick="addRecipe()">Add Recipe</button>
+        </div>
+
+        <div id="recipeDisplay"></div>
+
+
+
+
+
+        <ul id="menuList" class="list-group"></ul>
+      </div>
+    </div>
+
+      
+
+
+    <div id="feedback" class="section">
+        <div class="bg-white">
+          <h2>Feedback</h2>
+          <p>Feature: collect and display feedback.</p>
+        </div>
+      
+    </div>
+
+
+  <script>
+    const links = document.querySelectorAll('.sidebar-link');
+    const sections = document.querySelectorAll('.section');
+
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        const target = link.getAttribute('data-target'); // ⬅️ move this UP here
+
+        sections.forEach(section => {
+          section.classList.remove('active');
+          if (section.id === target) {
+            section.classList.add('active');
+
+            if (target === "attendance") {
+              renderStudents(); // ✅ Works now
+            }
+          }
+        });
+      });
+    });
+
+  </script>
+
+  <script>
+    setTimeout(() => {
+    const preloader = document.getElementById("preloader");
+    preloader.style.opacity = "0";
+    setTimeout(() => {
+        preloader.style.display = "none";
+    }, 500); // matches transition duration
+    }, 300);
+  </script>
+
+            <div class="side-semicircle">
+            <!-- Stars container moved below for layering -->
+            <div class="star star-1"></div>
+            <div class="star star-2"></div>
+            <div class="star star-3"></div>
+
+            <div class="semicircle-content">
+                <a href="https://www.chatbase.co/chatbot-iframe/mNj1B_5a_O7dnNtvOHAJY" class="rounded-button-link">
+                <i class="bi bi-cpu"></i>
+                </a>
+                <span class="semicircle-label">AI</span>
+            </div>
+            </div>
+  <script>
+  let recipes = [];
+  let tempIngredients = [];
+  let editTempIngredients = {};
+  let recipeMode = 'choose'; // Default mode
+  let selectedRecipeIndexes = [];
+
+
+  window.addEventListener("DOMContentLoaded", () => {
+    setRecipeMode("choose"); // 👈 Start in choose mode
+    renderRecipes();
+  });
+
+  function setRecipeMode(mode) {
+    recipeMode = mode;
+    renderRecipes();
+
+    const chooseBtn = document.getElementById("chooseBtn");
+    const editBtn = document.getElementById("editBtn");
+
+    // Reset both buttons
+    chooseBtn.classList.remove("btn-success", "text-white");
+    chooseBtn.classList.add("btn-outline-success");
+
+    editBtn.classList.remove("btn-warning", "text-dark");
+    editBtn.classList.add("btn-outline-warning");
+
+    // Apply active styles based on mode
+    if (mode === "choose") {
+      chooseBtn.classList.remove("btn-outline-success");
+      chooseBtn.classList.add("btn-success", "text-white");
+    } else if (mode === "edit") {
+      editBtn.classList.remove("btn-outline-warning");
+      editBtn.classList.add("btn-warning", "text-dark");
+    }
+  }
+
+
+
+  function addTempIngredient() {
+    const name = document.getElementById("ingredientName").value.trim();
+    const qty = document.getElementById("ingredientQty").value.trim();
+    if (!name || !qty) return;
+
+    tempIngredients.push({ name, qty });
+    document.getElementById("ingredientName").value = "";
+    document.getElementById("ingredientQty").value = "";
+    renderIngredientPreview();
+  }
+
+  function renderIngredientPreview() {
+    const list = document.getElementById("ingredientPreview");
+    list.innerHTML = "";
+    tempIngredients.forEach((item, index) => {
+      const li = document.createElement("li");
+      li.className = "list-group-item d-flex justify-content-between";
+      li.innerHTML = `
+        <span>${item.name} - ${item.qty}</span>
+        <button class="btn btn-sm btn-outline-danger" onclick="removeTempIngredient(${index})">✖</button>
+      `;
+      list.appendChild(li);
+    });
+  }
+
+  function removeTempIngredient(index) {
+    tempIngredients.splice(index, 1);
+    renderIngredientPreview();
+  }
+
+  function addRecipe() {
+    const name = document.getElementById("recipeName").value.trim();
+    const ingName = document.getElementById("ingredientName").value.trim();
+    const ingQty = document.getElementById("ingredientQty").value.trim();
+
+    let ingredients = tempIngredients.length ? [...tempIngredients] : [];
+
+    // 👇 Add inline ingredient if user typed one but didn't click ➕
+    if (ingName && ingQty) {
+      ingredients.push({ name: ingName, qty: ingQty });
+    }
+
+    // Collect meals
+    const meals = [];
+    if (document.getElementById("mealBreak").checked) meals.push("Break");
+    if (document.getElementById("mealLunch").checked) meals.push("Lunch");
+    if (document.getElementById("mealDinner").checked) meals.push("Dinner");
+
+    // ❌ Validations
+    if (!name) {
+      alert("Please enter a recipe name.");
+      return;
+    }
+
+    if (ingredients.length === 0) {
+      alert("Please add at least one ingredient.");
+      return;
+    }
+
+    if (meals.length === 0) {
+      alert("Please select at least one meal (Breakfast, Lunch, or Dinner).");
+      return;
+    }
+
+    // ✅ Add the recipe
+    recipes.push({ name, ingredients, meals });
+
+    // ✅ Reset everything
+    document.getElementById("recipeName").value = "";
+    document.getElementById("ingredientName").value = "";
+    document.getElementById("ingredientQty").value = "";
+    document.getElementById("mealBreak").checked = false;
+    document.getElementById("mealLunch").checked = false;
+    document.getElementById("mealDinner").checked = false;
+
+    tempIngredients = [];
+    renderIngredientPreview();
+    renderRecipes();
+  }
+
+
+
+
+  function renderRecipes() {
+    const list = document.getElementById("menuList");
+    list.innerHTML = "";
+
+    recipes.forEach((recipe, i) => {
+      if (!editTempIngredients[i]) {
+        editTempIngredients[i] = recipe.ingredients ? [...recipe.ingredients] : [];
+      }
+
+      const li = document.createElement("li");
+      li.className = "list-group-item";
+
+      if (recipeMode === "choose") {
+      li.innerHTML = `
+        <div class="row align-items-center recipe-row" onclick="toggleRecipeSelection(${i})" style="cursor: pointer;">
+          <div class="col-md-4">
+            <strong>${recipe.name}</strong><br>
+            <small>${(recipe.meals || []).map(meal => meal === "Break" ? "Breakfast" : meal).join(", ")}</small>
+          </div>
+          <div class="col-md-4">
+            ${(recipe.ingredients || []).map(ing => `${ing.name}: ${ing.qty}`).join('<br>')}
+          </div>
+          <div class="col-md-4 d-flex justify-content-end align-items-center">
+            <input 
+              type="checkbox" 
+              class="form-check-input choose-checkbox" 
+              id="choose-checkbox-${i}"
+              ${selectedRecipeIndexes.includes(i) ? "checked" : ""}
+              onclick="event.stopPropagation();" 
+            >
+
+          </div>
+        </div>
+      `;
+    
+
+    
+
+    
+
+      } else if (recipeMode === "edit") {
+        const ingredientsHtml = editTempIngredients[i].map((ing, j) => `
+          <li class="list-group-item d-flex gap-2 align-items-center">
+            <input type="text" class="form-control" id="edit-ing-name-${i}-${j}" value="${ing.name}" style="flex: 2;">
+            <input type="text" class="form-control" id="edit-ing-qty-${i}-${j}" value="${ing.qty}" style="flex: 1;">
+            <button class="btn btn-sm btn-outline-danger" onclick="removeEditIngredient(${i}, ${j})">
+              <i class="bi bi-x"></i>
+            </button>
+          </li>
+        `).join("");
+
+        li.innerHTML = `
+          <div class="mb-3">
+            <input type="text" class="form-control mb-2" id="recipe-${i}" value="${recipe.name}" placeholder="Recipe Name">
+            
+            <ul class="list-group mb-2">${ingredientsHtml}</ul>
+
+            <div class="d-flex gap-2 mb-2">
+              <input type="text" class="form-control" id="new-ing-name-${i}" placeholder="New Ingredient">
+              <input type="text" class="form-control" id="new-ing-qty-${i}" placeholder="Quantity">
+              <button class="btn btn-outline-secondary" onclick="addEditIngredient(${i})">➕</button>
+            </div>
+
+            <!-- ✅ Meals -->
+            <div class="mb-2">
+              <label><strong>Meals:</strong></label><br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="edit-meal-break-${i}" ${recipe.meals?.includes("Break") ? "checked" : ""}>
+                <label class="form-check-label" for="edit-meal-break-${i}">Breakfast</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="edit-meal-lunch-${i}" ${recipe.meals?.includes("Lunch") ? "checked" : ""}>
+                <label class="form-check-label" for="edit-meal-lunch-${i}">Lunch</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="edit-meal-dinner-${i}" ${recipe.meals?.includes("Dinner") ? "checked" : ""}>
+                <label class="form-check-label" for="edit-meal-dinner-${i}">Dinner</label>
+              </div>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-success" onclick="saveRecipe(${i})">Save</button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteRecipe(${i})">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      list.appendChild(li);
+    });
+  }
+
+
+  function addIngredientToRecipe(i) {
+    const name = document.getElementById(`new-ing-name-${i}`).value.trim();
+    const qty = document.getElementById(`new-ing-qty-${i}`).value.trim();
+    if (!name || !qty) return;
+
+    editTempIngredients[i].push({ name, qty });
+    document.getElementById(`new-ing-name-${i}`).value = "";
+    document.getElementById(`new-ing-qty-${i}`).value = "";
+    renderRecipes();
+  }
+
+  function removeEditIngredient(recipeIndex, ingIndex) {
+    editTempIngredients[recipeIndex].splice(ingIndex, 1);
+    renderRecipes();
+  }
+
+  function saveRecipe(i) {
+    const name = document.getElementById(`recipe-${i}`).value.trim();
+
+    const updatedIngredients = [];
+    for (let j = 0; j < editTempIngredients[i].length; j++) {
+      const ingName = document.getElementById(`edit-ing-name-${i}-${j}`).value.trim();
+      const ingQty = document.getElementById(`edit-ing-qty-${i}-${j}`).value.trim();
+      if (ingName && ingQty) {
+        updatedIngredients.push({ name: ingName, qty: ingQty });
+      }
+    }
+
+    const meals = [];
+    if (document.getElementById(`edit-meal-break-${i}`).checked) meals.push("Break");
+    if (document.getElementById(`edit-meal-lunch-${i}`).checked) meals.push("Lunch");
+    if (document.getElementById(`edit-meal-dinner-${i}`).checked) meals.push("Dinner");
+
+    if (!name) {
+      alert("Please enter a recipe name.");
+      return;
+    }
+
+    if (updatedIngredients.length === 0) {
+      alert("Please enter at least one ingredient.");
+      return;
+    }
+
+    if (meals.length === 0) {
+      alert("Please select at least one meal.");
+      return;
+    }
+
+    // ✅ Update both arrays properly
+    recipes[i] = {
+      name,
+      ingredients: updatedIngredients,
+      meals
+    };
+
+    editTempIngredients[i] = [...updatedIngredients]; // 🔁 Update temp state too
+
+    renderRecipes(); // ✅ Reflect changes visually
+  }
+
+
+
+
+  
+  function addEditIngredient(i) {
+    const name = document.getElementById(`new-ing-name-${i}`).value.trim();
+    const qty = document.getElementById(`new-ing-qty-${i}`).value.trim();
+    if (!name || !qty) return;
+
+    if (!editTempIngredients[i]) editTempIngredients[i] = [];
+    editTempIngredients[i].push({ name, qty });
+
+    document.getElementById(`new-ing-name-${i}`).value = '';
+    document.getElementById(`new-ing-qty-${i}`).value = '';
+    renderRecipes();
+  }
+  
+  function calculateFood() {
+    const mealCounts = { Break: 0, Lunch: 0, Dinner: 0 };
+
+    // Count present students and their meal preferences
+    students.forEach(student => {
+      if (student.present) {
+        student.preferences.forEach(meal => {
+          if (mealCounts[meal] !== undefined) mealCounts[meal]++;
+        });
+      }
+    });
+
+    const mealDetails = { Break: [], Lunch: [], Dinner: [] };
+
+    // Only include selected recipes
+    selectedRecipeIndexes.forEach(index => {
+      const recipe = recipes[index];
+      (recipe.meals || []).forEach(meal => {
+        const studentCount = mealCounts[meal] || 0;
+        const recipeInfo = {
+          name: recipe.name,
+          ingredients: (recipe.ingredients || []).map(ing => {
+            const num = parseFloat(ing.qty);
+            const unit = ing.qty.replace(/[0-9.]/g, '').trim();
+            const finalQty = isNaN(num) ? ing.qty : (num * studentCount).toFixed(2);
+            return { name: ing.name, quantity: finalQty, unit };
+          })
+        };
+        mealDetails[meal].push(recipeInfo);
+      });
+    });
+
+    const calculatorSection = document.getElementById("calculator");
+    calculatorSection.innerHTML = `
+      <div class="bg-white">
+        <h2>Food Calculator</h2>
+        ${["Break", "Lunch", "Dinner"].map(meal => `
+          <div class="card mb-4 shadow-sm border-0 rounded-4">
+            <div class="card-body">
+              <h4 class="card-title mb-3 text-primary">${meal === "Break" ? "Breakfast" : meal}</h4>
+              ${mealDetails[meal].length === 0
+                ? "<p class='text-muted'>No selected recipes for this meal.</p>"
+                : mealDetails[meal].map(recipe => `
+                  <div class="mb-3">
+                    <h5>${recipe.name}</h5>
+                    <ul class="list-group">
+                      ${recipe.ingredients.map(ing => `
+                        <li class="list-group-item d-flex justify-content-between">
+                          <span>${ing.name}</span>
+                          <span><strong>${ing.quantity} ${ing.unit}</strong></span>
+                        </li>
+                      `).join("")}
+                    </ul>
+                  </div>
+                `).join("")}
+            </div>
+          </div>
+        `).join("")}
+        <button class="btn btn-primary mt-3" onclick="calculateFood()">🔄 Recalculate</button>
+      </div>
+    `;
+  }
+
+  
+
+ 
+
+  
+
+  function toggleRecipeSelection(index) {
+    const checkbox = document.getElementById(`choose-checkbox-${index}`);
+    checkbox.checked = !checkbox.checked;
+
+    if (checkbox.checked) {
+      if (!selectedRecipeIndexes.includes(index)) {
+        selectedRecipeIndexes.push(index);
+      }
+    } else {
+      selectedRecipeIndexes = selectedRecipeIndexes.filter(i => i !== index);
+    }
+  }
+
+
+
+
+
+
+
+  </script>
+
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      setRecipeMode("choose");
+    });
+  </script>
+
+  <script>
+  let students = [];
+  let currentMode = 'mark';
+
+  function setMode(mode) {
+    currentMode = mode;
+
+    const markBtn = document.querySelector('.mark-btn');
+    const editBtn = document.querySelector('.edit-btn');
+
+    markBtn.classList.remove('active');
+    editBtn.classList.remove('active');
+
+    if (mode === 'mark') {
+      markBtn.classList.add('active');
+    } else {
+      editBtn.classList.add('active');
+    }
+
+    renderStudents();
+  }
+
+  function addStudent() {
+    const name = document.getElementById("studentName").value.trim();
+    const preferences = [];
+
+    if (document.getElementById("prefBreak").checked) preferences.push("Break");
+    if (document.getElementById("prefLunch").checked) preferences.push("Lunch");
+    if (document.getElementById("prefDinner").checked) preferences.push("Dinner");
+
+    if (!name || preferences.length === 0) return;
+
+    students.push({ name, preferences, present: false });
+
+    document.getElementById("studentName").value = "";
+    document.getElementById("prefBreak").checked = false;
+    document.getElementById("prefLunch").checked = false;
+    document.getElementById("prefDinner").checked = false;
+
+    renderStudents();
+  }
+
+  function renderStudents() {
+    const list = document.getElementById("studentList");
+    list.innerHTML = "";
+
+    students.forEach((student, i) => {
+      const li = document.createElement("li");
+      li.className = "list-group-item";
+
+      if (currentMode === "mark") {
+        li.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <strong>${student.name}</strong> - ${student.preferences.map(pref => {
+                if (pref === "Break") return "Breakfast";
+                return pref;
+              }).join(", ")}
+            </div>
+            <div>
+              <button 
+                class="btn btn-sm attendance-toggle"
+                style="
+                  background-color: ${student.present ? '#90ee90' : '#f08080'};
+                  color: black;
+                "
+                onclick="toggleAttendance(${i})"
+              >
+                ${student.present ? 'Present' : 'Absent'}
+              </button>
+            </div>
+          </div>
+        `;
+      } else if (currentMode === "edit") {
+        li.innerHTML = `
+          <div class="row align-items-center">
+            <div class="col-md-3">
+              <input type="text" class="form-control" id="name-${i}" value="${student.name}">
+            </div>
+            <div class="col-md-4">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="edit-break-${i}" ${student.preferences.includes("Break") ? "checked" : ""}>
+                <label class="form-check-label">Breakfast</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="edit-lunch-${i}" ${student.preferences.includes("Lunch") ? "checked" : ""}>
+                <label class="form-check-label">Lunch</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="edit-dinner-${i}" ${student.preferences.includes("Dinner") ? "checked" : ""}>
+                <label class="form-check-label">Dinner</label>
+              </div>
+            </div>
+            <div class="col-md-5 d-flex gap-2">
+              <button class="btn btn-sm btn-success" onclick="saveEdit(${i})">Save</button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteStudent(${i})">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      list.appendChild(li);
+    });
+  }
+
+  function toggleAttendance(index) {
+    students[index].present = !students[index].present;
+    renderStudents();
+  }
+
+  
+
+  function saveEdit(index) {
+    const nameInput = document.getElementById(`name-${index}`);
+    const breakBox = document.getElementById(`edit-break-${index}`);
+    const lunchBox = document.getElementById(`edit-lunch-${index}`);
+    const dinnerBox = document.getElementById(`edit-dinner-${index}`);
+
+    const name = nameInput.value.trim();
+    const preferences = [];
+    if (breakBox.checked) preferences.push("Break");
+    if (lunchBox.checked) preferences.push("Lunch");
+    if (dinnerBox.checked) preferences.push("Dinner");
+
+    if (name && preferences.length > 0) {
+      students[index].name = name;
+      students[index].preferences = preferences;
+      renderStudents();
+    }
+  }
+
+  // Ensure renderStudents runs when Attendance tab is shown
+  window.addEventListener("DOMContentLoaded", () => {
+    renderStudents();
+  });
+
+  async function logout() {
+    await saveDashboardData(); // ✅ Call save before logout
+    await client.auth.signOut();
+    window.location.href = "login.html";
+  }
+
+  window.logout = logout; // ✅ Ensure button can call it
+
+  </script>
+
+  <script>
+    function openProfileModal() {
+      document.getElementById("profileOverlay").style.display = "flex";
+      document.getElementById("profileName").value = document.getElementById("profileNameDisplay").innerText;
+      document.getElementById("profileEmail").value = document.getElementById("profileEmailDisplay").innerText;
+    }
+
+    function closeProfileModal() {
+      document.getElementById("profileOverlay").style.display = "none";
+    }
+
+    function saveProfile() {
+      const name = document.getElementById("profileName").value.trim();
+      const email = document.getElementById("profileEmail").value.trim();
+      if (name && email) {
+        document.getElementById("profileNameDisplay").innerText = name;
+        document.getElementById("profileEmailDisplay").innerText = email;
+        closeProfileModal();
+      } else {
+        alert("Please enter valid name and email.");
+      }
+    }
+  </script>
+
+
+  <!-- Profile Modal -->
+  <div class="overlay" id="profileOverlay">
+    <div class="profile-modal">
+      <h4>Edit Profile</h4>
+      <input type="text" id="profileName" class="form-control" placeholder="Name">
+      <input type="email" id="profileEmail" class="form-control" placeholder="Email">
+      <div class="d-flex justify-content-between mt-3">
+        <button class="btn btn-secondary" onclick="closeProfileModal()">Cancel</button>
+        <button class="btn btn-theme" onclick="saveProfile()">Save</button>
+      </div>
+      <button class="btn btn-outline-danger w-100 mt-3" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+
+  <!-- your other content above -->
+
+
+
+<!-- ... any other scripts ... -->
+  <!-- Supabase Client -->
+  
+
+
+
+
+  <div class="overlay" id="profileOverlay" style="display:none;">
+    <div class="profile-modal">
+      <h4>Edit Profile</h4>
+      <input type="text" id="profileName" class="form-control mb-2" placeholder="Name">
+      <input type="email" id="profileEmail" class="form-control mb-3" placeholder="Email" disabled>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" onclick="closeProfileModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveProfile()">Save</button>
+      </div>
+      <button class="btn btn-outline-danger w-100 mt-3" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const btn = document.getElementById("saveBtn");
+      const spinner = document.getElementById("saveSpinner");
+      const text = document.getElementById("saveText");
+
+      if (btn) {
+        btn.addEventListener("click", async () => {
+          if (typeof saveDashboardData === "function") {
+            // Start loading
+            spinner.classList.remove("d-none");
+            text.textContent = "Saving...";
+
+            await saveDashboardData();
+
+            // End loading
+            spinner.classList.add("d-none");
+            text.textContent = "Saved ";
+
+            // Reset after 2 seconds
+            setTimeout(() => {
+              text.textContent = "Save Changes";
+            }, 2000);
+          } else {
+            alert("Save function not found.");
+          }
+        });
+      }
+    });
+
+
+  </script>
+
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    
+
+    window.saveDashboardData = async function () {
+      // ✅ 1. Get the logged-in user
+      const {
+        data: { user },
+        error: sessionError
+      } = await client.auth.getUser();
+
+      if (sessionError || !user) {
+        console.error("❌ Failed to get user:", sessionError);
+        alert("Failed to get user session.");
+        return;
+      }
+
+      // ✅ 2. Save Students
+      if (students.length > 0) {
+        const studentRecords = students.map(student => ({
+          user_id: user.id,
+          user_name: user.user_metadata?.full_name || "User",
+          user_email: user.email,
+          students_name: student.name,
+          attendence: student.present || false,
+          student_preferences: student.preferences || []
+        }));
+
+        const { error: studentError } = await client
+          .from("data")
+          .upsert(studentRecords, { onConflict: ["user_id", "students_name"] });
+
+        if (studentError) {
+          alert("❌ Failed to save students: " + studentError.message);
+        } else {
+          console.log("✅ Students saved.");
+        }
+      }
+
+      // ✅ 3. Save Recipes
+      if (recipes.length > 0) {
+        const recipeRecords = recipes.map(recipe => {
+          const ingredients = {};
+          const quantities = {};
+
+          recipe.ingredients.forEach(ing => {
+            ingredients[ing.name] = ing.qty;
+            quantities[ing.name] = parseFloat(ing.qty) || ing.qty;
+          });
+
+          return {
+            recipe_name: recipe.name,
+            ingredient: ingredients,
+            quantity: quantities,
+            meal_type: recipe.meals || [],
+            user_email: user.email // ✅ now correctly attached
+          };
+        });
+
+        const { error: recipeError } = await client
+          .from("recipes")
+          .upsert(recipeRecords, { onConflict: ["user_email", "recipe_name"] });
+
+        if (recipeError) {
+          console.error("❌ Failed to save recipes:", recipeError);
+          alert("❌ Failed to save recipes." + recipeError.message);
+        } else {
+          console.log("✅ Recipes saved.");
+          alert("✅ Recipes saved successfully!");
+        }
+      }
+    };
+
+
+    // ✅ Load students from Supabase
+    async function loadDashboardData() {
+      const { data: { user }, error: sessionError } = await client.auth.getUser();
+      if (sessionError || !user) return;
+
+      const { data, error: fetchError } = await client
+        .from('data')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('updated_at', { ascending: false })
+        .limit(100);
+
+      if (fetchError || !data || data.length === 0) return;
+
+      students = data.map(record => ({
+        name: record.students_name,
+        preferences: record.student_preferences || [],
+        present: record.attendence || false
+      }));
+
+
+
+      renderStudents();
+    }
+
+    // ✅ Load recipes from Supabase
+    
+
+    async function deleteStudent(index) {
+    const student = students[index];
+    students.splice(index, 1);
+    renderStudents();
+
+    const { data: { user } } = await client.auth.getUser();
+    if (!user) return;
+
+    await client
+      .from('data')
+      .delete()
+      .eq('user_id', user.id)
+      .eq('students_name', student.name);
+  }
+
+  window.deleteStudent = deleteStudent; // ✅ make it available to onclick
+
+
+    async function deleteRecipe(index) {
+    const recipe = recipes[index];
+    recipes.splice(index, 1);
+    delete editTempIngredients[index];
+    renderRecipes();
+
+    const { data: { user } } = await client.auth.getUser();
+    if (!user) return;
+
+    await client
+      .from('recipes')
+      .delete()
+      .eq('recipe_name', recipe.name);
+  }
+    
+    async function saveProfile() {
+    const name = document.getElementById("profileName").value.trim();
+
+    if (!name) {
+      alert("❌ Name cannot be empty.");
+      return;
+    }
+
+    // ✅ 1. Update user metadata
+    const { error: updateError } = await client.auth.updateUser({
+      data: { full_name: name }
+    });
+
+    if (updateError) {
+      alert("❌ Failed to update name: " + updateError.message);
+      return;
+    }
+
+    // ✅ 2. Refetch user info to get latest name
+    const { data: refreshedUser, error: fetchError } = await client.auth.getUser();
+
+    if (fetchError || !refreshedUser?.user) {
+      alert("❌ Failed to refresh user data.");
+      return;
+    }
+
+    const updatedName = refreshedUser.user.user_metadata?.full_name || "User";
+    const updatedEmail = refreshedUser.user.email;
+
+    // ✅ 3. Update sidebar and modal display
+    document.getElementById("profileNameDisplay").innerText = updatedName;
+    document.getElementById("profileEmailDisplay").innerText = updatedEmail;
+    document.getElementById("profileName").value = updatedName;
+    document.getElementById("profileEmail").value = updatedEmail;
+
+    closeProfileModal();
+    alert("✅ Profile name updated!");
+  }
+  
+    function fireAndForgetSave() {
+      try {
+        saveDashboardData(); // Don't await
+        localStorage.setItem('dashboard_backup', JSON.stringify({
+          students,
+          recipes,
+          timestamp: Date.now()
+        }));
+      } catch (err) {
+        console.warn("❌ Auto-save error:", err);
+      }
+    
+
+    // Trigger dashboard save without awaiting
+      saveDashboardData(); // async call, won't block tab close
+    }
+
+
+
+
+
+  window.deleteRecipe = deleteRecipe; // ✅ So the trash icon calls it correctly
+
+
+
+
+    // ✅ Run both loaders on page load
+    window.addEventListener("DOMContentLoaded", () => {
+          loadDashboardData();
+          loadRecipesFromSupabase();
+        });
+
+      window.addEventListener("beforeunload", (event) => {
+      if (students.length === 0 && recipes.length === 0) return;
+
+      const payload = {
+        students: students,
+        recipes: recipes,
+        timestamp: new Date().toISOString()
+      };
+
+      // 👇 You would replace this with your own API endpoint
+      // Example: navigator.sendBeacon('/api/saveOnExit', JSON.stringify(payload));
+
+      // Since Supabase JS client doesn't support sendBeacon,
+      // fallback: Warn user (browser will show confirmation prompt)
+      event.preventDefault();
+      event.returnValue = '';
+    });
+
+    window.addEventListener('unload', () => {
+      if (students.length > 0 || recipes.length > 0) {
+        fireAndForgetSave();
+      }
+    });
+
+    // ✅ Auto-save on tab/window close or refresh
+    // ✅ Save on tab close, refresh, or shutdown (non-blocking)
+    window.addEventListener('beforeunload', () => {
+      fireAndForgetSave();
+    });
+
+    // ✅ Save when tab is switched or minimized
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        fireAndForgetSave();
+      }
+    });
+
+    // ✅ Save before logout
+    document.getElementById("logoutBtn")?.addEventListener("click", async () => {
+      await saveDashboardData();
+      await client.auth.signOut();
+      window.location.href = "login.html";
+    });
+
+    window.addEventListener("load", async () => {
+      await loadRecipesFromSupabase();
+    });
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      await loadRecipesFromSupabase();
+    });
+
+
+
+
+
+  </script>
+
+  <script>
+    async function loadRecipesFromSupabase() {
+    try {
+      const {
+        data: { user },
+        error: userError
+      } = await client.auth.getUser();
+
+      if (userError || !user) {
+        console.error("❌ User not found:", userError);
+        return;
+      }
+
+      const email = user.email;
+      console.log("🔍 Loading recipes for:", email);
+
+      const { data: fetchedRecipes, error: recipeError } = await client
+        .from("recipes")
+        .select("*")
+        .eq("user_email", email)
+        .order("created_at", { ascending: false });
+
+      if (recipeError) {
+        console.error("❌ Error loading recipes:", recipeError);
+        return;
+      }
+
+      if (!fetchedRecipes || fetchedRecipes.length === 0) {
+        console.warn("📭 No recipes found for this user.");
+        return;
+      }
+
+      // ✅ Clear existing recipes
+      recipes = [];
+
+      fetchedRecipes.forEach(recipe => {
+        const ingredients = Object.entries(recipe.ingredient || {}).map(([name, qty]) => ({
+          name,
+          qty
+        }));
+
+        recipes.push({
+          name: recipe.recipe_name,
+          ingredients,
+          meals: recipe.meal_type || []
+        });
+      });
+
+      renderRecipes();
+      console.log("✅ Recipes loaded and rendered.");
+    } catch (err) {
+      console.error("💥 Unexpected error:", err);
+    }
+  }
+
+
+  </script>
+
+  <script>
+    client.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN") {
+        loadRecipesFromSupabase();
+      }
+    });
+
+
+  </script>
+
+
+
+
+
+</body>
+</html>
+
+

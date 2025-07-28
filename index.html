@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Plate2Purpose - Homepage</title>
+
+        <link rel="icon" href="images/recycle-sign.png" type="image/png">
+
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Playfair+Display&display=swap" rel="stylesheet">
+
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+
+        <link href="css/magnific-popup.css" rel="stylesheet">
+
+        <link href="css/tooplate-wedding-lite.css" rel="stylesheet">
+
+       <style>
+        /* Spinner Animation for Preloader */
+        .spinner-rotate img {
+        animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+        }
+
+        /* Bottom Right Semi-circle Container */
+        .side-semicircle {
+        position: fixed;
+        bottom: 30px;
+        right: 0;
+        height: 60px;
+        background-color: #cb7575;
+        border-top-left-radius: 60px;
+        border-bottom-left-radius: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0 15px 0 10px;
+        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        overflow: hidden;
+        }
+
+        /* Inner Content Layer (Above Stars) */
+        .side-semicircle .semicircle-content {
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+        }
+
+        /* Circular AI Button */
+        .rounded-button-link {
+        background-color: white;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: #cb7575;
+        text-decoration: none;
+        margin-right: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        }
+
+        .rounded-button-link:hover {
+        transform: scale(1.1);
+        }
+
+        /* AI Label */
+        .semicircle-label {
+        font-family: 'Amatic SC', cursive;
+        font-size: 22px;
+        color: white;
+        white-space: nowrap;
+        }
+
+        /* Twinkling Stars Behind Button & Text */
+        .star {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background-image: url("data:image/svg+xml;utf8,<svg fill='white' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><polygon points='12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9'/></svg>");
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0.8;
+        filter: drop-shadow(0 0 4px white);
+        animation: twinkle 2s infinite ease-in-out;
+        z-index: 1;
+        }
+
+        /* Individual Star Positions */
+        .star-1 { top: 10px; right: 10px; animation-delay: 0s; }
+        .star-2 { top: 25px; right: 30px; animation-delay: 0.4s; }
+        .star-3 { top: 40px; right: 15px; animation-delay: 0.8s; }
+
+        /* Star Twinkle Animation */
+        @keyframes twinkle {
+        0%, 100% {
+            opacity: 0.3;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.8);
+        }
+        }
+        </style>
+
+
+    </head>
+    
+    <body>
+
+        <section class="preloader" id="preloader">
+            <div class="spinner">
+                <span class="spinner-rotate">
+                    <img src="images\recycle-sign.png" alt="Loading..." style="width: 60px; height: 60px;">
+                </span>
+            </div>
+        </section>
+
+
+
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <a href="index.html" class="navbar-brand mx-auto mx-lg-0">
+                    <span>Plate</span>
+                    <span class="brand-icon">2♻️</span>
+                    <span>Purpose</span>
+                </a>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="#section_1">Homepage</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link " href="about.html">About Us</a>
+                        </li>
+
+                        
+
+                        <li class="nav-item">
+                            <a class="nav-link " href="contact.html">Contact Us</a>
+                        </li>
+                        <a href="login.html" class="btn ms-3 custom-btn" style="border-radius: 30px; background-color: #fff; color: #000; font-family: 'Amatic SC', cursive; font-size: 24px; border: 2px solid #000; padding: 6px 22px; position: relative; overflow: hidden;">
+                            Sign In
+                        </a>
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+
+        <main>
+
+            <section class="hero-section d-flex" id="section_1">
+                <div class="hero-container container d-flex flex-column justify-content-end">
+                    <div class="row h-100">
+
+                        <div class="col-lg-6 col-12 my-auto">
+                            <h2>♻️ From Waste to Worth</h2>
+
+                            <h1 class="text-white hero-title mb-4">Let's Clean, Create, and Conserve!</h1>
+
+
+                            
+                            <a href="about.html" class="custom-link custom-btn btn mt-4">Discover More</a>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </section>
+
+            <div class="side-semicircle">
+            <!-- Stars container moved below for layering -->
+            <div class="star star-1"></div>
+            <div class="star star-2"></div>
+            <div class="star star-3"></div>
+
+            <div class="semicircle-content">
+            <a href="chatbot.html" class="rounded-button-link" target="_blank">
+                <i class="bi bi-cpu"></i>
+            </a>
+            <span class="semicircle-label">AI</span>
+            </div>
+
+
+
+
+
+
+        </main>
+
+        
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.sticky.js"></script>
+        <script src="js/click-scroll.js"></script>
+        <script src="js/jquery.magnific-popup.min.js"></script>
+        <script src="js/magnific-popup-options.js"></script>
+        <script src="js/custom.js"></script>
+
+        
+
+    </body>
+</html>
