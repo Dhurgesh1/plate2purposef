@@ -1,13 +1,11 @@
-<!-- restaurant_dashboard.html -->
-<!-- EXACT SAME UI as cafeteria dashboard, but logic is adapted for Restaurant Mode -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plate2Purpose - Restaurant Dashboard</title>
+  <title>Plate2Purpose - Dashboard</title>
   <link rel="icon" href="images/recycle-sign.png" type="image/png">
+
   <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Playfair+Display&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -17,16 +15,62 @@
       font-family: 'Poppins', sans-serif;
       background-color: #fff5f0;
     }
+
+    .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff5f0; /* Match your site's theme */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease;
+        z-index: 2000;
+    }
+
+    .spinner-rotate img {
+    animation: spin-pulse 2s linear infinite;
+    }
+
+    @keyframes spin-pulse {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+    }
     .navbar {
-      height: 100px;
-      display: flex;
-      align-items: center;
+    height: 100px; /* set desired height */
+    display: flex;
+    align-items: center;
+    }
+    
+
+    .navbar .nav-link {
+        color: #717275;
+        height: 100px;
+        font-size: 14px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 300;
+        letter-spacing: 0px;
+        word-spacing: -2px;
+        margin: 0 20px;
+        height: 100%;
+        display: flex;
+        align-items: center;
     }
     .navbar .nav-link {
       color: #222;
       transition: all 0.3s;
       font-family: 'Poppins', sans-serif;
-      margin: 0 20px;
+      margin-left: 20px;
+      margin-right: 20px;
     }
     .navbar .nav-link:hover,
     .navbar .nav-link.active {
@@ -44,10 +88,12 @@
       background-color: #ffffff;
       border-radius: 16px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      padding: 20px 10px;
+      padding-top: 30px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      justify-content: flex-start; /* keep buttons grouped at top */
+      gap: 12px; /* ✅ adds space between buttons */
+      padding: 20px 10px;
     }
     .sidebar a {
       color: #333;
@@ -58,6 +104,8 @@
       gap: 14px;
       transition: background 0.3s, color 0.3s;
       border-radius: 8px;
+      margin: 0 10px;
+      font-family: 'Poppins', sans-serif;
     }
     .sidebar a:hover, .sidebar a.active {
       background-color: #cb7575;
@@ -65,9 +113,10 @@
     }
     .main {
       margin-left: 270px;
-      margin-top: 80px;
+      margin-top: 80px; /* 👈 lowered from 130px */
       padding: 30px;
     }
+
     .section {
       display: none;
     }
@@ -77,121 +126,838 @@
     .section > .bg-white {
       border-radius: 14px;
       padding: 30px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      background-color: white;
-      min-height: 550px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* subtle shadow */
+      background-color: white; /* ensure background is visible */
+      min-height: 550px; /* optional height */
     }
+
     h2 {
       color: #cb7575;
     }
+
+        .side-semicircle {
+        position: fixed;
+        bottom: 30px;
+        right: 0;
+        height: 60px;
+        background-color: #cb7575;
+        border-top-left-radius: 60px;
+        border-bottom-left-radius: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0 15px 0 10px;
+        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        overflow: hidden;
+        }
+
+        /* Inner Content Layer (Above Stars) */
+        .side-semicircle .semicircle-content {
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+        }
+
+        /* Circular AI Button */
+        .rounded-button-link {
+        background-color: white;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: #cb7575;
+        text-decoration: none;
+        margin-right: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        }
+
+        .rounded-button-link:hover {
+        transform: scale(1.1);
+        }
+
+        /* AI Label */
+        .semicircle-label {
+        font-family: 'Amatic SC', cursive;
+        font-size: 22px;
+        color: white;
+        white-space: nowrap;
+        }
+
+        /* Twinkling Stars Behind Button & Text */
+        .star {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background-image: url("data:image/svg+xml;utf8,<svg fill='white' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><polygon points='12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9'/></svg>");
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0.8;
+        filter: drop-shadow(0 0 4px white);
+        animation: twinkle 2s infinite ease-in-out;
+        z-index: 1;
+        }
+
+        /* Individual Star Positions */
+        .star-1 { top: 10px; right: 10px; animation-delay: 0s; }
+        .star-2 { top: 25px; right: 30px; animation-delay: 0.4s; }
+        .star-3 { top: 40px; right: 15px; animation-delay: 0.8s; }
+
+        /* Star Twinkle Animation */
+        @keyframes twinkle {
+        0%, 100% {
+            opacity: 0.3;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.8);
+        }
+        }
+        .mark-btn.active {
+          background-color: #0d6efd; /* Bootstrap primary blue */
+          color: white;
+          border-color: #0d6efd;
+        }
+
+        .edit-btn.active {
+          background-color: #ffc107; /* Bootstrap warning yellow */
+          color: black;
+          border-color: #ffc107;
+        }
+
+        .attendance-toggle {
+        transition: all 0.2s ease;
+      }
+
+      .attendance-toggle:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .menu-checkbox {
+      width: 20px;
+      height: 20px;
+      appearance: none;
+      border: 2px dotted #cb7575;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .menu-checkbox:checked::before {
+      content: "✔";
+      position: absolute;
+      top: -2px;
+      left: 2px;
+      color: #cb7575;
+      font-size: 14px;
+    }
+
+    
+    /* Hide native radio */
+    .custom-radio input[type="radio"] {
+      display: none;
+    }
+
+    /* Create custom radio */
+    .custom-radio .radio-style {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #cb7575;
+      border-radius: 50%;
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+    }
+
+    /* Fill selected radio */
+    .custom-radio input[type="radio"]:checked + .radio-style::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background-color: #cb7575;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+    }
+
+    .profile-box {
+      background-color: #fff0eb;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      margin-top: 20px;
+      padding: 15px;
+      max-width: 100%;        /* prevent overflow */
+      word-wrap: break-word;  /* wraps long email text */
+      overflow-wrap: break-word;
+      font-size: 14px;         /* optional: to make content fit nicely */
+    }
+
+
+
+    .profile-name {
+      color: #cb7575;
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      width: 100%;  
+    }
+
+    .profile-email {
+      font-size: 13px;
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      width: 100%;  
+    }
+
+    .profile-info .text-truncate {
+      white-space: nowrap;         /* Don't allow text to wrap */
+      overflow: hidden;            /* Hide the overflow */
+      text-overflow: ellipsis;     /* Show '...' when text is too long */
+      display: block;              /* Ensure block element */
+      max-width: 100%;             /* Restrict width to container */
+    }
+
     .btn-theme {
       background-color: #cb7575;
       color: white;
       border: none;
     }
+
     .btn-theme:hover {
       background-color: #b14c4c;
       color: white;
     }
-    .profile-box {
-      background-color: #fff0eb;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      margin-top: auto;
-      padding: 15px;
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 230, 220, 0.6); /* soft peach blur */
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+    }
+
+    .profile-modal {
+      background-color: #fff5f0;
+      border-radius: 24px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
       text-align: center;
     }
-    .profile-box .name {
+
+    .profile-modal input {
+      margin-bottom: 10px;
+    }
+
+    /* ✅ Ultimate animated save button */
+    .save-animated-btn {
+      position: relative;
+      padding: 10px 24px;
+      border: 2px solid #0d6efd;
+      background-color: #0d6efd;
+      color: #fff;
       font-weight: 600;
-      color: #cb7575;
+      font-size: 16px;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: background-color 0.3s, transform 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
-    .profile-box .email {
-      font-size: 14px;
-      color: #555;
+
+    .save-animated-btn:hover {
+      background-color: #0b5ed7;
+      transform: scale(1.05);
     }
+
+    .save-loader {
+      display: inline-block;
+      width: 0;
+      height: 0;
+      border: 3px solid transparent;
+      border-top: 3px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+      opacity: 0;
+      transition: width 0.2s, height 0.2s, opacity 0.2s;
+    }
+
+    .save-animated-btn.saving .save-text {
+      opacity: 0.6;
+    }
+
+    .save-animated-btn.saving .save-loader {
+      width: 16px;
+      height: 16px;
+      opacity: 1;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ✅ STYLISH SAVE BUTTON */
+    .save-button {
+      position: relative;
+      padding: 14px 32px;
+      font-size: 16px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #00c9ff, #92fe9d);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 15px rgba(0, 201, 255, 0.6);
+    }
+
+    .save-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 201, 255, 0.9), 0 0 40px #92fe9d;
+    }
+
+    .save-label {
+      display: inline-block;
+      transition: opacity 0.3s ease;
+    }
+
+    .save-feedback {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      font-size: 16px;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    /* Show feedback */
+    .save-button.saved .save-label {
+      opacity: 0;
+    }
+
+    .save-button.saved .save-feedback {
+      opacity: 1;
+    }
+
+    /* ✅ Clean Modern Save Button */
+    .save-btn {
+      position: relative;
+      padding: 12px 28px;
+      font-size: 15px;
+      font-weight: 600;
+      background-color: #0d6efd;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .save-btn:hover {
+      background-color: #0b5ed7;
+      transform: scale(1.03);
+    }
+
+    .btn-loader {
+      width: 16px;
+      height: 16px;
+      border: 3px solid transparent;
+      border-top: 3px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: none;
+    }
+
+    .btn-check {
+      font-size: 16px;
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .save-btn.loading .btn-text {
+      opacity: 0.6;
+    }
+
+    .save-btn.loading .btn-loader {
+      display: inline-block;
+    }
+
+    .save-btn.saved .btn-loader,
+    .save-btn.saved .btn-text {
+      display: none;
+    }
+
+    .save-btn.saved .btn-check {
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .star-rating {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+    justify-content: flex-start;
+  }
+  .star-rating .star {
+    font-size: 2rem;
+    color: #ffd700;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .star-rating .star.selected,
+  .star-rating .star:hover,
+  .star-rating .star.hovered {
+    color: #ff9800;
+    transform: scale(1.2);
+  }
+  .feedback-card {
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(203,117,117,0.08);
+    margin-bottom: 12px;
+    padding: 16px;
+    background: #fff5f0;
+  }
+  .feedback-card .feedback-stars {
+    margin-bottom: 4px;
+  }
+
+  .switch-mode-btn {
+    background-color: transparent;
+    color: #cb7575;
+    border: 2px solid #cb7575;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: calc(100% - 40px); /* to fit in sidebar nicely */
+    margin: 0 20px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .switch-mode-btn:hover {
+    background-color: #cb7575;
+    color: white;
+  }
+
   </style>
+  <!-- ✅ Supabase Auth Protection -->
+  <!-- ✅ Supabase Auth Protection -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const client = supabase.createClient(
+      'https://pljmachiuahkrkiddehc.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsam1hY2hpdWFoa3JraWRkZWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMTAyNDEsImV4cCI6MjA2NjY4NjI0MX0.ke4EYw5lGX5DHrgu1GCDxRUbMYU-M6KzbLZVeesoVm8'
+    );
+
+    document.addEventListener("DOMContentLoaded", async () => {
+    const { data, error } = await client.auth.getUser();
+
+    if (!data?.user) {
+      window.location.href = "login.html";
+    } else {
+      const name = data.user.user_metadata?.full_name || "User";
+
+      const email = data.user.email || "unknown@example.com";
+
+      // ✅ Set in sidebar profile
+      document.getElementById("profileNameDisplay").innerText = name;
+      document.getElementById("profileEmailDisplay").innerText = email;
+
+      // ✅ Set in modal when it's opened
+      document.getElementById("profileName").value = name;
+      document.getElementById("profileEmail").value = email;
+
+      console.log("✅ Logged in:", name, email);
+    }
+  });
+
+  </script>
+
+
 </head>
 <body>
+
+
+    <section class="preloader" id="preloader">
+        <div class="spinner">
+            <span class="spinner-rotate">
+                <img src="images/recycle-sign.png" alt="Loading..." style="width: 60px; height: 60px;">
+            </span>
+        </div>
+    </section>
+
   <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
     <div class="container">
       <a href="index.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
         <span style="color: #ff5500;">Plate </span><span class="brand-icon" style="color: #ff5500;">2♻️</span><span style="color: #ff5500;">Purpose</span>
       </a>
-      <div class="ms-auto d-flex align-items-center">
-        <button class="btn btn-theme" onclick="logout()">Logout</button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link active" href="dashboard.html">DASHBOARD</a></li>
+          <li class="nav-item"><a class="nav-link" href="about2.html">ABOUT US</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact2.html">CONTACT US</a></li>
+          <button id="saveBtn" class="btn btn-outline-primary d-flex align-items-center gap-2">
+            <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
+            <span id="saveText">Save Changes</span>
+          </button>
+
+
+
+
+
+
+
+        </ul>
       </div>
     </div>
   </nav>
 
   <div class="sidebar">
-    <a href="#" class="sidebar-link active" data-target="orders"><i class="bi bi-basket-fill"></i> Orders</a>
+    <a href="#" class="sidebar-link active" data-target="attendance"><i class="bi bi-people-fill"></i> Reservations</a>
     <a href="#" class="sidebar-link" data-target="calculator"><i class="bi bi-calculator"></i> Food Calculator</a>
     <a href="#" class="sidebar-link" data-target="payments"><i class="bi bi-credit-card"></i> UPI Payments</a>
     <a href="#" class="sidebar-link" data-target="menu"><i class="bi bi-list"></i> Menu</a>
     <a href="#" class="sidebar-link" data-target="feedback"><i class="bi bi-chat-dots"></i> Feedback</a>
+    <button class="switch-mode-btn" id="modeSwitchBtn" onclick="switchMode()">
+      Switch Mode
+    </button>
 
-    <div class="profile-box">
-      <div class="name" id="profileName">User Name</div>
-      <div class="email" id="profileEmail">user@example.com</div>
+    
+
+
+    <div class="profile-box text-center mx-3 p-3 mt-auto" onclick="openProfileModal()" style="cursor: pointer;">
+      <div class="profile-name fw-semibold" id="profileNameDisplay">Dhurgesh Maloth</div>
+      <div class="profile-email text-muted small" id="profileEmailDisplay">malothdhurgesh@gmail.com</div>
+      
+      <button class="btn btn-outline-danger btn-sm mt-2 w-100" onclick="logout(); event.stopPropagation();">Logout</button>
     </div>
+
+
   </div>
 
   <div class="main">
-    <div id="orders" class="section active">
-      <div class="bg-white">
-        <h2>Restaurant Orders</h2>
+    <div id="attendance" class="section active">
+      <div class="bg-white" >
+        <h2>Reservation Management</h2>
+
         <div class="mb-3 d-flex gap-2">
-          <button class="btn btn-outline-primary" onclick="setOrderMode('new')">New Order</button>
-          <button class="btn btn-outline-warning" onclick="setOrderMode('manage')">Manage Orders</button>
+         
+          
         </div>
 
-        <div id="orderForm" style="display: block;">
-          <input type="text" id="customerName" class="form-control mb-2" placeholder="Customer Name">
-          <input type="number" id="tableNumber" class="form-control mb-2" placeholder="Table Number">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="dish1" value="Dosa">
-            <label class="form-check-label" for="dish1">Dosa</label>
+        <div class="mb-3">
+          <input type="text" id="customerName" placeholder="Enter customer name" class="form-control mb-2" />
+          <input type="number" id="customerCount" placeholder="Number of people" class="form-control mb-2" min="1" />
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="reservationType" id="typeInstant" value="instant" checked>
+            <label class="form-check-label" for="typeInstant">Instant</label>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="dish2" value="Idli">
-            <label class="form-check-label" for="dish2">Idli</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="reservationType" id="typeDelayed" value="delayed">
+            <label class="form-check-label" for="typeDelayed">Delayed</label>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="dish3" value="Upma">
-            <label class="form-check-label" for="dish3">Upma</label>
+          <div class="row g-2 align-items-center mb-2" style="margin-top: 8px;">
+            <div class="col-auto" id="delayedTimeCol" style="display:none;">
+              <label for="delayedTime" class="form-label mb-0" style="font-size: 14px;">Time</label>
+              <input type="time" id="delayedTime" class="form-control form-control-sm" style="min-width:120px;">
+            </div>
+            <div class="col-auto flex-grow-1">
+              <label for="reservationRecipe" class="form-label mb-0" style="font-size: 14px;">Recipe</label>
+              <select id="reservationRecipe" class="form-select form-select-sm" style="min-width:160px;">
+                <option value="">Select Recipe</option>
+              </select>
+            </div>
           </div>
-          <button class="btn btn-success mt-2" onclick="addOrder()">Place Order</button>
+          <button class="btn btn-primary mt-2" onclick="addReservation()">Add Reservation</button>
         </div>
 
-        <ul id="orderList" class="list-group mt-3"></ul>
+        <ul id="reservationList" class="list-group"></ul>
+        <script>
+      // Show/hide delayed time input
+      document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("typeInstant").addEventListener("change", function() {
+          document.getElementById("delayedTimeCol").style.display = "none";
+        });
+        document.getElementById("typeDelayed").addEventListener("change", function() {
+          document.getElementById("delayedTimeCol").style.display = "block";
+        });
+        // Set initial state
+        document.getElementById("delayedTimeCol").style.display = document.getElementById("typeDelayed").checked ? "block" : "none";
+      });
+
+      let reservations = [];
+      let reservationMode = 'mark';
+
+      // Populate recipe dropdown
+      function updateReservationRecipeDropdown() {
+        const select = document.getElementById("reservationRecipe");
+        if (!select) return;
+        // Remove all except first option
+        while (select.options.length > 1) select.remove(1);
+        recipes.forEach((recipe, idx) => {
+          const opt = document.createElement("option");
+          opt.value = idx;
+          opt.textContent = recipe.name;
+          select.appendChild(opt);
+        });
+      }
+
+      // Call this after recipes are rendered/changed
+      window.updateReservationRecipeDropdown = updateReservationRecipeDropdown;
+
+      function setMode(mode) {
+        reservationMode = mode;
+        renderReservations();
+        document.querySelector('.mark-btn').classList.toggle('active', mode === 'mark');
+        document.querySelector('.edit-btn').classList.toggle('active', mode === 'edit');
+      }
+
+      function addReservation() {
+        const name = document.getElementById("customerName").value.trim();
+        const count = parseInt(document.getElementById("customerCount").value, 10) || 1;
+        const type = document.getElementById("typeInstant").checked ? "instant" : "delayed";
+        const time = type === "delayed" ? document.getElementById("delayedTime").value : null;
+        const recipeIdx = document.getElementById("reservationRecipe").value;
+        // Add arrived status for delayed reservations
+        const arrived = type === "delayed" ? false : undefined;
+        if (!name || count < 1 || (type === "delayed" && !time) || recipeIdx === "") return;
+
+        reservations.push({ name, count, type, time, recipeIdx: parseInt(recipeIdx, 10), arrived });
+        document.getElementById("customerName").value = "";
+        document.getElementById("customerCount").value = "";
+        document.getElementById("delayedTime").value = "";
+        document.getElementById("reservationRecipe").value = "";
+        // Reset radio buttons and trigger change event to update delayedTimeCol visibility
+        document.getElementById("typeInstant").checked = true;
+        document.getElementById("typeInstant").dispatchEvent(new Event("change"));
+        document.getElementById("typeDelayed").checked = false;
+        renderReservations();
+      }
+
+      function renderReservations() {
+        const list = document.getElementById("reservationList");
+        list.innerHTML = "";
+        reservations.forEach((r, i) => {
+          const recipeName = recipes[r.recipeIdx]?.name || "";
+          if (reservationMode === "mark") {
+            list.innerHTML += `
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>${r.name}</strong> - ${r.count} people 
+                  <span class="badge bg-${r.type === "instant" ? "success" : "warning"} ms-2">${r.type === "instant" ? "Instant" : "Delayed"}</span>
+                  ${r.type === "delayed" ? `<span class="ms-2 text-muted">${r.time}</span>` : ""}
+                  <span class="ms-2 text-primary">${recipeName ? "Recipe: " + recipeName : ""}</span>
+                  ${
+                    r.type === "delayed"
+                      ? `<button class="btn btn-sm ${r.arrived ? 'btn-success' : 'btn-outline-secondary'} ms-3" onclick="toggleReservationArrived(${i})">
+                          ${r.arrived ? 'Arrived' : 'Mark Arrived'}
+                        </button>`
+                      : ""
+                  }
+                </div>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteReservation(${i})"><i class="bi bi-trash"></i></button>
+              </li>
+            `;
+          } else {
+            // Edit mode: allow changing recipe and arrived status
+            let recipeOptions = recipes.map((rec, idx) =>
+              `<option value="${idx}" ${idx === r.recipeIdx ? "selected" : ""}>${rec.name}</option>`
+            ).join("");
+            list.innerHTML += `
+              <li class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col-md-2">
+                    <input type="text" class="form-control" id="edit-name-${i}" value="${r.name}">
+                  </div>
+                  <div class="col-md-2">
+                    <input type="number" class="form-control" id="edit-count-${i}" value="${r.count}" min="1">
+                  </div>
+                  <div class="col-md-2">
+                    <select class="form-select" id="edit-type-${i}" onchange="toggleEditTime(${i})">
+                      <option value="instant" ${r.type === "instant" ? "selected" : ""}>Instant</option>
+                      <option value="delayed" ${r.type === "delayed" ? "selected" : ""}>Delayed</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <input type="time" class="form-control" id="edit-time-${i}" value="${r.time || ""}" style="display:${r.type === "delayed" ? "block" : "none"};">
+                  </div>
+                  <div class="col-md-2">
+                    <select class="form-select" id="edit-recipe-${i}">
+                      ${recipeOptions}
+                    </select>
+                  </div>
+                  <div class="col-md-2 d-flex gap-2 align-items-center">
+                    ${
+                      r.type === "delayed"
+                        ? `<button class="btn btn-sm ${r.arrived ? 'btn-success' : 'btn-outline-secondary'}" type="button" onclick="toggleReservationArrived(${i})">
+                            ${r.arrived ? 'Arrived' : 'Mark Arrived'}
+                          </button>`
+                        : ""
+                    }
+                    <button class="btn btn-sm btn-success" onclick="saveEditReservation(${i})">Save</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteReservation(${i})"><i class="bi bi-trash"></i></button>
+                  </div>
+                </div>
+              </li>
+            `;
+          }
+        });
+      }
+
+      // Toggle arrived status for delayed reservations (mark mode)
+      function toggleReservationArrived(i) {
+        if (reservations[i].type === "delayed") {
+          reservations[i].arrived = !reservations[i].arrived;
+          renderReservations();
+        }
+      }
+      window.toggleReservationArrived = toggleReservationArrived;
+
+      function saveEditReservation(i) {
+        const name = document.getElementById(`edit-name-${i}`).value.trim();
+        const count = parseInt(document.getElementById(`edit-count-${i}`).value, 10) || 1;
+        const type = document.getElementById(`edit-type-${i}`).value;
+        const time = type === "delayed" ? document.getElementById(`edit-time-${i}`).value : null;
+        const recipeIdx = parseInt(document.getElementById(`edit-recipe-${i}`).value, 10);
+        // Get arrived status if delayed
+        const arrived = type === "delayed"
+          ? document.getElementById(`edit-arrived-${i}`)?.checked || false
+          : undefined;
+        if (!name || count < 1 || (type === "delayed" && !time) || isNaN(recipeIdx)) return;
+        reservations[i] = { name, count, type, time, recipeIdx, arrived };
+        renderReservations();
+      }
+
+      function deleteReservation(i) {
+        reservations.splice(i, 1);
+        renderReservations();
+      }
+
+      // Expose for inline onclick
+      window.deleteReservation = deleteReservation;
+      window.saveEditReservation = saveEditReservation;
+      window.toggleEditTime = toggleEditTime;
+
+      // Initial render
+      document.addEventListener("DOMContentLoaded", function() {
+        renderReservations();
+        updateReservationRecipeDropdown();
+      });
+    </script>
       </div>
     </div>
+
 
     <div id="calculator" class="section">
       <div class="bg-white">
-        <h2>Food Calculator</h2>
-        <p>Calculates required ingredients based on total orders.</p>
+        <h2>Order Calculator</h2>
+        <button class="btn btn-primary mb-3" onclick="calculateFood()">📊 Calculate</button>
+        <p>This calculates the total ingredients needed based on all reservations and menu orders.</p>
       </div>
     </div>
+
 
     <div id="payments" class="section">
       <div class="bg-white">
         <h2>UPI Payments</h2>
+        <p>Feature: track and display UPI-based payments.</p>
       </div>
     </div>
 
     <div id="menu" class="section">
-      <div class="bg-white">
-        <h2>Menu Management</h2>
+      <div class="bg-white" >
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2>Food Menu</h2>
+          <div class="btn-group">
+            <button id="chooseBtn" class="btn btn-outline-success" onclick="setRecipeMode('choose')">Choose Recipes</button>
+            <button id="editBtn" class="btn btn-outline-warning" onclick="setRecipeMode('edit')">Edit Recipes</button>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <input type="text" id="recipeName" class="form-control mb-2" placeholder="Recipe Name">
+          <div class="d-flex gap-2 mb-2">
+            <input type="text" id="ingredientName" class="form-control" placeholder="Ingredient Name">
+            <input type="text" id="ingredientQty" class="form-control" placeholder="Quantity">
+            <button class="btn btn-outline-secondary" onclick="addTempIngredient()">➕ Add Ingredient</button>
+          </div>
+          <!-- Removed meal type checkboxes -->
+          <ul id="ingredientPreview" class="list-group mb-3"></ul>
+          <button class="btn btn-success" onclick="addRecipe()">Add Recipe</button>
+        </div>
+        <div id="recipeDisplay"></div>
+        <ul id="menuList" class="list-group"></ul>
       </div>
     </div>
+
 
     <div id="feedback" class="section">
       <div class="bg-white">
         <h2>Feedback</h2>
+        <p>Please rate your experience and leave your suggestions.</p>
+
+        <div class="mb-3">
+          <label class="form-label">Your Rating:</label>
+          <div id="starRating" class="d-flex gap-2">
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(1)"></i>
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(2)"></i>
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(3)"></i>
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(4)"></i>
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(5)"></i>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="feedbackText" class="form-label">Your Feedback:</label>
+          <textarea class="form-control" id="feedbackText" rows="4" placeholder="Share your thoughts..."></textarea>
+        </div>
+
+        <button class="btn btn-theme" onclick="submitFeedback()">Submit Feedback</button>
       </div>
     </div>
-  </div>
+
+
 
   <script>
     const links = document.querySelectorAll('.sidebar-link');
@@ -203,71 +969,714 @@
         links.forEach(l => l.classList.remove('active'));
         link.classList.add('active');
 
-        const target = link.getAttribute('data-target');
+        const target = link.getAttribute('data-target'); // ⬅️ move this UP here
 
         sections.forEach(section => {
           section.classList.remove('active');
           if (section.id === target) {
             section.classList.add('active');
+
+            if (target === "attendance") {
+              renderStudents(); // ✅ Works now
+            }
           }
         });
       });
     });
 
-    let orders = [];
-    let orderMode = 'new';
+  </script>
 
-    function setOrderMode(mode) {
-      orderMode = mode;
-      renderOrders();
+  <script>
+    setTimeout(() => {
+    const preloader = document.getElementById("preloader");
+    preloader.style.opacity = "0";
+    setTimeout(() => {
+        preloader.style.display = "none";
+    }, 500); // matches transition duration
+    }, 300);
+  </script>
+
+            <div class="side-semicircle">
+            <!-- Stars container moved below for layering -->
+            <div class="star star-1"></div>
+            <div class="star star-2"></div>
+            <div class="star star-3"></div>
+
+            <div class="semicircle-content">
+                <a href="https://www.chatbase.co/chatbot-iframe/mNj1B_5a_O7dnNtvOHAJY" class="rounded-button-link">
+                <i class="bi bi-cpu"></i>
+                </a>
+                <span class="semicircle-label">AI</span>
+            </div>
+            </div>
+  <script>
+  let recipes = [];
+  let tempIngredients = [];
+  let editTempIngredients = {};
+  let recipeMode = 'choose'; // Default mode
+  let selectedRecipeIndexes = [];
+
+
+  window.addEventListener("DOMContentLoaded", () => {
+    setRecipeMode("choose"); // 👈 Start in choose mode
+    renderRecipes();
+  });
+
+  function setRecipeMode(mode) {
+    recipeMode = mode;
+    renderRecipes();
+
+    const chooseBtn = document.getElementById("chooseBtn");
+    const editBtn = document.getElementById("editBtn");
+
+    // Reset both buttons
+    chooseBtn.classList.remove("btn-success", "text-white");
+    chooseBtn.classList.add("btn-outline-success");
+
+    editBtn.classList.remove("btn-warning", "text-dark");
+    editBtn.classList.add("btn-outline-warning");
+
+    // Apply active styles based on mode
+    if (mode === "choose") {
+      chooseBtn.classList.remove("btn-outline-success");
+      chooseBtn.classList.add("btn-success", "text-white");
+    } else if (mode === "edit") {
+      editBtn.classList.remove("btn-outline-warning");
+      editBtn.classList.add("btn-warning", "text-dark");
+    }
+  }
+
+
+
+  function addTempIngredient() {
+    const name = document.getElementById("ingredientName").value.trim();
+    const qty = document.getElementById("ingredientQty").value.trim();
+    if (!name || !qty) return;
+
+    tempIngredients.push({ name, qty });
+    document.getElementById("ingredientName").value = "";
+    document.getElementById("ingredientQty").value = "";
+    renderIngredientPreview();
+  }
+
+  function renderIngredientPreview() {
+    const list = document.getElementById("ingredientPreview");
+    list.innerHTML = "";
+    tempIngredients.forEach((item, index) => {
+      const li = document.createElement("li");
+      li.className = "list-group-item d-flex justify-content-between";
+      li.innerHTML = `
+        <span>${item.name} - ${item.qty}</span>
+        <button class="btn btn-sm btn-outline-danger" onclick="removeTempIngredient(${index})">✖</button>
+      `;
+      list.appendChild(li);
+    });
+  }
+
+  function removeTempIngredient(index) {
+    tempIngredients.splice(index, 1);
+    renderIngredientPreview();
+  }
+
+  function addRecipe() {
+    const name = document.getElementById("recipeName").value.trim();
+    const ingName = document.getElementById("ingredientName").value.trim();
+    const ingQty = document.getElementById("ingredientQty").value.trim();
+
+    let ingredients = tempIngredients.length ? [...tempIngredients] : [];
+
+    // 👇 Add inline ingredient if user typed one but didn't click ➕
+    if (ingName && ingQty) {
+      ingredients.push({ name: ingName, qty: ingQty });
     }
 
-    function addOrder() {
-      const name = document.getElementById("customerName").value.trim();
-      const table = document.getElementById("tableNumber").value;
-      const dishes = [];
-      ["dish1", "dish2", "dish3"].forEach(id => {
-        const el = document.getElementById(id);
-        if (el.checked) dishes.push(el.value);
-        el.checked = false;
-      });
-      if (!name || !table || dishes.length === 0) return;
-      orders.push({ name, table, dishes, status: 'Pending' });
-      document.getElementById("customerName").value = '';
-      document.getElementById("tableNumber").value = '';
-      renderOrders();
+    // ❌ Validations
+    if (!name) {
+      alert("Please enter a recipe name.");
+      return;
     }
 
-    function renderOrders() {
-      const list = document.getElementById("orderList");
-      list.innerHTML = '';
-      orders.forEach((order, i) => {
-        const li = document.createElement("li");
-        li.className = "list-group-item d-flex justify-content-between align-items-center";
-        li.innerHTML = `
-          <div>
-            <strong>${order.name}</strong> (Table ${order.table})<br>
-            ${order.dishes.join(", ")}
+    if (ingredients.length === 0) {
+      alert("Please add at least one ingredient.");
+      return;
+    }
+
+    // ✅ Add the recipe (no meal type)
+    recipes.push({ name, ingredients });
+
+    // ✅ Reset everything
+    document.getElementById("recipeName").value = "";
+    document.getElementById("ingredientName").value = "";
+    document.getElementById("ingredientQty").value = "";
+
+    tempIngredients = [];
+    renderIngredientPreview();
+    renderRecipes();
+    updateReservationRecipeDropdown();
+  }
+
+  function renderRecipes() {
+    const list = document.getElementById("menuList");
+    list.innerHTML = "";
+
+    recipes.forEach((recipe, i) => {
+      if (!editTempIngredients[i]) {
+        editTempIngredients[i] = recipe.ingredients ? [...recipe.ingredients] : [];
+      }
+
+      const li = document.createElement("li");
+      li.className = "list-group-item";
+
+      if (recipeMode === "choose") {
+      li.innerHTML = `
+        <div class="row align-items-center recipe-row" onclick="toggleRecipeSelection(${i})" style="cursor: pointer;">
+          <div class="col-md-6">
+            <strong>${recipe.name}</strong>
           </div>
-          <div>
-            <button class="btn btn-sm ${order.status === 'Pending' ? 'btn-outline-danger' : 'btn-outline-success'}" onclick="toggleStatus(${i})">
-              ${order.status}
+          <div class="col-md-6">
+            ${(recipe.ingredients || []).map(ing => `${ing.name}: ${ing.qty}`).join('<br>')}
+          </div>
+        </div>
+      `;
+      } else if (recipeMode === "edit") {
+        const ingredientsHtml = editTempIngredients[i].map((ing, j) => `
+          <li class="list-group-item d-flex gap-2 align-items-center">
+            <input type="text" class="form-control" id="edit-ing-name-${i}-${j}" value="${ing.name}" style="flex: 2;">
+            <input type="text" class="form-control" id="edit-ing-qty-${i}-${j}" value="${ing.qty}" style="flex: 1;">
+            <button class="btn btn-sm btn-outline-danger" onclick="removeEditIngredient(${i}, ${j})">
+              <i class="bi bi-x"></i>
             </button>
+          </li>
+        `).join("");
+
+        li.innerHTML = `
+          <div class="mb-3">
+            <input type="text" class="form-control mb-2" id="recipe-${i}" value="${recipe.name}" placeholder="Recipe Name">
+            <ul class="list-group mb-2">${ingredientsHtml}</ul>
+            <div class="d-flex gap-2 mb-2">
+              <input type="text" class="form-control" id="new-ing-name-${i}" placeholder="New Ingredient">
+              <input type="text" class="form-control" id="new-ing-qty-${i}" placeholder="Quantity">
+              <button class="btn btn-outline-secondary" onclick="addEditIngredient(${i})">➕</button>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-success" onclick="saveRecipe(${i})">Save</button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteRecipe(${i})">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
           </div>
         `;
-        list.appendChild(li);
+      }
+
+      list.appendChild(li);
+    });
+    updateReservationRecipeDropdown();
+  }
+
+  function addIngredientToRecipe(i) {
+    const name = document.getElementById(`new-ing-name-${i}`).value.trim();
+    const qty = document.getElementById(`new-ing-qty-${i}`).value.trim();
+    if (!name || !qty) return;
+
+    editTempIngredients[i].push({ name, qty });
+    document.getElementById(`new-ing-name-${i}`).value = "";
+    document.getElementById(`new-ing-qty-${i}`).value = "";
+    renderRecipes();
+  }
+
+  function removeEditIngredient(recipeIndex, ingIndex) {
+    editTempIngredients[recipeIndex].splice(ingIndex, 1);
+    renderRecipes();
+  }
+
+  function saveRecipe(i) {
+    const name = document.getElementById(`recipe-${i}`).value.trim();
+
+    const updatedIngredients = [];
+    for (let j = 0; j < editTempIngredients[i].length; j++) {
+      const ingName = document.getElementById(`edit-ing-name-${i}-${j}`).value.trim();
+      const ingQty = document.getElementById(`edit-ing-qty-${i}-${j}`).value.trim();
+      if (ingName && ingQty) {
+        updatedIngredients.push({ name: ingName, qty: ingQty });
+      }
+    }
+
+    if (!name) {
+      alert("Please enter a recipe name.");
+      return;
+    }
+
+    if (updatedIngredients.length === 0) {
+      alert("Please enter at least one ingredient.");
+      return;
+    }
+
+    // ✅ Update both arrays properly (no meal type)
+    recipes[i] = {
+      name,
+      ingredients: updatedIngredients
+    };
+
+    editTempIngredients[i] = [...updatedIngredients]; // 🔁 Update temp state too
+
+    renderRecipes(); // ✅ Reflect changes visually
+    updateReservationRecipeDropdown();
+  }
+
+  function calculateFood() {
+    // For each reservation, multiply recipe ingredients by count
+    let allIngredients = {};
+    reservations.forEach(r => {
+      const recipe = recipes[r.recipeIdx];
+      if (!recipe) return;
+      recipe.ingredients.forEach(ing => {
+        const num = parseFloat(ing.qty);
+        const unit = ing.qty.replace(/[0-9.]/g, '').trim();
+        const totalQty = isNaN(num) ? ing.qty : (num * r.count);
+        const key = ing.name + (unit ? ` (${unit})` : "");
+        if (!allIngredients[key]) allIngredients[key] = 0;
+        allIngredients[key] += isNaN(totalQty) ? 0 : parseFloat(totalQty);
+      });
+    });
+
+    const calculatorSection = document.getElementById("calculator");
+    calculatorSection.innerHTML = `
+      <div class="bg-white">
+        <h2>Order Calculator</h2>
+        <div class="mb-2">Total Reservations: <strong>${reservations.length}</strong></div>
+        <ul class="list-group mb-3">
+          ${Object.entries(allIngredients).map(([name, qty]) => `
+            <li class="list-group-item d-flex justify-content-between">
+              <span>${name}</span>
+              <span><strong>${qty}</strong></span>
+            </li>
+          `).join("")}
+        </ul>
+        <button class="btn btn-primary mt-3" onclick="calculateFood()">🔄 Recalculate</button>
+      </div>
+    `;
+  }
+
+  function fireAndForgetSave() {
+      try {
+        saveDashboardData(); // Don't await
+        localStorage.setItem('dashboard_backup', JSON.stringify({
+          students,
+          recipes,
+          timestamp: Date.now()
+        }));
+      } catch (err) {
+        console.warn("❌ Auto-save error:", err);
+      }
+    
+
+    // Trigger dashboard save without awaiting
+      saveDashboardData(); // async call, won't block tab close
+    }
+
+  </script>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    
+
+    window.saveDashboardData = async function () {
+      // ✅ 1. Get the logged-in user
+      const {
+        data: { user },
+        error: sessionError
+      } = await client.auth.getUser();
+
+      if (sessionError || !user) {
+        console.error("❌ Failed to get user:", sessionError);
+        alert("Failed to get user session.");
+        return;
+      }
+
+      // ✅ 2. Save Students
+      if (students.length > 0) {
+        const studentRecords = students.map(student => ({
+          user_id: user.id,
+          user_name: user.user_metadata?.full_name || "User",
+          user_email: user.email,
+          students_name: student.name,
+          attendence: student.present || false,
+          student_preferences: student.preferences || []
+        }));
+
+        const { error: studentError } = await client
+          .from("data")
+          .upsert(studentRecords, { onConflict: ["user_id", "students_name"] });
+
+        if (studentError) {
+          alert("❌ Failed to save students: " + studentError.message);
+        } else {
+          console.log("✅ Students saved.");
+        }
+      }
+
+      // ✅ 3. Save Recipes
+      if (recipes.length > 0) {
+        const recipeRecords = recipes.map(recipe => {
+          const ingredients = {};
+          const quantities = {};
+
+          recipe.ingredients.forEach(ing => {
+            ingredients[ing.name] = ing.qty;
+            quantities[ing.name] = parseFloat(ing.qty) || ing.qty;
+          });
+
+          return {
+            recipe_name: recipe.name,
+            ingredient: ingredients,
+            quantity: quantities,
+            meal_type: recipe.meals || [],
+            user_email: user.email // ✅ now correctly attached
+          };
+        });
+
+        const { error: recipeError } = await client
+          .from("recipes")
+          .upsert(recipeRecords, { onConflict: ["user_email", "recipe_name"] });
+
+      }
+    };
+
+
+    // ✅ Load students from Supabase
+    async function loadDashboardData() {
+      const { data: { user }, error: sessionError } = await client.auth.getUser();
+      if (sessionError || !user) return;
+
+      const { data, error: fetchError } = await client
+        .from('data')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('updated_at', { ascending: false })
+        .limit(100);
+
+      if (fetchError || !data || data.length === 0) return;
+
+      students = data.map(record => ({
+        name: record.students_name,
+        preferences: record.student_preferences || [],
+        present: record.attendence || false
+      }));
+
+
+
+      renderStudents();
+    }
+
+    // ✅ Load recipes from Supabase
+    
+
+    async function deleteStudent(index) {
+    const student = students[index];
+    students.splice(index, 1);
+    renderStudents();
+
+    const { data: { user } } = await client.auth.getUser();
+    if (!user) return;
+
+    await client
+      .from('data')
+      .delete()
+      .eq('user_id', user.id)
+      .eq('students_name', student.name);
+  }
+
+  window.deleteStudent = deleteStudent; // ✅ make it available to onclick
+
+
+    async function deleteRecipe(index) {
+    const recipe = recipes[index];
+    recipes.splice(index, 1);
+    delete editTempIngredients[index];
+    renderRecipes();
+
+    const { data: { user } } = await client.auth.getUser();
+    if (!user) return;
+
+    await client
+      .from('recipes')
+      .delete()
+      .eq('recipe_name', recipe.name);
+  }
+    
+    async function saveProfile() {
+    const name = document.getElementById("profileName").value.trim();
+
+    if (!name) {
+      alert("❌ Name cannot be empty.");
+      return;
+    }
+
+    // ✅ 1. Update user metadata
+    const { error: updateError } = await client.auth.updateUser({
+      data: { full_name: name }
+    });
+
+    if (updateError) {
+      alert("❌ Failed to update name: " + updateError.message);
+      return;
+    }
+
+    // ✅ 2. Refetch user info to get latest name
+    const { data: refreshedUser, error: fetchError } = await client.auth.getUser();
+
+    if (fetchError || !refreshedUser?.user) {
+      alert("❌ Failed to refresh user data.");
+      return;
+    }
+
+    const updatedName = refreshedUser.user.user_metadata?.full_name || "User";
+    const updatedEmail = refreshedUser.user.email;
+
+    // ✅ 3. Update sidebar and modal display
+    document.getElementById("profileNameDisplay").innerText = updatedName;
+    document.getElementById("profileEmailDisplay").innerText = updatedEmail;
+    document.getElementById("profileName").value = updatedName;
+    document.getElementById("profileEmail").value = updatedEmail;
+
+    closeProfileModal();
+    alert("✅ Profile name updated!");
+  }
+  
+    function fireAndForgetSave() {
+      try {
+        saveDashboardData(); // Don't await
+        localStorage.setItem('dashboard_backup', JSON.stringify({
+          students,
+          recipes,
+          timestamp: Date.now()
+        }));
+      } catch (err) {
+        console.warn("❌ Auto-save error:", err);
+      }
+    
+
+    // Trigger dashboard save without awaiting
+      saveDashboardData(); // async call, won't block tab close
+    }
+
+
+
+
+
+  window.deleteRecipe = deleteRecipe; // ✅ So the trash icon calls it correctly
+
+
+
+
+    // ✅ Run both loaders on page load
+    window.addEventListener("DOMContentLoaded", () => {
+          loadDashboardData();
+          loadRecipesFromSupabase();
+        });
+
+      window.addEventListener("beforeunload", (event) => {
+      if (students.length === 0 && recipes.length === 0) return;
+
+      const payload = {
+        students: students,
+        recipes: recipes,
+        timestamp: new Date().toISOString()
+      };
+
+      // 👇 You would replace this with your own API endpoint
+      // Example: navigator.sendBeacon('/api/saveOnExit', JSON.stringify(payload));
+
+      // Since Supabase JS client doesn't support sendBeacon,
+      // fallback: Warn user (browser will show confirmation prompt)
+      event.preventDefault();
+      event.returnValue = '';
+    });
+
+    window.addEventListener('unload', () => {
+      if (students.length > 0 || recipes.length > 0) {
+        fireAndForgetSave();
+      }
+    });
+
+    // ✅ Auto-save on tab/window close or refresh
+    // ✅ Save on tab close, refresh, or shutdown (non-blocking)
+    window.addEventListener('beforeunload', () => {
+      fireAndForgetSave();
+    });
+
+    // ✅ Save when tab is switched or minimized
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        fireAndForgetSave();
+      }
+    });
+
+    // ✅ Save before logout
+    document.getElementById("logoutBtn")?.addEventListener("click", async () => {
+      await saveDashboardData();
+      await client.auth.signOut();
+      window.location.href = "login.html";
+    });
+
+    window.addEventListener("load", async () => {
+      await loadRecipesFromSupabase();
+    });
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      await loadRecipesFromSupabase();
+    });
+
+
+
+
+
+  </script>
+
+  <script>
+    async function loadRecipesFromSupabase() {
+    try {
+      const {
+        data: { user },
+        error: userError
+      } = await client.auth.getUser();
+
+      if (userError || !user) {
+        console.error("❌ User not found:", userError);
+        return;
+      }
+
+      const email = user.email;
+      console.log("🔍 Loading recipes for:", email);
+
+      const { data: fetchedRecipes, error: recipeError } = await client
+        .from("recipes")
+        .select("*")
+        .eq("user_email", email)
+        .order("created_at", { ascending: false });
+
+      if (recipeError) {
+        console.error("❌ Error loading recipes:", recipeError);
+        return;
+      }
+
+      if (!fetchedRecipes || fetchedRecipes.length === 0) {
+        console.warn("📭 No recipes found for this user.");
+        return;
+      }
+
+      // ✅ Clear existing recipes
+      recipes = [];
+
+      fetchedRecipes.forEach(recipe => {
+        const ingredients = Object.entries(recipe.ingredient || {}).map(([name, qty]) => ({
+          name,
+          qty
+        }));
+
+        recipes.push({
+          name: recipe.recipe_name,
+          ingredients
+          // Removed: meals: recipe.meal_type || []
+        });
+      });
+
+      renderRecipes();
+      console.log("✅ Recipes loaded and rendered.");
+    } catch (err) {
+      console.error("💥 Unexpected error:", err);
+    }
+  }
+
+
+  </script>
+
+  <script>
+    client.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN") {
+        loadRecipesFromSupabase();
+      }
+    });
+  </script>
+
+  <script>
+    let selectedRating = 0;
+
+    function setRating(rating) {
+      selectedRating = rating;
+      const stars = document.querySelectorAll('#starRating i');
+      stars.forEach((star, index) => {
+        star.classList.remove('text-warning');
+        star.classList.add('text-secondary');
+        if (index < rating) {
+          star.classList.remove('text-secondary');
+          star.classList.add('text-warning');
+        }
       });
     }
 
-    function toggleStatus(index) {
-      orders[index].status = orders[index].status === 'Pending' ? 'Served' : 'Pending';
-      renderOrders();
-    }
+    async function submitFeedback() {
+      const feedbackText = document.getElementById("feedbackText").value.trim();
 
-    function logout() {
-      alert("Logging out...");
-      // add redirect or supabase logic if needed
+      if (selectedRating === 0 || feedbackText === "") {
+        alert("Please provide both a rating and feedback.");
+        return;
+      }
+
+      const { data: { user }, error } = await client.auth.getUser();
+      if (error || !user) {
+        alert("❌ Unable to fetch user info.");
+        return;
+      }
+
+      const { error: insertError } = await client
+        .from("feedback")
+        .insert([{
+          user_email: user.email,
+          rating: selectedRating,
+          message: feedbackText
+        }]);
+
+      if (insertError) {
+        alert("❌ Failed to submit feedback: " + insertError.message);
+      } else {
+        alert("✅ Feedback submitted! Thank you.");
+        setRating(0);
+        document.getElementById("feedbackText").value = "";
+      }
     }
   </script>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("modeSwitchBtn");
+      const currentPage = window.location.pathname;
+
+      if (currentPage.includes("dashboard2.html")) {
+        btn.innerText = "Switch Mode";
+      } else {
+        btn.innerText = "Switch Mode";
+      }
+    });
+
+    function switchMode() {
+      const currentPage = window.location.pathname;
+      if (currentPage.includes("dashboard2.html")) {
+        window.location.href = "dashboard.html";
+      } else {
+        window.location.href = "dashboard2.html";
+      }
+    }
+  </script>
+
+
+
+
+
+
+
 </body>
 </html>
+
+

@@ -531,6 +531,27 @@
       to { opacity: 1; }
     }
 
+    .switch-mode-btn {
+      background-color: transparent;
+      color: #cb7575;
+      border: 2px solid #cb7575;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: calc(100% - 40px); /* to fit in sidebar nicely */
+      margin: 0 20px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .switch-mode-btn:hover {
+      background-color: #cb7575;
+      color: white;
+    }
+
+
 
 
 
@@ -622,6 +643,12 @@
     <a href="#" class="sidebar-link" data-target="payments"><i class="bi bi-credit-card"></i> UPI Payments</a>
     <a href="#" class="sidebar-link" data-target="menu"><i class="bi bi-list"></i> Menu</a>
     <a href="#" class="sidebar-link" data-target="feedback"><i class="bi bi-chat-dots"></i> Feedback</a>
+    <button class="switch-mode-btn" id="modeSwitchBtn" onclick="switchMode()">
+      Switch Mode
+    </button>
+
+
+
     
 
 
@@ -818,12 +845,30 @@
 
 
     <div id="feedback" class="section">
-        <div class="bg-white">
-          <h2>Feedback</h2>
-          <p>Feature: collect and display feedback.</p>
+      <div class="bg-white">
+        <h2>Feedback</h2>
+        <p>Please rate your experience and leave your suggestions.</p>
+
+        <div class="mb-3">
+          <label class="form-label">Your Rating:</label>
+          <div id="starRating" class="d-flex gap-2">
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(1)"></i>
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(2)"></i>
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(3)"></i>
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(4)"></i>
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(5)"></i>
+          </div>
         </div>
-      
+
+        <div class="mb-3">
+          <label for="feedbackText" class="form-label">Your Feedback:</label>
+          <textarea class="form-control" id="feedbackText" rows="4" placeholder="Share your thoughts..."></textarea>
+        </div>
+
+        <button class="btn btn-theme" onclick="submitFeedback()">Submit Feedback</button>
+      </div>
     </div>
+
 
 
   <script>
@@ -1577,13 +1622,7 @@
           .from("recipes")
           .upsert(recipeRecords, { onConflict: ["user_email", "recipe_name"] });
 
-        if (recipeError) {
-          console.error("❌ Failed to save recipes:", recipeError);
-          alert("❌ Failed to save recipes." + recipeError.message);
-        } else {
-          console.log("✅ Recipes saved.");
-          alert("✅ Recipes saved successfully!");
-        }
+        
       }
     };
 
@@ -1834,6 +1873,7 @@
   }
 
 
+
   </script>
 
   <script>
@@ -1845,6 +1885,80 @@
 
 
   </script>
+
+  <script>
+    let selectedRating = 0;
+
+    function setRating(rating) {
+      selectedRating = rating;
+      const stars = document.querySelectorAll('#starRating i');
+      stars.forEach((star, index) => {
+        star.classList.remove('text-warning');
+        star.classList.add('text-secondary');
+        if (index < rating) {
+          star.classList.remove('text-secondary');
+          star.classList.add('text-warning');
+        }
+      });
+    }
+
+    async function submitFeedback() {
+      const feedbackText = document.getElementById("feedbackText").value.trim();
+
+      if (selectedRating === 0 || feedbackText === "") {
+        alert("Please provide both a rating and feedback.");
+        return;
+      }
+
+      const { data: { user }, error } = await client.auth.getUser();
+      if (error || !user) {
+        alert("❌ Unable to fetch user info.");
+        return;
+      }
+
+      const { error: insertError } = await client
+        .from("feedback")
+        .insert([{
+          user_email: user.email,
+          rating: selectedRating,
+          message: feedbackText
+        }]);
+
+      if (insertError) {
+        alert("❌ Failed to submit feedback: " + insertError.message);
+      } else {
+        alert("✅ Feedback submitted! Thank you.");
+        setRating(0);
+        document.getElementById("feedbackText").value = "";
+      }
+    }
+  </script>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("modeSwitchBtn");
+      const currentPage = window.location.pathname;
+
+      if (currentPage.includes("dashboard2.html")) {
+        btn.innerText = "Switch Mode";
+      } else {
+        btn.innerText = "Switch Mode";
+      }
+    });
+
+    function switchMode() {
+      const currentPage = window.location.pathname;
+      if (currentPage.includes("dashboard2.html")) {
+        window.location.href = "dashboard.html";
+      } else {
+        window.location.href = "dashboard2.html";
+      }
+    }
+  </script>
+
+
+
+
 
 
 
