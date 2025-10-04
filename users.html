@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plate2Purpose - Manage Users</title>
+    <link rel="icon" href="images/recycle-sign.png" type="image/png" />
+
+    <!-- Fonts & Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: #fff5f0;
+        padding-top: 120px;
+      }
+      /* Navbar */
+      .navbar {
+        height: 100px;
+        background-color: #ffe0d0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+      .navbar-brand {
+        font-family: "Amatic SC", cursive;
+        font-size: 32px;
+        font-weight: 700;
+        color: #ff5500;
+      }
+      .navbar-heading {
+        font-size: 20px;
+        font-weight: 600;
+        color: #cb7575;
+      }
+      /* Table */
+      .container {
+        max-width: 1100px;
+        margin: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      th {
+        background: #ffe0d0;
+        color: #cb7575;
+        padding: 12px;
+      }
+      td {
+        padding: 12px;
+        text-align: center;
+        border-top: 1px solid #f3d5d5;
+      }
+      /* Buttons */
+      .btn {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        margin: 2px;
+      }
+      .btn-delete {
+        background: #ff5c5c;
+        color: white;
+      }
+      .btn-delete:hover {
+        background: #d63b3b;
+      }
+      .btn-ban {
+        background: orange;
+        color: white;
+      }
+      .btn-ban:hover {
+        background: darkorange;
+      }
+      .btn-unban {
+        background: green;
+        color: white;
+      }
+      .btn-unban:hover {
+        background: darkgreen;
+      }
+      .status-active {
+        color: green;
+        font-weight: 600;
+      }
+      .status-banned {
+        color: red;
+        font-weight: 600;
+      }
+      .navbar-brand {
+        text-decoration: none !important;
+      }
+      .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff5f0; /* same bg as your dashboard */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease;
+        z-index: 2000;
+      }
+
+      .spinner-rotate img {
+        animation: spin-pulse 2s linear infinite;
+      }
+
+      @keyframes spin-pulse {
+        0% {
+          transform: rotate(0deg) scale(1);
+        }
+        50% {
+          transform: rotate(180deg) scale(1.2);
+        }
+        100% {
+          transform: rotate(360deg) scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="preloader" id="preloader">
+      <div class="spinner-rotate">
+        <img
+          src="images/recycle-sign.png"
+          alt="Loading..."
+          width="60"
+          height="60"
+        />
+      </div>
+    </section>
+
+    <!-- Navbar -->
+    <div class="navbar">
+      <a
+        href="admin dashboard.html"
+        class="navbar-brand mx-auto mx-lg-0"
+        style="
+          font-family: 'Amatic SC', cursive;
+          font-size: 32px;
+          font-weight: 700;
+        "
+      >
+        <span style="color: #ff5500">Plate </span
+        ><span class="brand-icon" style="color: #ff5500">2♻️</span
+        ><span style="color: #ff5500">Purpose</span>
+      </a>
+      <div class="navbar-heading">Manage Users</div>
+    </div>
+
+    <!-- Content -->
+    <div class="container">
+      <h2 style="color: #cb7575; text-align: center; margin-bottom: 20px">
+        Registered Users
+      </h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Created At</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="usersTable">
+          <tr>
+            <td colspan="5">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+      const SUPABASE_URL = "https://pljmachiuahkrkiddehc.supabase.co";
+      const SUPABASE_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsam1hY2hpdWFoa3JraWRkZWhjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MTExMDI0MSwiZXhwIjoyMDY2Njg2MjQxfQ.W-Bwi5vn-rDRsnkWz0BAWmrocuFGFSQBXT7GtVeGBtE";
+
+      const supabaseAdmin = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      async function loadUsers() {
+        const { data, error } = await supabaseAdmin.auth.admin.listUsers();
+        const table = document.getElementById("usersTable");
+        table.innerHTML = "";
+
+        if (error) {
+          table.innerHTML = `<tr><td colspan="5" style="color:red;">Error loading users</td></tr>`;
+          return;
+        }
+
+        data.users.forEach((user) => {
+          const isBanned = user.app_metadata?.banned === true;
+          table.innerHTML += `
+          <tr>
+            <td>${user.id}</td>
+            <td>${user.email}</td>
+            <td>${new Date(user.created_at).toLocaleString()}</td>
+            <td class="${isBanned ? "status-banned" : "status-active"}">
+              ${isBanned ? "Banned" : "Active"}
+            </td>
+            <td>
+              <button class="btn btn-delete" onclick="deleteUser('${
+                user.id
+              }')">Delete</button>
+              ${
+                isBanned
+                  ? `<button class="btn btn-unban" onclick="banUser('${user.id}', false)">Unban</button>`
+                  : `<button class="btn btn-ban" onclick="banUser('${user.id}', true)">Ban</button>`
+              }
+            </td>
+          </tr>
+        `;
+        });
+      }
+
+      async function deleteUser(userId) {
+        if (!confirm("Are you sure you want to delete this user?")) return;
+        const { error } = await supabaseAdmin.auth.admin.deleteUser(userId);
+        if (error) {
+          alert("Error deleting user: " + error.message);
+          return;
+        }
+        alert("User deleted successfully!");
+        loadUsers();
+      }
+
+      async function banUser(userId, banStatus) {
+        const { error } = await supabaseAdmin.auth.admin.updateUserById(
+          userId,
+          {
+            app_metadata: { banned: banStatus },
+          }
+        );
+        if (error) {
+          alert("Error updating ban status: " + error.message);
+          return;
+        }
+        alert(banStatus ? "User banned" : "User unbanned");
+        loadUsers();
+      }
+
+      document.addEventListener("DOMContentLoaded", loadUsers);
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const preloader = document.getElementById("preloader");
+        window.addEventListener("load", () => {
+          preloader.style.opacity = "0";
+          setTimeout(() => {
+            preloader.style.display = "none";
+          }, 500);
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plate2Purpose - OTP Verification</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #fff5f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+      h1 {
+        font-family: "Amatic SC", cursive;
+        color: #ff5500;
+        font-size: 2.5rem;
+      }
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+      }
+      button {
+        background-color: #ff5500;
+        color: white;
+        border: none;
+        padding: 10px;
+        width: 100%;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      button:hover {
+        background-color: #e94e00;
+      }
+      .message {
+        margin-top: 10px;
+        font-size: 0.9rem;
+      }
+      .success {
+        color: green;
+      }
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Plate2Purpose</h1>
+      <p>Enter your email to receive a one-time password</p>
+      <input type="email" id="email" placeholder="Your Email" required />
+      <button onclick="sendOTP()">Send OTP</button>
+
+      <div id="otp-section" style="display: none">
+        <input type="text" id="otp-input" placeholder="Enter OTP" />
+        <button onclick="verifyOTP()">Verify OTP</button>
+      </div>
+
+      <div id="message" class="message"></div>
+    </div>
+
+    <script>
+      emailjs.init("MFrJtquTCDd30fXGD");
+
+      let generatedOTP = "";
+      let expiryTime = "";
+
+      function sendOTP() {
+        const email = document.getElementById("email").value;
+        if (!email) {
+          showMessage("Please enter your email.", "error");
+          return;
+        }
+
+        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+        const now = new Date();
+        now.setMinutes(now.getMinutes() + 15);
+        expiryTime = now.toLocaleTimeString();
+
+        const templateParams = {
+          to_email: email,
+          passcode: generatedOTP,
+          time: expiryTime,
+        };
+
+        emailjs
+          .send("service_cyj5ocr", "template_wwww1nw", templateParams)
+          .then(() => {
+            showMessage("✅ OTP sent successfully!", "success");
+            document.getElementById("otp-section").style.display = "block";
+          })
+          .catch((error) => {
+            console.error("Error sending OTP:", error);
+            showMessage("❌ Failed to send OTP. Please try again.", "error");
+          });
+      }
+
+      function verifyOTP() {
+        const enteredOTP = document.getElementById("otp-input").value;
+        if (enteredOTP === generatedOTP) {
+          showMessage("🎉 OTP Verified! Access Granted.", "success");
+        } else {
+          showMessage("❌ Invalid OTP. Try again.", "error");
+        }
+      }
+
+      function showMessage(msg, type) {
+        const messageDiv = document.getElementById("message");
+        messageDiv.textContent = msg;
+        messageDiv.className = `message ${type}`;
+      }
+    </script>
+  </body>
+</html>

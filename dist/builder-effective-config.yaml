@@ -1,0 +1,24 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.plate2purpose.app
+productName: Plate2Purpose
+files:
+  - filter:
+      - '**/*'
+asar: true
+npmRebuild: false
+win:
+  icon: icon.ico
+  target:
+    - target: dmg
+      arch:
+        - x64
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  artifactName: ${productName} Setup ${version}.${ext}
+electronVersion: 27.3.11

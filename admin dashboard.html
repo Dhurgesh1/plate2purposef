@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plate2Purpose - Admin Dashboard</title>
+    <link rel="icon" href="images/recycle-sign.png" type="image/png" />
+
+    <!-- Fonts & CSS -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #fff5f0;
+        margin: 0;
+      }
+
+      /* Navbar */
+      .navbar {
+        background: #ffe0d0; /* Plate2Purpose accent color */
+        padding: 1.5rem 2rem; /* Increased height */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+      .navbar-brand {
+        font-family: "Amatic SC", cursive;
+        font-size: 36px; /* Larger brand text */
+        font-weight: 700;
+        color: #ff5500; /* White for contrast */
+      }
+      .navbar-brand span {
+        color: #ff5500; /* Soft peach accent in logo */
+      }
+      .logout-btn {
+        background-color: white;
+        border: none;
+        color: #cb7575;
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+      .logout-btn:hover {
+        background-color: #fce8e8;
+        color: #a84545;
+      }
+
+      /* Hero Header */
+      .hero {
+        text-align: center;
+        padding: 50px 20px 30px;
+      }
+      .hero h2 {
+        color: #cb7575;
+        font-size: 2rem;
+        margin-bottom: 10px;
+      }
+      .hero p {
+        color: #555;
+        font-size: 1.1rem;
+      }
+
+      /* Button Cards */
+      .btn-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+      }
+      .dashboard-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        border-radius: 16px;
+        padding: 30px 20px;
+        width: 220px;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+      .dashboard-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(203, 117, 117, 0.3);
+      }
+      .dashboard-card i {
+        font-size: 2.5rem;
+        color: #cb7575;
+        margin-bottom: 12px;
+      }
+      .dashboard-card h4 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+      }
+
+      @media (max-width: 600px) {
+        .dashboard-card {
+          width: 90%;
+        }
+      }
+    </style>
+
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #fff5f0;
+        margin: 0;
+        padding-top: 110px; /* Space for fixed navbar */
+      }
+
+      /* Navbar */
+      .navbar {
+        background: #ffe0d0;
+        height: 50px;
+        padding: 1.5rem 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: fixed; /* stays in place */
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+      }
+
+      .navbar-brand {
+        font-family: "Amatic SC", cursive;
+        font-size: 36px;
+        font-weight: 700;
+        color: #ff5500;
+      }
+      .navbar-brand span {
+        color: #ff5500;
+      }
+
+      .logout-btn {
+        background-color: white;
+        border: none;
+        color: #cb7575;
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+      .logout-btn:hover {
+        background-color: #fce8e8;
+        color: #a84545;
+      }
+      .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff5f0; /* same bg as your dashboard */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease;
+        z-index: 2000;
+      }
+
+      .spinner-rotate img {
+        animation: spin-pulse 2s linear infinite;
+      }
+
+      @keyframes spin-pulse {
+        0% {
+          transform: rotate(0deg) scale(1);
+        }
+        50% {
+          transform: rotate(180deg) scale(1.2);
+        }
+        100% {
+          transform: rotate(360deg) scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="preloader" id="preloader">
+      <div class="spinner-rotate">
+        <img
+          src="images/recycle-sign.png"
+          alt="Loading..."
+          width="60"
+          height="60"
+        />
+      </div>
+    </section>
+
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="navbar-brand"><span>Plate2</span>♻️<span>Purpose</span></div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+      <h2>Welcome, Admin</h2>
+      <p>Manage your entire Plate2Purpose system from one place</p>
+    </div>
+
+    <!-- Navigation Cards -->
+    <div class="btn-container">
+      <div class="dashboard-card" onclick="location.href='users.html'">
+        <i class="bi bi-people-fill"></i>
+        <h4>Manage Users</h4>
+      </div>
+      <div
+        class="dashboard-card"
+        onclick="location.href='feedback receiver.html'"
+      >
+        <i class="bi bi-chat-dots"></i>
+        <h4>View Feedback</h4>
+      </div>
+      <div class="dashboard-card" onclick="location.href='payments.html'">
+        <i class="bi bi-credit-card"></i>
+        <h4>UPI Payments</h4>
+      </div>
+      <div
+        class="dashboard-card"
+        onclick="location.href='cafeteria dashboarddb.html'"
+      >
+        <i class="bi bi-list"></i>
+        <h4>Manage Cafeteria Database</h4>
+      </div>
+    </div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+      const client = supabase.createClient(
+        "YOUR_SUPABASE_URL",
+        "YOUR_SUPABASE_ANON_KEY"
+      );
+
+      async function logout() {
+        await client.auth.signOut();
+        window.location.href = "admin login.html";
+      }
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const preloader = document.getElementById("preloader");
+        window.addEventListener("load", () => {
+          preloader.style.opacity = "0";
+          setTimeout(() => {
+            preloader.style.display = "none";
+          }, 500);
+        });
+      });
+    </script>
+  </body>
+</html>

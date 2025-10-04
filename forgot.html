@@ -1,0 +1,209 @@
+<!-- forgot.html - Plate2Purpose Password Reset -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Plate2Purpose - Forgot Password</title>
+    <link rel="icon" href="images/recycle-sign.png" type="image/png" />
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Playfair+Display&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS FILES -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="css/magnific-popup.css" />
+    <link rel="stylesheet" href="css/tooplate-wedding-lite.css" />
+
+    <style>
+      .spinner-rotate img {
+        animation: spin 2s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .auth-form {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      }
+      .auth-form h2 {
+        font-family: "Amatic SC", cursive;
+        font-size: 36px;
+      }
+      .auth-form label {
+        font-weight: 600;
+        color: #374151;
+      }
+      .auth-form .form-control {
+        border-radius: 8px;
+      }
+      .btn-main {
+        background-color: #cb7575;
+        border: none;
+        padding: 10px;
+        font-weight: 600;
+        border-radius: 50px;
+        color: white;
+        transition: 0.3s;
+      }
+      .btn-main:hover {
+        background-color: #a84d4d;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Preloader -->
+    <section class="preloader">
+      <div class="spinner">
+        <span class="spinner-rotate">
+          <img
+            src="images/recycle-sign.png"
+            alt="Loading..."
+            style="width: 60px; height: 60px"
+          />
+        </span>
+      </div>
+    </section>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand mx-auto mx-lg-0">
+          <span>Plate</span><span class="brand-icon">2♻️</span
+          ><span>Purpose</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Forgot Password Section -->
+    <section class="people-section section-padding" id="section_4">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6 col-md-8 col-12">
+            <div class="auth-form">
+              <h2 class="text-center mb-4">Forgot Password</h2>
+
+              <!-- Step 1: Ask Email -->
+              <div id="step-email">
+                <label for="email" class="form-label">Enter your Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  class="form-control mb-3"
+                  placeholder="your@email.com"
+                  required
+                />
+                <button onclick="sendResetEmail()" class="btn btn-main w-100">
+                  Send Reset Link
+                </button>
+              </div>
+
+              <!-- Step 2: Reset Password (when user clicks email link) -->
+              <div id="step-password" style="display: none">
+                <label for="new-password" class="form-label"
+                  >New Password</label
+                >
+                <input
+                  type="password"
+                  id="new-password"
+                  class="form-control mb-3"
+                  placeholder="Enter new password"
+                  required
+                />
+                <button onclick="changePassword()" class="btn btn-main w-100">
+                  Change Password
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Floating AI Button -->
+    <div class="side-semicircle">
+      <div class="star star-1"></div>
+      <div class="star star-2"></div>
+      <div class="star star-3"></div>
+
+      <div class="semicircle-content">
+        <a
+          href="https://www.chatbase.co/chatbot-iframe/mNj1B_5a_O7dnNtvOHAJY"
+          class="rounded-button-link"
+        >
+          <i class="bi bi-cpu"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Supabase Auth -->
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
+    <script>
+      const client = supabase.createClient(
+        "https://pljmachiuahkrkiddehc.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsam1hY2hpdWFoa3JraWRkZWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMTAyNDEsImV4cCI6MjA2NjY4NjI0MX0.ke4EYw5lGX5DHrgu1GCDxRUbMYU-M6KzbLZVeesoVm8"
+      );
+
+      // Step 1: Send Reset Email
+      async function sendResetEmail() {
+        const email = document.getElementById("email").value.trim();
+        if (!email) return alert("❌ Please enter your email");
+
+        const { error } = await client.auth.resetPasswordForEmail(email, {
+          redirectTo: "https://candid-starlight-7ae662.netlify.app/forgot", // user returns here after clicking email link
+        });
+
+        if (error) {
+          alert("❌ " + error.message);
+        } else {
+          alert("✅ Password reset email sent! Check your inbox.");
+        }
+      }
+
+      // Step 2: Detect recovery mode (when user clicks link from email)
+      client.auth.onAuthStateChange((event, session) => {
+        if (event === "PASSWORD_RECOVERY") {
+          document.getElementById("step-email").style.display = "none";
+          document.getElementById("step-password").style.display = "block";
+        }
+      });
+
+      // Step 3: Change Password
+      async function changePassword() {
+        const newPass = document.getElementById("new-password").value.trim();
+        if (newPass.length < 6)
+          return alert("❌ Password must be at least 6 characters");
+
+        const { error } = await client.auth.updateUser({ password: newPass });
+
+        if (error) {
+          alert("❌ " + error.message);
+        } else {
+          window.location.href = "paschan.html"; // redirect to confirmation page
+        }
+      }
+    </script>
+
+    <!-- Core JS -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.sticky.js"></script>
+    <script src="js/click-scroll.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/magnific-popup-options.js"></script>
+    <script src="js/custom.js"></script>
+  </body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plate2Purpose - Admin Login</title>
+    <link rel="icon" href="images/recycle-sign.png" type="image/png" />
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: #fff5f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .login-box {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 18px;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 420px;
+        text-align: center;
+      }
+
+      .brand {
+        font-family: "Amatic SC", cursive;
+        font-size: 40px;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      .brand span {
+        color: #ff5500;
+      }
+
+      h5 {
+        color: #cb7575;
+        margin-bottom: 2rem;
+        font-weight: 600;
+      }
+
+      /* Google Button - border style */
+      .btn-google {
+        background: transparent;
+        color: #444;
+        border: 2px solid #db4437;
+        padding: 0.9rem;
+        font-weight: 600;
+        border-radius: 12px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      .btn-google:hover {
+        background-color: #db4437;
+        color: white;
+      }
+
+      .btn-google img {
+        width: 22px;
+        height: 22px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-box">
+      <div class="brand"><span>Plate2</span>♻️<span>Purpose</span></div>
+      <h5>Admin Login</h5>
+
+      <button class="btn-google" onclick="loginWithGoogle()">
+        <img
+          src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+          alt="Google logo"
+        />
+
+        Continue with Google
+      </button>
+    </div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="credentials.js"></script>
+    <script>
+      const client = supabase.createClient(
+        "https://pljmachiuahkrkiddehc.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsam1hY2hpdWFoa3JraWRkZWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMTAyNDEsImV4cCI6MjA2NjY4NjI0MX0.ke4EYw5lGX5DHrgu1GCDxRUbMYU-M6KzbLZVeesoVm8"
+      );
+
+      async function loginWithGoogle() {
+        const { data, error } = await client.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo: window.location.origin + "/admin dashboard.html",
+          },
+        });
+
+        if (error) {
+          alert("Login failed: " + error.message);
+        }
+      }
+    </script>
+  </body>
+</html>
