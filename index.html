@@ -153,6 +153,23 @@
   </head>
 
   <body>
+    <script>
+  // Handle OAuth redirect token
+        (function () {
+          if (window.location.hash) {
+            const params = new URLSearchParams(window.location.hash.substring(1));
+            const token = params.get('access_token');
+            if (token) {
+              localStorage.setItem('access_token', token);
+              console.log('Access token stored:', token);
+      
+              // Remove token from URL to clean up
+              history.replaceState(null, '', window.location.pathname + window.location.search);
+            }
+          }
+        })();
+    </script>
+
     <!-- Mobile Warning -->
 
     <!-- Preloader -->
