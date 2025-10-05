@@ -2562,38 +2562,38 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
     reader.readAsArrayBuffer(file);
   }
 </script>
-
 <style>
   .navbar {
-    transition: all 0.4s ease-in-out;
+    background: rgba(255, 255, 255, 0); /* keep transparent */
+    transition: all 0.4s ease;
   }
 
-  .navbar-collapse {
-    transition: all 0.4s ease-in-out;
-  }
-
-  /* Only affects mobile screens */
   @media (max-width: 991px) {
-    .navbar-collapse.collapse.show {
-      display: block !important;
-      position: relative;
-      width: 100%;
-      padding: 10px 0;
-      height: auto !important;
-      background: transparent !important; /* ✅ Keeps your original color */
+    /* Set transition for smooth open */
+    .navbar-collapse {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    /* When menu is open */
+    .navbar-collapse.show {
+      max-height: 300px; /* ✅ this increases the height visibly */
     }
 
     .navbar-nav {
-      width: 100%;
-      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 0;
     }
 
     .navbar-nav .nav-item {
       width: 100%;
-      padding: 10px 0;
+      text-align: center;
+      padding: 8px 0;
     }
 
-    .navbar-nav .nav-item .nav-link {
+    .navbar-nav .nav-link {
       font-size: 18px;
     }
 
@@ -2604,7 +2604,6 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
     }
   }
 </style>
-
 
 
 
