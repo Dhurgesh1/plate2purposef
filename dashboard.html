@@ -667,42 +667,29 @@
   <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
     <div class="container">
       <a href="dashboard.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
-        <span style="color: #ff5500;">Plate </span>
-        <span class="brand-icon" style="color: #ff5500;">2♻️</span>
-        <span style="color: #ff5500;">Purpose</span>
+        <span style="color: #ff5500;">Plate </span><span class="brand-icon" style="color: #ff5500;">2♻️</span><span style="color: #ff5500;">Purpose</span>
       </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
       <div class="collapse navbar-collapse" id="navbarNav">
+        
         <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item">
-            <a class="nav-link active" href="dashboard.html">DASHBOARD</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about2.html">ABOUT US</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact2.html">CONTACT US</a>
-          </li>
-          <li class="nav-item">
-            <button id="saveBtn" class="btn btn-outline-primary d-flex align-items-center gap-2 ms-3">
-              <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
-              <span id="saveText">Save Changes</span>
-            </button>
-          </li>
+          <li class="nav-item"><a class="nav-link active" href="dashboard.html">DASHBOARD</a></li>
+          <li class="nav-item"><a class="nav-link" href="about2.html">ABOUT US</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact2.html">CONTACT US</a></li>
+          <button id="saveBtn" class="btn btn-outline-primary d-flex align-items-center gap-2">
+            <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
+            <span id="saveText">Save Changes</span>
+          </button>
+
+
+
+
+
+
+
         </ul>
       </div>
     </div>
   </nav>
-
-
-  
 
   <div class="sidebar">
     <a href="#" class="sidebar-link active" data-target="attendance"><i class="bi bi-people-fill"></i> Attendance</a>
@@ -2563,49 +2550,57 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
   }
 </script>
 
-<style>
-  .navbar {
-    transition: all 0.4s ease-in-out;
+<script>
+async function saveUpiId() {
+  const upiId = document.getElementById("upiIdInput").value.trim();
+  if (!upiId) {
+    alert("Please enter a valid UPI ID.");
+    return;
   }
 
-  .navbar-collapse {
-    transition: all 0.4s ease-in-out;
+  const { data: { user }, error } = await client.auth.getUser();
+  if (error || !user) {
+    alert("❌ Unable to fetch user session.");
+    return;
   }
 
-  /* Only affects mobile screens */
-  @media (max-width: 991px) {
-    .navbar-collapse.collapse.show {
-      display: block !important;
-      position: relative;
-      width: 100%;
-      padding: 10px 0;
-      height: auto !important;
-      background: transparent !important; /* ✅ Keeps your original color */
-    }
+  // Generate QR code link (Google Charts API or QR server)
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(user.user_metadata?.full_name || "User")}`;
 
-    .navbar-nav {
-      width: 100%;
-      text-align: center;
-    }
+  // Save to Supabase
+  const { error: upiError } = await client
+    .from("upi_details")
+    .upsert([{ user_id: user.id, upi_id: upiId, qr_code_url: qrUrl }], { onConflict: ["user_id"] });
 
-    .navbar-nav .nav-item {
-      width: 100%;
-      padding: 10px 0;
-    }
-
-    .navbar-nav .nav-item .nav-link {
-      font-size: 18px;
-    }
-
-    #saveBtn {
-      width: 80%;
-      margin: 10px auto;
-      display: block;
-    }
+  if (upiError) {
+    alert("❌ Failed to save UPI ID.");
+    return;
   }
-</style>
 
+  alert("✅ UPI ID saved successfully!");
+  loadUpiDetails();
+}
 
+async function loadUpiDetails() {
+  const { data: { user } } = await client.auth.getUser();
+  if (!user) return;
+
+  const { data, error } = await client
+    .from("upi_details")
+    .select("*")
+    .eq("user_id", user.id)
+    .single();
+
+  if (error || !data) return;
+
+  document.getElementById("upiDisplay").style.display = "block";
+  document.getElementById("upiIdText").innerText = data.upi_id;
+  document.getElementById("upiQrCode").src = data.qr_code_url;
+}
+
+// Load on page start
+document.addEventListener("DOMContentLoaded", loadUpiDetails);
+</script>
 
 
 
