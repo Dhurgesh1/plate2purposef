@@ -861,20 +861,30 @@
       z-index: 9999;
     }
 
-    /* Make logo responsive */
+    /* Adjusted preloader logo size */
     #preloader img {
-      width: 20vw;      /* 20% of viewport width */
-      max-width: 180px; /* Limit max size on big screens */
-      min-width: 90px;  /* Prevent too small on phones */
+      width: 28vw;        /* takes about 1/4 of the laptop screen width */
+      max-width: 260px;   /* limits it on large screens */
+      min-width: 120px;   /* ensures it's visible on phones */
       height: auto;
     }
 
-    /* On very small screens */
-    @media (max-width: 576px) {
+    /* For tablets (medium devices) */
+    @media (max-width: 992px) {
       #preloader img {
-        width: 40vw;
+        width: 35vw;
+        max-width: 220px;
       }
     }
+
+    /* For phones (small devices) */
+    @media (max-width: 576px) {
+      #preloader img {
+        width: 50vw;
+        max-width: 180px;
+      }
+    }
+
 
 
     /* ...existing code... */
