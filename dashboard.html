@@ -724,6 +724,15 @@ img, .card-img-top, .preloader img, .preloader-img {
     align-items: flex-start;
     padding-top: 40px;
   }
+
+  /* Make profile box fill more horizontal space on phones */
+  .profile-box {
+      max-width: none;             /* allow full width */
+      width: calc(100% - 12px);    /* leave small horizontal padding */
+      margin: 0 6px;               /* match container padding */
+      box-sizing: border-box;      /* include padding in width */
+      padding: 12px;               /* slightly tighter padding for phones */
+    }
 }
 
 /* Desktop tweak: keep preloader logo modest on big screens */
@@ -2724,7 +2733,6 @@ async function loadUpiDetails() {
 // Load on page start
 document.addEventListener("DOMContentLoaded", loadUpiDetails);
 </script>
-
 
 
 
