@@ -2563,27 +2563,26 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
   }
 </script>
 <style>
-  /* Make navbar transition smoothly */
+  /* Smooth navbar transitions */
   .navbar {
     transition: all 0.4s ease-in-out;
   }
 
-  /* When expanded, allow height to auto-adjust */
   .navbar-collapse {
     transition: all 0.4s ease-in-out;
   }
 
-  /* Fix overlapping issue and make full background when expanded */
+  /* For mobile screens */
   @media (max-width: 991px) {
     .navbar {
-      background: white; /* or your theme color */
+      background: #cb7575; /* your theme color */
     }
 
     .navbar-collapse.collapse.show {
       display: block !important;
       position: relative;
       width: 100%;
-      background: white;
+      background: #cb7575; /* match theme color */
       padding: 10px 0;
       height: auto !important;
     }
@@ -2600,15 +2599,34 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
 
     .navbar-nav .nav-item .nav-link {
       font-size: 18px;
+      color: white !important; /* readable on dark bg */
     }
 
     #saveBtn {
       width: 80%;
       margin: 10px auto;
       display: block;
+      background: white;
+      color: #cb7575;
+      border-color: white;
     }
   }
 </style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const navbar = document.querySelector(".navbar");
+    const collapse = document.querySelector("#navbarNav");
+
+    collapse.addEventListener("shown.bs.collapse", () => {
+      navbar.classList.add("expanded");
+    });
+
+    collapse.addEventListener("hidden.bs.collapse", () => {
+      navbar.classList.remove("expanded");
+    });
+  });
+</script>
 
 
 
