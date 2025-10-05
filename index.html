@@ -341,36 +341,44 @@
     </script>
     <script>
       function removeHeroImageOnMobile() {
-        const heroSection = document.querySelector(".hero-section");
-        if (!heroSection) return;
+        const hero = document.querySelector(".hero-section");
+        if (!hero) return;
 
-        // Detect mobile or tablet
         const isMobileOrTablet = window.innerWidth < 992;
 
         if (isMobileOrTablet) {
-          heroSection.style.setProperty(
-            "background-image",
-            "none",
-            "important"
-          );
-          heroSection.style.setProperty(
-            "background-color",
-            "#cb7575",
-            "important"
-          );
-          heroSection.style.setProperty("min-height", "auto", "important");
-          heroSection.style.setProperty("padding", "100px 20px", "important");
-        } else {
-          // Optional: restore original background for desktop
-          heroSection.style.removeProperty("background-image");
-          heroSection.style.removeProperty("background-color");
+          // Force remove all possible background images
+          hero.style.cssText += `
+        background-image: none !important;
+        background: #cb7575 !important;
+      `;
+
+          // Remove from all children too (in case CSS adds via inner containers)
+          hero.querySelectorAll("*").forEach((el) => {
+            el.style.backgroundImage = "none";
+          });
+
+          // Create an inline <style> override that removes any ::before or ::after backgrounds
+          const existing = document.getElementById("force-remove-bg");
+          if (!existing) {
+            const style = document.createElement("style");
+            style.id = "force-remove-bg";
+            style.textContent = `
+          @media (max-width: 992px) {
+            .hero-section::before,
+            .hero-section::after {
+              background-image: none !important;
+              background: none !important;
+              content: none !important;
+            }
+          }
+        `;
+            document.head.appendChild(style);
+          }
         }
       }
 
-      // Run once on load
       document.addEventListener("DOMContentLoaded", removeHeroImageOnMobile);
-
-      // Run again on resize
       window.addEventListener("resize", removeHeroImageOnMobile);
     </script>
   </body>
