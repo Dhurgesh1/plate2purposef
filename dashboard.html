@@ -2563,54 +2563,71 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
   }
 </script>
 <style>
-  /* Smooth navbar transitions */
-  .navbar {
-    transition: all 0.4s ease-in-out;
+ /* ===== Navbar Style ===== */
+nav {
+  background-color: #fff5f0;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, height 0.3s ease;
+}
+
+nav img {
+  height: 60px;
+  width: auto;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  margin: 0 18px;
+}
+
+nav ul li a {
+  color: #333;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #ff884d;
+}
+
+/* Responsive Navbar */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+    height: auto;
   }
 
-  .navbar-collapse {
-    transition: all 0.4s ease-in-out;
+  nav ul {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
   }
 
-  /* For mobile screens */
-  @media (max-width: 991px) {
-    .navbar {
-      background: #cb7575; /* your theme color */
-    }
-
-    .navbar-collapse.collapse.show {
-      display: block !important;
-      position: relative;
-      width: 100%;
-      background: #cb7575; /* match theme color */
-      padding: 10px 0;
-      height: auto !important;
-    }
-
-    .navbar-nav {
-      width: 100%;
-      text-align: center;
-    }
-
-    .navbar-nav .nav-item {
-      width: 100%;
-      padding: 10px 0;
-    }
-
-    .navbar-nav .nav-item .nav-link {
-      font-size: 18px;
-      color: white !important; /* readable on dark bg */
-    }
-
-    #saveBtn {
-      width: 80%;
-      margin: 10px auto;
-      display: block;
-      background: white;
-      color: #cb7575;
-      border-color: white;
-    }
+  nav ul li {
+    margin: 10px 0;
   }
+}
+
 </style>
 
 <script>
