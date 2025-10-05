@@ -13,6 +13,51 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
   <style>
+    /* Background blur only */
+    #blurBackground {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(5px);
+      z-index: 998;
+    }
+
+    /* Full-screen overlay container */
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Centered drag modal */
+    #dropModal {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      border: 2px dashed #0d6efd;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      animation: popup 0.3s ease-in-out;
+      z-index: 1000;
+    }
+
+    @keyframes popup {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+
+
+
+  <style>
     
     body {
       margin: 0;
@@ -555,6 +600,100 @@
       background-color: #cb7575;
       color: white;
     }
+    /* ===== Sidebar ===== */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh; /* full height */
+      width: 220px;
+      background-color: #fff5f0; /* light peach background */
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 0;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      transition: all 0.3s ease;
+      font-family: 'Amatic SC', cursive;
+    }
+
+    /* Sidebar links */
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      font-size: 20px;
+      color: #333;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-link i {
+      font-size: 20px;
+    }
+
+    .sidebar-link:hover,
+    .sidebar-link.active {
+      background-color: #cb7575; /* active/hover color */
+      color: white;
+      border-radius: 8px;
+    }
+
+    /* Switch mode button */
+    .switch-mode-btn {
+      margin: 20px;
+      padding: 10px 15px;
+      background-color: #ff9c7a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .switch-mode-btn:hover {
+      background-color: #cb5750;
+    }
+
+    /* Profile box at the bottom */
+    .profile-box {
+      background-color: #ffd9cc;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 20px;
+      margin-top: auto;
+      text-align: center;
+    }
+
+    .profile-box .profile-name {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .profile-box .profile-email {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .profile-box button {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    /* Responsive: collapse sidebar on smaller screens */
+    @media (max-width: 991px) {
+      .sidebar {
+        width: 0;
+        overflow: hidden;
+      }
+      .sidebar.show {
+        width: 220px;
+      }
+    }
+
 
 
 
@@ -657,100 +796,8 @@
     </div>
   </nav>
 
-  <style>
-    /* Sidebar default */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 260px;
-  height: 100vh;
-  background-color: #fff;
-  box-shadow: 2px 0 6px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  padding-top: 60px; /* space for navbar */
-}
-
-/* Sidebar links */
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  padding: 12px 20px;
-  font-size: 1rem;
-  color: #333;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-
-.sidebar-link:hover {
-  background-color: #f0f0f0;
-}
-
-.sidebar-link.active {
-  background-color: #ffe6cc;
-  font-weight: 600;
-}
-
-/* Profile box at bottom */
-.profile-box {
-  margin-top: auto;
-  padding: 16px;
-  border-top: 1px solid #eee;
-  text-align: center;
-}
-
-/* Sidebar collapsed for mobile */
-.sidebar.collapsed {
-  transform: translateX(-100%);
-}
-
-/* Main content */
-.main {
-  margin-left: 260px;
-  transition: margin-left 0.3s ease;
-}
-
-/* When sidebar is collapsed (mobile) */
-.main.expanded {
-  margin-left: 0;
-}
-
-/* Toggle button */
-#sidebarToggleBtn {
-  display: none;
-  position: fixed;
-  top: 80px;
-  left: 10px;
-  z-index: 1001;
-  background: #ff5500;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 18px;
-}
-
-/* Show toggle button on mobile */
-@media (max-width: 991px) {
-  #sidebarToggleBtn {
-    display: block;
-  }
-
-  .main {
-    margin-left: 0;
-  }
-}
-
-
-  </style>
-
 
   
-
-  <button id="sidebarToggleBtn" onclick="toggleSidebar()">☰</button>
 
   <div class="sidebar">
     <a href="#" class="sidebar-link active" data-target="attendance"><i class="bi bi-people-fill"></i> Attendance</a>
@@ -758,18 +805,24 @@
     <a href="#" class="sidebar-link" data-target="payments"><i class="bi bi-credit-card"></i> UPI Payments</a>
     <a href="#" class="sidebar-link" data-target="menu"><i class="bi bi-list"></i> Menu</a>
     <a href="#" class="sidebar-link" data-target="feedback"><i class="bi bi-chat-dots"></i> Feedback</a>
-  
-    <div class="profile-box" onclick="openProfileModal()" style="cursor:pointer;">
+    <button class="switch-mode-btn" id="modeSwitchBtn" onclick="switchMode()">
+      Switch Mode
+    </button>
+
+
+
+    
+
+
+    <div class="profile-box text-center mx-3 p-3 mt-auto" onclick="openProfileModal()" style="cursor: pointer;">
       <div class="profile-name fw-semibold" id="profileNameDisplay">Dhurgesh Maloth</div>
       <div class="profile-email text-muted small" id="profileEmailDisplay">malothdhurgesh@gmail.com</div>
+      
       <button class="btn btn-outline-danger btn-sm mt-2 w-100" onclick="logout(); event.stopPropagation();">Logout</button>
     </div>
-  </div>
-  
-  <div class="main">
-    <!-- Your main content goes here -->
-  </div>
 
+
+  </div>
 
   <div class="main">
     <div id="attendance" class="section active">
@@ -2696,4 +2749,5 @@ document.addEventListener("DOMContentLoaded", loadUpiDetails);
 
 </body>
 </html>
+
 
