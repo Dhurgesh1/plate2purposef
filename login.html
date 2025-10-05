@@ -528,7 +528,7 @@
               options: {
                 data: { full_name: name },
                 emailRedirectTo:
-                  "https://candid-starlight-7ae662.netlify.app/logcon", // must match Supabase settings
+                  "https://dhurgesh1.github.io/plate2purposef/logcon", // must match Supabase settings
               },
             });
 
@@ -563,7 +563,7 @@
             .send("service_fuudr8t", "template_13rkc9z", {
               user_email: userEmail,
               user_name: userName,
-              confirmation_link: "http://localhost:5500/dashboard.html",
+              confirmation_link: "https://dhurgesh1.github.io/plate2purposef/dashboard",
             })
             .then((res) => {
               alert("Confirmation email sent!");
@@ -620,7 +620,7 @@
         client.auth.signInWithOAuth({
           provider: "google",
           options: {
-            redirectTo: "http://localhost:5500/auth-callback.html", // ✅ must match
+            redirectTo: "https://dhurgesh1.github.io/plate2purposef/auth-callback", // ✅ must match
             queryParams: { prompt: "select_account" },
           },
         });
@@ -688,7 +688,7 @@
         }
 
         const { data, error } = await client.auth.resetPasswordForEmail(email, {
-          redirectTo: "https://candid-starlight-7ae662.netlify.app/forgot", // page where user will set new password
+          redirectTo: "https://dhurgesh1.github.io/plate2purposef/forgot", // page where user will set new password
         });
 
         if (error) {
