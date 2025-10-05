@@ -667,29 +667,42 @@
   <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
     <div class="container">
       <a href="dashboard.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
-        <span style="color: #ff5500;">Plate </span><span class="brand-icon" style="color: #ff5500;">2♻️</span><span style="color: #ff5500;">Purpose</span>
+        <span style="color: #ff5500;">Plate </span>
+        <span class="brand-icon" style="color: #ff5500;">2♻️</span>
+        <span style="color: #ff5500;">Purpose</span>
       </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        
         <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item"><a class="nav-link active" href="dashboard.html">DASHBOARD</a></li>
-          <li class="nav-item"><a class="nav-link" href="about2.html">ABOUT US</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact2.html">CONTACT US</a></li>
-          <button id="saveBtn" class="btn btn-outline-primary d-flex align-items-center gap-2">
-            <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
-            <span id="saveText">Save Changes</span>
-          </button>
-
-
-
-
-
-
-
+          <li class="nav-item">
+            <a class="nav-link active" href="dashboard.html">DASHBOARD</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about2.html">ABOUT US</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact2.html">CONTACT US</a>
+          </li>
+          <li class="nav-item">
+            <button id="saveBtn" class="btn btn-outline-primary d-flex align-items-center gap-2 ms-3">
+              <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
+              <span id="saveText">Save Changes</span>
+            </button>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
+
+
+  
 
   <div class="sidebar">
     <a href="#" class="sidebar-link active" data-target="attendance"><i class="bi bi-people-fill"></i> Attendance</a>
