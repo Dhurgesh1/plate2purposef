@@ -341,7 +341,6 @@
     </script>
     <script>
       (function () {
-        // Inject strong CSS overrides (handles ::before, ::after, etc.)
         function injectOverrideCSS() {
           if (document.getElementById("no-hero-bg-style")) return;
           const style = document.createElement("style");
@@ -352,9 +351,9 @@
         html.no-hero-bg .hero-section::before,
         html.no-hero-bg .hero-section::after,
         html.no-hero-bg .hero-section * {
-          background: #FFE5B4 !important;
+          background: #FFF2E6 !important; /* 💎 very light peach */
           background-image: none !important;
-          background-color: #FFE5B4 !important;
+          background-color: #FFF2E6 !important;
           content: none !important;
           box-shadow: none !important;
         }
@@ -363,7 +362,6 @@
           document.head.appendChild(style);
         }
 
-        // Main logic
         function handleHeroForMobile() {
           const hero = document.querySelector(".hero-section");
           if (!hero) return;
@@ -375,28 +373,26 @@
           if (isMobile) {
             document.documentElement.classList.add("no-hero-bg");
 
-            // Inline overrides — strongest effect
-            hero.style.setProperty("background", "#FFE5B4", "important");
+            hero.style.setProperty("background", "#FFF2E6", "important");
             hero.style.setProperty("background-image", "none", "important");
-            hero.style.setProperty("background-color", "#FFE5B4", "important");
+            hero.style.setProperty("background-color", "#FFF2E6", "important");
             hero.style.setProperty("min-height", "auto", "important");
             hero.style.setProperty("padding", "100px 20px", "important");
 
-            // Hide any <img> backgrounds inside hero
             hero.querySelectorAll("img").forEach((img) => {
               img.style.setProperty("display", "none", "important");
               img.style.setProperty("visibility", "hidden", "important");
             });
 
-            // Remove child background images
             hero.querySelectorAll("*").forEach((el) => {
               el.style.setProperty("background-image", "none", "important");
-              el.style.setProperty("background-color", "#FFE5B4", "important");
+              el.style.setProperty("background-color", "#FFF2E6", "important");
             });
 
-            console.log("[hero-bg] removed & set to light peach for mobile");
+            console.log(
+              "[hero-bg] removed & set to very light peach for mobile"
+            );
           } else {
-            // Restore desktop defaults
             document.documentElement.classList.remove("no-hero-bg");
             hero.removeAttribute("style");
             hero.querySelectorAll("img").forEach((img) => {
@@ -407,7 +403,6 @@
           }
         }
 
-        // Run now and when resized/orientation changes
         document.addEventListener("DOMContentLoaded", handleHeroForMobile);
         window.addEventListener("resize", handleHeroForMobile);
         window.addEventListener("orientationchange", handleHeroForMobile);
