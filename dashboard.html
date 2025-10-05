@@ -2563,85 +2563,50 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
   }
 </script>
 
-<script>
-async function saveUpiId() {
-  const upiId = document.getElementById("upiIdInput").value.trim();
-  if (!upiId) {
-    alert("Please enter a valid UPI ID.");
-    return;
-  }
-
-  const { data: { user }, error } = await client.auth.getUser();
-  if (error || !user) {
-    alert("❌ Unable to fetch user session.");
-    return;
-  }
-
-  // Generate QR code link (Google Charts API or QR server)
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(user.user_metadata?.full_name || "User")}`;
-
-  // Save to Supabase
-  const { error: upiError } = await client
-    .from("upi_details")
-    .upsert([{ user_id: user.id, upi_id: upiId, qr_code_url: qrUrl }], { onConflict: ["user_id"] });
-
-  if (upiError) {
-    alert("❌ Failed to save UPI ID.");
-    return;
-  }
-
-  alert("✅ UPI ID saved successfully!");
-  loadUpiDetails();
-}
-
-async function loadUpiDetails() {
-  const { data: { user } } = await client.auth.getUser();
-  if (!user) return;
-
-  const { data, error } = await client
-    .from("upi_details")
-    .select("*")
-    .eq("user_id", user.id)
-    .single();
-
-  if (error || !data) return;
-
-  document.getElementById("upiDisplay").style.display = "block";
-  document.getElementById("upiIdText").innerText = data.upi_id;
-  document.getElementById("upiQrCode").src = data.qr_code_url;
-}
-
-// Load on page start
-document.addEventListener("DOMContentLoaded", loadUpiDetails);
-</script>
-
 <style>
-  /* Ensure the navbar grows smoothly when expanded */
+  /* Make navbar transition smoothly */
+  .navbar {
+    transition: all 0.4s ease-in-out;
+  }
+
+  /* When expanded, allow height to auto-adjust */
   .navbar-collapse {
-    transition: max-height 0.5s ease;
-    overflow: hidden;
-    max-height: 0; /* collapsed by default */
+    transition: all 0.4s ease-in-out;
   }
 
-  .navbar-collapse.show {
-    max-height: 500px; /* adjust according to number of items */
-  }
-
-  /* Optional: Make button full width on mobile */
+  /* Fix overlapping issue and make full background when expanded */
   @media (max-width: 991px) {
-    #saveBtn {
-      width: 100%;
-      margin-top: 10px;
+    .navbar {
+      background: white; /* or your theme color */
     }
 
-    .navbar-nav .nav-item {
+    .navbar-collapse.collapse.show {
+      display: block !important;
+      position: relative;
+      width: 100%;
+      background: white;
+      padding: 10px 0;
+      height: auto !important;
+    }
+
+    .navbar-nav {
       width: 100%;
       text-align: center;
     }
 
-    .navbar-nav .nav-item .nav-link {
-      display: block;
+    .navbar-nav .nav-item {
+      width: 100%;
       padding: 10px 0;
+    }
+
+    .navbar-nav .nav-item .nav-link {
+      font-size: 18px;
+    }
+
+    #saveBtn {
+      width: 80%;
+      margin: 10px auto;
+      display: block;
     }
   }
 </style>
