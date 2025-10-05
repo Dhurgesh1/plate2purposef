@@ -347,7 +347,7 @@
           style.id = "no-hero-bg-style";
           style.textContent = `
       @media (max-width: 991px) {
-        /* ✅ Apply very light peach background ONLY to the hero section */
+        /* ✅ Hero background: very light peach */
         html.no-hero-bg .hero-section,
         html.no-hero-bg .hero-section::before,
         html.no-hero-bg .hero-section::after {
@@ -358,13 +358,26 @@
           box-shadow: none !important;
         }
 
-        /* ✅ Do NOT override styles inside buttons or links */
-        html.no-hero-bg .hero-section button,
-        html.no-hero-bg .hero-section a,
-        html.no-hero-bg .hero-section .btn {
-          background: initial !important;
-          background-color: initial !important;
-          color: inherit !important;
+        /* ✅ Restore “Discover More” button with original #cb7575 color */
+        html.no-hero-bg .hero-section .custom-btn,
+        html.no-hero-bg .hero-section a.custom-link.btn {
+          background-color: #cb7575 !important;
+          color: #ffffff !important;
+          border: 2px solid #cb7575 !important;
+          border-radius: 30px !important;
+          font-family: 'Amatic SC', cursive !important;
+          font-size: 24px !important;
+          padding: 6px 22px !important;
+          display: inline-block !important;
+          text-decoration: none !important;
+          transition: all 0.3s ease-in-out !important;
+        }
+
+        /* ✅ Hover effect (slightly brighter) */
+        html.no-hero-bg .hero-section .custom-btn:hover {
+          background-color: #d98484 !important;
+          border-color: #d98484 !important;
+          color: #fff !important;
         }
       }
     `;
@@ -381,21 +394,19 @@
           if (isMobile) {
             document.documentElement.classList.add("no-hero-bg");
 
-            // Only modify the hero container itself
             hero.style.setProperty("background", "#FFF2E6", "important");
             hero.style.setProperty("background-image", "none", "important");
             hero.style.setProperty("background-color", "#FFF2E6", "important");
             hero.style.setProperty("min-height", "auto", "important");
             hero.style.setProperty("padding", "100px 20px", "important");
 
-            // Hide hero images if any
             hero.querySelectorAll("img").forEach((img) => {
               img.style.setProperty("display", "none", "important");
               img.style.setProperty("visibility", "hidden", "important");
             });
 
             console.log(
-              "[hero-bg] removed; hero now light peach; buttons preserved"
+              "[hero-bg] removed; hero light peach; button restored (#cb7575)"
             );
           } else {
             document.documentElement.classList.remove("no-hero-bg");
