@@ -21,7 +21,7 @@
     <link href="css/tooplate-wedding-lite.css" rel="stylesheet" />
 
     <style>
-      /* 🔄 Spinner Animation */
+      /* Spinner Animation for Preloader */
       .spinner-rotate img {
         animation: spin 2s linear infinite;
       }
@@ -34,7 +34,7 @@
         }
       }
 
-      /* 💬 Side AI Button */
+      /* Side Semicircle */
       .side-semicircle {
         position: fixed;
         bottom: 30px;
@@ -49,8 +49,14 @@
         padding: 0 15px 0 10px;
         box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
         z-index: 10;
+        overflow: hidden;
       }
-
+      .side-semicircle .semicircle-content {
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+      }
       .rounded-button-link {
         background-color: white;
         border-radius: 50%;
@@ -66,182 +72,155 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         transition: transform 0.3s ease;
       }
-
       .rounded-button-link:hover {
         transform: scale(1.1);
       }
-
       .semicircle-label {
         font-family: "Amatic SC", cursive;
         font-size: 22px;
         color: white;
         white-space: nowrap;
       }
-
-      /* 🌀 Preloader Logo */
-      .preloader .spinner-rotate img {
-        width: 60px;
-        height: auto;
+      .star {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background-image: url("data:image/svg+xml;utf8,<svg fill='white' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><polygon points='12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9'/></svg>");
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0.8;
+        filter: drop-shadow(0 0 4px white);
+        animation: twinkle 2s infinite ease-in-out;
+        z-index: 1;
+      }
+      .star-1 {
+        top: 10px;
+        right: 10px;
+        animation-delay: 0s;
+      }
+      .star-2 {
+        top: 25px;
+        right: 30px;
+        animation-delay: 0.4s;
+      }
+      .star-3 {
+        top: 40px;
+        right: 15px;
+        animation-delay: 0.8s;
+      }
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.3;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.8);
+        }
       }
 
-      /* 🖼️ Global Image Responsiveness */
-      img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-      }
-
-      /* 🧱 HERO SECTION — left aligned & fixed gap */
-      .hero-section {
-        position: relative;
-        background-size: cover !important;
-        background-position: center !important;
-        background-repeat: no-repeat !important;
-        background-attachment: scroll !important;
-        min-height: 100vh;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        text-align: left;
-      }
-
-      .hero-container {
-        display: flex;
-        flex-direction: column;
+      /* Mobile / Small Screen Warning Overlay */
+      #desktop-warning {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(135deg, #cb7575, #a94442);
+        color: white;
+        font-family: "Amatic SC", cursive;
+        z-index: 999999;
         justify-content: center;
-        align-items: flex-start;
-        height: 100%;
-        width: 100%;
-        padding-left: 5%;
-        padding-right: 5%;
+        align-items: center;
+        animation: fadeIn 0.5s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .warning-box {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px 40px;
+        border-radius: 20px;
+        text-align: center;
+        max-width: 400px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(8px);
+      }
+      .warning-logo {
+        width: 80px;
+        margin-bottom: 15px;
+        animation: pulse 1.5s infinite;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 0.9;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 0.9;
+        }
+      }
+      .warning-box h1 {
+        font-size: 36px;
+        margin-bottom: 10px;
+      }
+      .warning-box p {
+        font-size: 20px;
+        line-height: 1.4;
+        color: white;
       }
 
-      .hero-section h1,
-      .hero-section h2 {
-        text-align: left;
-        margin: 0;
+      /* News Section Styles */
+      #news-section {
+        padding: 60px 15px;
       }
-
-      .hero-section a.custom-btn {
-        align-self: flex-start;
-        margin-top: 20px;
-      }
-
-      /* 💡 Remove any top gap caused by sticky/fixed navbar */
-      body {
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-      }
-
-      .navbar.fixed-top + .hero-section,
-      .navbar.sticky-top + .hero-section {
-        margin-top: 0 !important;
-        padding-top: 0 !important;
-      }
-
-      /* 🗞️ News Section */
-      #newsContainer img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
-      }
-
       #newsContainer .card {
         border: none;
         border-radius: 15px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         transition: transform 0.2s ease-in-out;
       }
-
       #newsContainer .card:hover {
         transform: translateY(-5px);
       }
-
-      /* 📱 MOBILE OPTIMIZATION */
-      @media (max-width: 768px) {
-        .hero-section {
-          min-height: 100vh;
-          height: auto;
-          background-position: center top !important;
-          padding: 80px 20px 60px 20px;
-        }
-
-        .hero-section h1.hero-title {
-          font-size: 1.7rem;
-          line-height: 1.3;
-        }
-
-        .hero-section h2 {
-          font-size: 1.1rem;
-        }
-
-        .side-semicircle {
-          bottom: 15px;
-          height: 50px;
-          padding: 0 10px;
-        }
-
-        .rounded-button-link {
-          width: 32px;
-          height: 32px;
-          font-size: 16px;
-        }
-
-        .semicircle-label {
-          font-size: 18px;
-        }
-      }
-
-      /* 💻 Slightly smaller preloader icon on big screens */
-      @media (min-width: 992px) {
-        .preloader .spinner-rotate img {
-          width: 48px;
-        }
-      }
-      html,
-      body {
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-      html,
-      body {
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow-x: hidden;
-      }
-
-      .navbar {
-        margin-bottom: 0 !important;
-        padding-bottom: 0 !important;
-      }
-
-      .hero-section {
-        margin-top: 0 !important;
-        padding-top: 0 !important;
-        background-size: cover !important;
-        background-position: center !important;
-        background-repeat: no-repeat !important;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-      }
-
-      .hero-container {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        padding: 0 5%;
+      #newsContainer img {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        height: 180px;
+        object-fit: cover;
       }
     </style>
   </head>
 
   <body>
+    <!-- Mobile Warning -->
+    <div id="desktop-warning">
+      <div class="warning-box">
+        <img
+          src="images/recycle-sign.png"
+          alt="Plate2Purpose Logo"
+          class="warning-logo"
+        />
+        <h1>⚠ Open on Laptop</h1>
+        <p>
+          For the best experience, please use a laptop or desktop.<br />
+          Mobile screens are not supported yet.
+        </p>
+      </div>
+    </div>
+
     <!-- Preloader -->
     <section class="preloader" id="preloader">
       <div class="spinner">
@@ -249,7 +228,7 @@
           <img
             src="images/recycle-sign.png"
             alt="Loading..."
-            class="img-fluid"
+            style="width: 60px; height: 60px"
           />
         </span>
       </div>
@@ -302,45 +281,48 @@
     </nav>
 
     <!-- Hero Section -->
-    <!-- Hero Section -->
-    <!-- Hero Section -->
     <main>
-      <section class="hero-section" id="section_1">
-        <div class="container-fluid px-0">
-          <div
-            class="hero-container d-flex flex-column justify-content-center align-items-start px-4"
-          >
-            <h2>♻️ From Waste to Worth</h2>
-            <h1 class="text-white hero-title mb-4">
-              Let's Clean, Create, and Conserve!
-            </h1>
-            <a href="about.html" class="custom-link custom-btn btn mt-4"
-              >Discover More</a
-            >
+      <section class="hero-section d-flex" id="section_1">
+        <div
+          class="hero-container container d-flex flex-column justify-content-end"
+        >
+          <div class="row h-100">
+            <div class="col-lg-6 col-12 my-auto">
+              <h2>♻️ From Waste to Worth</h2>
+              <h1 class="text-white hero-title mb-4">
+                Let's Clean, Create, and Conserve!
+              </h1>
+              <a href="about.html" class="custom-link custom-btn btn mt-4"
+                >Discover More</a
+              >
+            </div>
           </div>
         </div>
       </section>
+
+      <!-- News Section -->
+      <section id="news-section" class="container my-5">
+        <div class="text-center mb-4">
+          <button id="loadNewsBtn" class="btn btn-dark px-4 py-2 rounded-pill">
+            📢 Get Food Waste News
+          </button>
+        </div>
+        <div id="newsContainer" class="row g-4 justify-content-center"></div>
+      </section>
+
+      <!-- Side AI Button -->
+      <div class="side-semicircle">
+        <div class="star star-1"></div>
+        <div class="star star-2"></div>
+        <div class="star star-3"></div>
+        <div class="semicircle-content">
+          <a href="chatbot.html" class="rounded-button-link" target="_blank">
+            <i class="bi bi-cpu"></i>
+          </a>
+          <span class="semicircle-label">AI</span>
+        </div>
+      </div>
     </main>
-
-    <!-- News Section -->
-    <section id="news-section" class="container my-5">
-      <div class="text-center mb-4">
-        <button id="loadNewsBtn" class="btn btn-dark px-4 py-2 rounded-pill">
-          📢 Get Food Waste News
-        </button>
-      </div>
-      <div id="newsContainer" class="row g-4 justify-content-center"></div>
-    </section>
-
-    <!-- Side AI Button -->
-    <div class="side-semicircle">
-      <div class="semicircle-content">
-        <a href="chatbot.html" class="rounded-button-link" target="_blank">
-          <i class="bi bi-cpu"></i>
-        </a>
-        <span class="semicircle-label">AI</span>
-      </div>
-    </div>
 
     <!-- JS Files -->
     <script src="js/jquery.min.js"></script>
@@ -350,6 +332,24 @@
     <script src="js/jquery.magnific-popup.min.js"></script>
     <script src="js/magnific-popup-options.js"></script>
     <script src="js/custom.js"></script>
+
+    <!-- Device Check Script -->
+    <script>
+      function checkDevice() {
+        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+        const isSmallScreen = window.innerWidth < 768;
+
+        if (isMobile || isSmallScreen) {
+          document.getElementById("desktop-warning").style.display = "flex";
+          document.body.style.overflow = "hidden";
+        } else {
+          document.getElementById("desktop-warning").style.display = "none";
+          document.body.style.overflow = "auto";
+        }
+      }
+      checkDevice();
+      window.addEventListener("resize", checkDevice);
+    </script>
 
     <!-- News Fetch Script -->
     <script>
@@ -366,6 +366,7 @@
             );
             const data = await response.json();
 
+            // ✅ Keyword groups
             const foodKeywords = [
               "food",
               "waste",
@@ -398,6 +399,9 @@
               });
             }
 
+            // ✅ Fallback static articles if API returns nothing
+
+            // ✅ Display news cards
             container.innerHTML = filtered
               .map(
                 (article) => `
@@ -416,7 +420,8 @@
               }" target="_blank" class="btn btn-sm btn-outline-primary">Read More →</a>
             </div>
           </div>
-        </div>`
+        </div>
+      `
               )
               .join("");
           } catch (err) {
