@@ -742,17 +742,23 @@
 
     /* Very small phones: avoid overflow under 400px */
     @media (max-width: 400px) {
+      /* Prevent any accidental horizontal scroll */
+      html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
       /* slightly reduce main paddings and typography */
       .main {
-        padding: 10px;
+        padding: 8px;
       }
 
       .bg-white {
-        padding: 10px;
+        padding: 8px;
       }
 
       h2 {
-        font-size: 20px;
+        font-size: 18px;
       }
 
       .navbar-brand {
@@ -769,7 +775,9 @@
       .sidebar {
         gap: 6px;
         padding: 6px;
-        margin: 72px 6px 6px 6px;
+        margin: 70px 6px 6px 6px;
+        left: 6px;
+        right: 6px;
       }
 
       .sidebar a {
@@ -782,13 +790,14 @@
         font-size: 12px;
       }
 
-      /* Make most stacked controls vertical to prevent overflow */
-      .main .d-flex.gap-2 {
+      /* Force stacked layout for small grouped controls inside main */
+      .main .d-flex.gap-2,
+      .bg-white .d-flex.gap-2 {
         flex-direction: column !important;
         gap: 6px !important;
       }
 
-      /* Make inputs and action buttons full-width on tiny screens */
+      /* Make inputs/buttons full width to avoid overflow */
       .main .form-control,
       .main .btn,
       .main .btn-outline-secondary,
@@ -798,30 +807,41 @@
         box-sizing: border-box;
       }
 
-      /* Reduce list font-size to prevent overflow */
+      /* Reduce list padding and font-size */
       #studentList .list-group-item,
       #menuList .list-group-item {
         font-size: 13px;
         padding: 8px 10px;
       }
 
-      /* Allow sections to be naturally tall and scrollable */
-      .section > .bg-white {
-        min-height: auto;
-      }
-
-      /* reduce space for recipe rows that used col-md classes */
-      .recipe-row .col-md-4, .recipe-row .col-md-4, .recipe-row .col-md-4 {
+      /* Make recipe-row columns full width so they stack */
+      .recipe-row .col-md-4 {
         flex-basis: 100%;
         max-width: 100%;
       }
+
+      /* Ensure side-semicircle doesn't cause overflow */
+      .side-semicircle {
+        display: none;
+      }
+
+      /* tighten margins on navbar container at very small widths */
+      .navbar .container {
+        padding-left: 6px;
+        padding-right: 6px;
+      }
     }
 
-    /* small utility to ensure images scale */
-    img.img-fluid {
-      max-width: 100%;
-      height: auto;
-      display: block;
+    /* Small utility to ensure images scale and are centered on tiny screens */
+    @media (max-width: 575.98px) {
+      .img-fluid {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .rounded-button-link, .bi {
+        transform-origin: center;
+      }
     }
 
     /* ...existing code... */
@@ -2132,6 +2152,7 @@ function downloadTemplateforImport() {
       if (sessionError || !user) return;
 
       const { data, error: fetchError } = await client
+
         .from('data')
         .select('*')
         .eq('user_id', user.id)
