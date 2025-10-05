@@ -884,6 +884,31 @@
         max-width: 180px;
       }
     }
+    /* Responsive preloader logo size */
+    .spinner-rotate img {
+      width: 22vw;           /* About 1/5 of the laptop screen width */
+      max-width: 200px;      /* Prevent it from becoming huge */
+      min-width: 100px;      /* Prevent it from shrinking too small */
+      height: auto;
+      animation: spin 2s linear infinite;
+    }
+
+    /* Tablets */
+    @media (max-width: 992px) {
+      .spinner-rotate img {
+        width: 28vw;
+        max-width: 180px;
+      }
+    }
+
+    /* Phones */
+    @media (max-width: 576px) {
+      .spinner-rotate img {
+        width: 40vw;
+        max-width: 150px;
+      }
+}
+
 
 
 
