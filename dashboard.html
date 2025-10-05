@@ -666,6 +666,7 @@
 
   <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
       <div class="container">
+        <button id="sidebarToggleBtn" onclick="toggleSidebar()">☰</button>
         <a href="dashboard.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
           <span style="color: #ff5500;">Plate </span>
           <span class="brand-icon" style="color: #ff5500;">2♻️</span>
@@ -719,6 +720,35 @@
     <button class="btn btn-outline-danger btn-sm mt-2 w-100" onclick="logout(); event.stopPropagation();">Logout</button>
   </div>
 </div>
+<!-- Button to toggle sidebar -->
+
+
+<script>
+  function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('collapsed'); // just toggles a class
+  }
+</script>
+
+<style>
+  /* Only control the collapsed state */
+  .sidebar.collapsed {
+    transform: translateX(-260px); /* hides sidebar */
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar {
+    transition: transform 0.3s ease;
+  }
+
+  #sidebarToggleBtn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+  }
+</style>
+
 
 
 
