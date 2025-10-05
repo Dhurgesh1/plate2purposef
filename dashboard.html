@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -600,100 +599,6 @@
       background-color: #cb7575;
       color: white;
     }
-    /* ===== Sidebar ===== */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh; /* full height */
-      width: 220px;
-      background-color: #fff5f0; /* light peach background */
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      padding: 20px 0;
-      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-      transition: all 0.3s ease;
-      font-family: 'Amatic SC', cursive;
-    }
-
-    /* Sidebar links */
-    .sidebar-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 20px;
-      font-size: 20px;
-      color: #333;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    .sidebar-link i {
-      font-size: 20px;
-    }
-
-    .sidebar-link:hover,
-    .sidebar-link.active {
-      background-color: #cb7575; /* active/hover color */
-      color: white;
-      border-radius: 8px;
-    }
-
-    /* Switch mode button */
-    .switch-mode-btn {
-      margin: 20px;
-      padding: 10px 15px;
-      background-color: #ff9c7a;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    .switch-mode-btn:hover {
-      background-color: #cb5750;
-    }
-
-    /* Profile box at the bottom */
-    .profile-box {
-      background-color: #ffd9cc;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 20px;
-      margin-top: auto;
-      text-align: center;
-    }
-
-    .profile-box .profile-name {
-      font-weight: 700;
-      font-size: 18px;
-    }
-
-    .profile-box .profile-email {
-      font-size: 14px;
-      color: #555;
-    }
-
-    .profile-box button {
-      margin-top: 10px;
-      font-size: 14px;
-    }
-
-    /* Responsive: collapse sidebar on smaller screens */
-    @media (max-width: 991px) {
-      .sidebar {
-        width: 0;
-        overflow: hidden;
-      }
-      .sidebar.show {
-        width: 220px;
-      }
-    }
-
 
 
 
@@ -2658,84 +2563,44 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
   }
 </script>
 
-<script>
-async function saveUpiId() {
-  const upiId = document.getElementById("upiIdInput").value.trim();
-  if (!upiId) {
-    alert("Please enter a valid UPI ID.");
-    return;
-  }
-
-  const { data: { user }, error } = await client.auth.getUser();
-  if (error || !user) {
-    alert("❌ Unable to fetch user session.");
-    return;
-  }
-
-  // Generate QR code link (Google Charts API or QR server)
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(user.user_metadata?.full_name || "User")}`;
-
-  // Save to Supabase
-  const { error: upiError } = await client
-    .from("upi_details")
-    .upsert([{ user_id: user.id, upi_id: upiId, qr_code_url: qrUrl }], { onConflict: ["user_id"] });
-
-  if (upiError) {
-    alert("❌ Failed to save UPI ID.");
-    return;
-  }
-
-  alert("✅ UPI ID saved successfully!");
-  loadUpiDetails();
-}
-
-async function loadUpiDetails() {
-  const { data: { user } } = await client.auth.getUser();
-  if (!user) return;
-
-  const { data, error } = await client
-    .from("upi_details")
-    .select("*")
-    .eq("user_id", user.id)
-    .single();
-
-  if (error || !data) return;
-
-  document.getElementById("upiDisplay").style.display = "block";
-  document.getElementById("upiIdText").innerText = data.upi_id;
-  document.getElementById("upiQrCode").src = data.qr_code_url;
-}
-
-// Load on page start
-document.addEventListener("DOMContentLoaded", loadUpiDetails);
-</script>
 <style>
-  /* Ensure the navbar grows smoothly when expanded */
+  .navbar {
+    transition: all 0.4s ease-in-out;
+  }
+
   .navbar-collapse {
-    transition: max-height 0.5s ease;
-    overflow: hidden;
-    max-height: 0; /* collapsed by default */
+    transition: all 0.4s ease-in-out;
   }
 
-  .navbar-collapse.show {
-    max-height: 500px; /* adjust according to number of items */
-  }
-
-  /* Optional: Make button full width on mobile */
+  /* Only affects mobile screens */
   @media (max-width: 991px) {
-    #saveBtn {
+    .navbar-collapse.collapse.show {
+      display: block !important;
+      position: relative;
       width: 100%;
-      margin-top: 10px;
+      padding: 10px 0;
+      height: auto !important;
+      background: transparent !important; /* ✅ Keeps your original color */
     }
 
-    .navbar-nav .nav-item {
+    .navbar-nav {
       width: 100%;
       text-align: center;
     }
 
-    .navbar-nav .nav-item .nav-link {
-      display: block;
+    .navbar-nav .nav-item {
+      width: 100%;
       padding: 10px 0;
+    }
+
+    .navbar-nav .nav-item .nav-link {
+      font-size: 18px;
+    }
+
+    #saveBtn {
+      width: 80%;
+      margin: 10px auto;
+      display: block;
     }
   }
 </style>
@@ -2747,7 +2612,7 @@ document.addEventListener("DOMContentLoaded", loadUpiDetails);
 
 
 
+
 </body>
 </html>
-
 
