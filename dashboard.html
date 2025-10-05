@@ -725,21 +725,7 @@
 
 <style>
   /* Sidebar styles */
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: -250px; /* hide by default */
-    width: 250px;
-    height: 100%;
-    background: #fff5f0;
-    padding: 20px;
-    box-shadow: 2px 0 12px rgba(0,0,0,0.2);
-    overflow-y: auto;
-    transition: left 0.3s ease;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-  }
+  
 
   .sidebar.open {
     left: 0; /* show sidebar */
@@ -754,21 +740,7 @@
     margin-bottom: 20px;
   }
 
-  .sidebar-link {
-    display: block;
-    padding: 10px 0;
-    color: #333;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background 0.2s;
-  }
-
-  .sidebar-link:hover,
-  .sidebar-link.active {
-    background: #cb7575;
-    color: white;
-    border-radius: 5px;
-  }
+ 
 
   #openSidebarBtn {
     position: fixed;
