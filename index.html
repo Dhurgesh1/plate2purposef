@@ -206,20 +206,6 @@
 
   <body>
     <!-- Mobile Warning -->
-    <div id="desktop-warning">
-      <div class="warning-box">
-        <img
-          src="images/recycle-sign.png"
-          alt="Plate2Purpose Logo"
-          class="warning-logo"
-        />
-        <h1>⚠ Open on Laptop</h1>
-        <p>
-          For the best experience, please use a laptop or desktop.<br />
-          Mobile screens are not supported yet.
-        </p>
-      </div>
-    </div>
 
     <!-- Preloader -->
     <section class="preloader" id="preloader">
@@ -334,22 +320,6 @@
     <script src="js/custom.js"></script>
 
     <!-- Device Check Script -->
-    <script>
-      function checkDevice() {
-        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-        const isSmallScreen = window.innerWidth < 768;
-
-        if (isMobile || isSmallScreen) {
-          document.getElementById("desktop-warning").style.display = "flex";
-          document.body.style.overflow = "hidden";
-        } else {
-          document.getElementById("desktop-warning").style.display = "none";
-          document.body.style.overflow = "auto";
-        }
-      }
-      checkDevice();
-      window.addEventListener("resize", checkDevice);
-    </script>
 
     <!-- News Fetch Script -->
     <script>
