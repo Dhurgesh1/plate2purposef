@@ -600,20 +600,144 @@
       color: white;
     }
 
+    /* Ensure all images scale nicely */
+img, .card-img-top, .preloader img, .preloader-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
 
+/* Make hero-like / generated card images cover on wide screens but remain proportional on small screens */
+.card-img-top {
+  object-fit: cover;
+  width: 100%;
+  height: 180px; /* preserved for desktop cards */
+}
 
+/* ---------- Responsive adjustments ---------- */
 
+/* Tablet and below: compact layout */
+@media (max-width: 991.98px) {
+  /* Sidebar converts to horizontal/stacked block and won't overlap main */
+  .sidebar {
+    position: static !important;
+    top: auto;
+    left: auto;
+    width: 100% !important;
+    height: auto !important;
+    margin: 90px 10px 10px 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  }
 
+  /* Main content takes full width */
+  .main {
+    margin-left: 0 !important;
+    margin-top: 12px !important;
+    padding: 16px !important;
+  }
 
+  /* Make bg-white sections adapt and be scrollable rather than fixed tall blocks */
+  .section > .bg-white {
+    min-height: auto !important;
+    padding: 18px !important;
+  }
 
+  /* Stack small groups vertically */
+  .d-flex.gap-2 {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
 
+  /* Inline checks become stacked for readability */
+  .form-check-inline {
+    display: block;
+    margin-bottom: 6px;
+  }
 
+  /* Buttons inside content become full-width where it makes sense */
+  .main .btn,
+  .bg-white .btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
 
+  /* Reduce preloader logo for tablets */
+  .preloader img {
+    width: 56px;
+    height: auto;
+    max-width: 56px;
+  }
 
+  /* Prevent accidental horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+}
 
+/* Phones: more compact tweaks */
+@media (max-width: 575.98px) {
+  /* Tighten paddings and font sizes */
+  .main { padding: 10px !important; }
+  .section > .bg-white { padding: 12px !important; border-radius: 12px; }
 
+  h2 { font-size: 18px; }
+  .navbar .nav-link { font-size: 12px; margin: 0 6px; }
+  .navbar-brand { font-size: 22px; }
 
+  /* Hide decorative semicircle to regain horizontal space */
+  .side-semicircle { display: none !important; }
+
+  /* News / card images: remove fixed height so they scale naturally on phones */
+  .card-img-top { height: auto !important; }
+
+  /* Recipe/menu rows: force columns to stack */
+  .recipe-row .col-md-4 { flex-basis: 100% !important; max-width: 100% !important; }
+
+  /* List-group items: make content wrap instead of overflow */
+  #studentList .list-group-item,
+  #menuList .list-group-item {
+    word-break: break-word;
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  /* Profile box simplified */
+  .profile-box { padding: 10px; font-size: 13px; }
+
+  /* Make small controls (save button, mode buttons) slightly smaller */
+  .save-btn, .save-animated-btn, .save-button, .switch-mode-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    width: 100%;
+  }
+
+  /* Ensure modals and overlays stay within viewport */
+  .overlay, #overlay, #markOverlay {
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+}
+
+/* Desktop tweak: keep preloader logo modest on big screens */
+@media (min-width: 992px) {
+  .preloader img { width: 48px; height: auto; max-width: 48px; }
+}
+
+/* Small utility: ensure form controls don't overflow their parent */
+.form-control {
+  max-width: 100%;
+  box-sizing: border-box;
+}
   </style>
+
   <!-- ✅ Supabase Auth Protection -->
   <!-- ✅ Supabase Auth Protection -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -2398,7 +2522,6 @@ document.getElementById("exportAttendanceGoogleBtn").addEventListener("click", e
 
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
   const markBtn = document.getElementById("markFromExcelBtn");
   const markOverlay = document.getElementById("markOverlay");
@@ -2610,4 +2733,3 @@ document.addEventListener("DOMContentLoaded", loadUpiDetails);
 
 </body>
 </html>
-
