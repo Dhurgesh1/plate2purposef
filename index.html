@@ -418,5 +418,31 @@
         window.addEventListener("orientationchange", handleHeroForMobile);
       })();
     </script>
+    <script>
+      (function () {
+        function handleMobileHeroText() {
+          const hero = document.querySelector(".hero-section");
+          if (!hero) return;
+
+          const isMobile = window.matchMedia("(max-width: 991px)").matches;
+
+          // Only target the h1.hero-title
+          const heroTitle = hero.querySelector("h1.hero-title");
+          const discoverBtn = hero.querySelector(".custom-btn");
+
+          if (isMobile) {
+            if (heroTitle) heroTitle.style.color = "#000"; // Make h1 text black
+            if (discoverBtn) discoverBtn.style.display = "none"; // Hide button
+          } else {
+            if (heroTitle) heroTitle.style.color = ""; // Reset to default color
+            if (discoverBtn) discoverBtn.style.display = "inline-block"; // Show button
+          }
+        }
+
+        document.addEventListener("DOMContentLoaded", handleMobileHeroText);
+        window.addEventListener("resize", handleMobileHeroText);
+        window.addEventListener("orientationchange", handleMobileHeroText);
+      })();
+    </script>
   </body>
 </html>
