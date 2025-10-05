@@ -163,7 +163,7 @@
         if (!email) return alert("❌ Please enter your email");
 
         const { error } = await client.auth.resetPasswordForEmail(email, {
-          redirectTo: "https://candid-starlight-7ae662.netlify.app/forgot", // user returns here after clicking email link
+          redirectTo: "https://dhurgesh1.github.io/plate2purposef/forgot", // user returns here after clicking email link
         });
 
         if (error) {
