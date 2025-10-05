@@ -844,6 +844,24 @@
       }
     }
 
+    /* PRELOADER logo sizing (reduce on laptops) */
+    .preloader .preloader-img {
+      width: 48px;
+      height: 48px;
+      max-width: 48px;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Make it slightly smaller on laptop/desktop to avoid large display on high-DPI assets */
+    @media (min-width: 992px) {
+      .preloader .preloader-img {
+        width: 36px;
+        height: 36px;
+        max-width: 36px;
+      }
+    }
+
     /* ...existing code... */
   </style>
 
