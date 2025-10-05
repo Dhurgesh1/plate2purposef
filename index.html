@@ -202,6 +202,42 @@
           width: 48px;
         }
       }
+      html,
+      body {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      html,
+      body {
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-x: hidden;
+      }
+
+      .navbar {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
+
+      .hero-section {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+      }
+
+      .hero-container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 0 5%;
+      }
     </style>
   </head>
 
@@ -269,18 +305,18 @@
     <!-- Hero Section -->
     <!-- Hero Section -->
     <main>
-      <section class="hero-section d-flex" id="section_1">
-        <div class="hero-container container">
-          <div class="row">
-            <div class="col-lg-6 col-md-8 col-12">
-              <h2>♻️ From Waste to Worth</h2>
-              <h1 class="text-white hero-title mb-4">
-                Let's Clean, Create, and Conserve!
-              </h1>
-              <a href="about.html" class="custom-link custom-btn btn mt-4">
-                Discover More
-              </a>
-            </div>
+      <section class="hero-section" id="section_1">
+        <div class="container-fluid px-0">
+          <div
+            class="hero-container d-flex flex-column justify-content-center align-items-start px-4"
+          >
+            <h2>♻️ From Waste to Worth</h2>
+            <h1 class="text-white hero-title mb-4">
+              Let's Clean, Create, and Conserve!
+            </h1>
+            <a href="about.html" class="custom-link custom-btn btn mt-4"
+              >Discover More</a
+            >
           </div>
         </div>
       </section>
