@@ -250,7 +250,7 @@
         animation: twinkle 2s infinite ease-in-out;
         z-index: 1;
         }
- 
+
         /* Individual Star Positions */
         .star-1 { top: 10px; right: 10px; animation-delay: 0s; }
         .star-2 { top: 25px; right: 30px; animation-delay: 0.4s; }
@@ -599,7 +599,101 @@
       background-color: #cb7575;
       color: white;
     }
- 
+    /* ===== Sidebar ===== */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh; /* full height */
+      width: 220px;
+      background-color: #fff5f0; /* light peach background */
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 0;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      transition: all 0.3s ease;
+      font-family: 'Amatic SC', cursive;
+    }
+
+    /* Sidebar links */
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      font-size: 20px;
+      color: #333;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-link i {
+      font-size: 20px;
+    }
+
+    .sidebar-link:hover,
+    .sidebar-link.active {
+      background-color: #cb7575; /* active/hover color */
+      color: white;
+      border-radius: 8px;
+    }
+
+    /* Switch mode button */
+    .switch-mode-btn {
+      margin: 20px;
+      padding: 10px 15px;
+      background-color: #ff9c7a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .switch-mode-btn:hover {
+      background-color: #cb5750;
+    }
+
+    /* Profile box at the bottom */
+    .profile-box {
+      background-color: #ffd9cc;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 20px;
+      margin-top: auto;
+      text-align: center;
+    }
+
+    .profile-box .profile-name {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .profile-box .profile-email {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .profile-box button {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    /* Responsive: collapse sidebar on smaller screens */
+    @media (max-width: 991px) {
+      .sidebar {
+        width: 0;
+        overflow: hidden;
+      }
+      .sidebar.show {
+        width: 220px;
+      }
+    }
+
+
 
 
 
@@ -614,67 +708,6 @@
 
 
   </style>
-      <!-- Sidebar toggle button (mobile only) -->
-   
-    
-    <style>
-      /* Wrapper flex layout */
-      .wrapper {
-        display: flex;
-        transition: all 0.3s ease;
-      }
-    
-      /* Sidebar */
-      .sidebar {
-        width: 260px; /* normal width */
-        transition: all 0.3s ease;
-      }
-    
-      .sidebar.collapsed {
-        width: 0;
-        overflow: hidden;
-      }
-    
-      /* Main content */
-      .main {
-        flex: 1;
-        transition: all 0.3s ease;
-        padding: 20px;
-      }
-    
-      /* Sidebar toggle button style */
-      #sidebarToggleBtn {
-        display: none; /* hidden on desktop */
-        position: fixed;
-        top: 90px; /* below navbar */
-        left: 10px;
-        z-index: 1000;
-        background: #cb7575;
-        color: white;
-        border: none;
-        padding: 10px 14px;
-        border-radius: 8px;
-        font-size: 20px;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        transition: background 0.3s ease, transform 0.2s ease;
-      }
-    
-      #sidebarToggleBtn:hover {
-        background: #ff7575;
-        transform: scale(1.1);
-      }
-    
-      /* Show button only on mobile */
-      @media (max-width: 991px) {
-        #sidebarToggleBtn {
-          display: block;
-        }
-      }
-    </style>
-
-
-
   <!-- ✅ Supabase Auth Protection -->
   <!-- ✅ Supabase Auth Protection -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -726,171 +759,69 @@
     </section>
 
   <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
-      <div class="container">
-          <button id="sidebarToggleBtn" onclick="toggleSidebar()">☰</button>
-            <i class="bi bi-list"></i>
-          </button>
-        <a href="dashboard.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
-          <span style="color: #ff5500;">Plate </span>
-          <span class="brand-icon" style="color: #ff5500;">2♻️</span>
-          <span style="color: #ff5500;">Purpose</span>
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto align-items-center">
-            <li class="nav-item">
-              <a class="nav-link active" href="dashboard.html">DASHBOARD</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="about2.html">ABOUT US</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact2.html">CONTACT US</a>
-            </li>
-            <li class="nav-item">
-              <button id="saveBtn" class="btn btn-outline-primary d-flex align-items-center gap-2 ms-3">
-                <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
-                <span id="saveText">Save Changes</span>
-              </button>
-            </li>
-          </ul>
-        </div>
+    <div class="container">
+      <a href="dashboard.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
+        <span style="color: #ff5500;">Plate </span>
+        <span class="brand-icon" style="color: #ff5500;">2♻️</span>
+        <span style="color: #ff5500;">Purpose</span>
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item">
+            <a class="nav-link active" href="dashboard.html">DASHBOARD</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about2.html">ABOUT US</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact2.html">CONTACT US</a>
+          </li>
+          <li class="nav-item">
+            <button id="saveBtn" class="btn btn-outline-primary d-flex align-items-center gap-2 ms-3">
+              <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
+              <span id="saveText">Save Changes</span>
+            </button>
+          </li>
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
 
 
   
 
-  <!-- Sidebar -->
-<div id="sidebar" class="sidebar">
-  
-  <a href="#" class="sidebar-link active" data-target="attendance"><i class="bi bi-people-fill"></i> Attendance</a>
-  <a href="#" class="sidebar-link" data-target="calculator"><i class="bi bi-calculator"></i> Food Calculator</a>
-  <a href="#" class="sidebar-link" data-target="payments"><i class="bi bi-credit-card"></i> UPI Payments</a>
-  <a href="#" class="sidebar-link" data-target="menu"><i class="bi bi-list"></i> Menu</a>
-  <a href="#" class="sidebar-link" data-target="feedback"><i class="bi bi-chat-dots"></i> Feedback</a>
+  <div class="sidebar">
+    <a href="#" class="sidebar-link active" data-target="attendance"><i class="bi bi-people-fill"></i> Attendance</a>
+    <a href="#" class="sidebar-link" data-target="calculator"><i class="bi bi-calculator"></i> Food Calculator</a>
+    <a href="#" class="sidebar-link" data-target="payments"><i class="bi bi-credit-card"></i> UPI Payments</a>
+    <a href="#" class="sidebar-link" data-target="menu"><i class="bi bi-list"></i> Menu</a>
+    <a href="#" class="sidebar-link" data-target="feedback"><i class="bi bi-chat-dots"></i> Feedback</a>
+    <button class="switch-mode-btn" id="modeSwitchBtn" onclick="switchMode()">
+      Switch Mode
+    </button>
 
-  <div class="profile-box text-center mx-3 p-3 mt-auto" onclick="openProfileModal()" style="cursor: pointer;">
-    <div class="profile-name fw-semibold" id="profileNameDisplay">Dhurgesh Maloth</div>
-    <div class="profile-email text-muted small" id="profileEmailDisplay">malothdhurgesh@gmail.com</div>
-    <button class="btn btn-outline-danger btn-sm mt-2 w-100" onclick="logout(); event.stopPropagation();">Logout</button>
+
+
+    
+
+
+    <div class="profile-box text-center mx-3 p-3 mt-auto" onclick="openProfileModal()" style="cursor: pointer;">
+      <div class="profile-name fw-semibold" id="profileNameDisplay">Dhurgesh Maloth</div>
+      <div class="profile-email text-muted small" id="profileEmailDisplay">malothdhurgesh@gmail.com</div>
+      
+      <button class="btn btn-outline-danger btn-sm mt-2 w-100" onclick="logout(); event.stopPropagation();">Logout</button>
+    </div>
+
+
   </div>
-</div>
-<style>
-/* Sidebar default */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 220px; /* normal width */
-  height: 100vh;
-  background-color: #fff;
-  box-shadow: 2px 0 6px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-  z-index: 999;
-}
-
-/* Collapsed sidebar (hidden) */
-.sidebar.collapsed {
-  transform: translateX(-100%);
-}
-
-/* Main content */
-.main {
-  margin-left: 220px; /* same as sidebar width */
-  transition: all 0.3s ease;
-}
-
-/* When sidebar is collapsed, main expands */
-.main.expanded {
-  margin-left: 0;
-}
-
-/* Toggle button (only mobile) */
-#sidebarToggleBtn {
-  display: none;
-  position: fixed;
-  top: 80px;
-  left: 10px;
-  z-index: 1001;
-  background: #ff5500;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 18px;
-}
-
-/* Show toggle on mobile */
-@media (max-width: 991px) {
-  #sidebarToggleBtn {
-    display: block;
-  }
-
-  .sidebar {
-    width: 180px; /* slimmer on mobile */
-  }
-
-  .main {
-    margin-left: 0; /* start expanded on mobile */
-  }
-}
-
-<!-- Button to toggle sidebar -->
-</style>
-<script>
-function toggleSidebar() {
-  const sidebar = document.querySelector('.sidebar');
-  const main = document.querySelector('.main');
-  sidebar.classList.toggle('collapsed');
-  main.classList.toggle('expanded');
-}
-
-// start collapsed automatically on mobile
-window.addEventListener('load', () => {
-  if (window.innerWidth <= 991) {
-    document.querySelector('.sidebar').classList.add('collapsed');
-    document.querySelector('.main').classList.add('expanded');
-  }
-});
-</script>
-
-
-
-
-
-
-
-<script>
-function toggleSidebar() {
-  const sidebar = document.querySelector('.sidebar');
-  sidebar.classList.toggle('collapsed');
-}
-
-function checkSidebar() {
-  const sidebar = document.querySelector('.sidebar');
-  if (window.innerWidth <= 991) {
-    sidebar.classList.add('collapsed');
-  } else {
-    sidebar.classList.remove('collapsed');
-  }
-}
-
-window.addEventListener('resize', checkSidebar);
-window.addEventListener('DOMContentLoaded', checkSidebar);
-</script>
-
-
-
-
-
 
   <div class="main">
     <div id="attendance" class="section active">
@@ -1266,77 +1197,32 @@ function downloadTemplateforImport() {
 
 
 
-  <style>
-/* Sidebar styles */
-.sidebar {
-  position: fixed;        /* fix it so it slides over content */
-  top: 0;
-  left: 0;
-  width: 260px;
-  height: 100vh;
-  background-color: #fff;
-  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
-  overflow-y: auto;
-  transform: translateX(0); /* visible by default */
-  transition: transform 0.3s ease;
-  z-index: 999;           /* above content */
-}
+  <script>
+    const links = document.querySelectorAll('.sidebar-link');
+    const sections = document.querySelectorAll('.section');
 
-/* Collapsed sidebar */
-.sidebar.collapsed {
-  transform: translateX(-100%); /* slide out fully */
-}
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
 
-/* Toggle button */
-#sidebarToggleBtn {
-  display: none; /* hide on desktop */
-  position: fixed;
-  top: 90px; /* below navbar */
-  left: 10px;
-  z-index: 1001;
-  background: #cb7575;
-  color: #fff;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 8px;
-  font-size: 22px;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  transition: background 0.3s ease;
-}
+        const target = link.getAttribute('data-target'); // ⬅️ move this UP here
 
-#sidebarToggleBtn:hover {
-  background: #ff7575;
-}
+        sections.forEach(section => {
+          section.classList.remove('active');
+          if (section.id === target) {
+            section.classList.add('active');
 
-/* Show button only on mobile */
-@media (max-width: 991px) {
-  #sidebarToggleBtn {
-    display: block;
-  }
-}
-</style>
+            if (target === "attendance") {
+              renderStudents(); // ✅ Works now
+            }
+          }
+        });
+      });
+    });
 
-<script>
-function toggleSidebar() {
-  const sidebar = document.querySelector('.sidebar');
-  sidebar.classList.toggle('collapsed');
-}
-
-// Automatically collapse on mobile
-function checkSidebar() {
-  const sidebar = document.querySelector('.sidebar');
-  if (window.innerWidth <= 991) {
-    sidebar.classList.add('collapsed');
-  } else {
-    sidebar.classList.remove('collapsed');
-  }
-}
-
-window.addEventListener('resize', checkSidebar);
-window.addEventListener('DOMContentLoaded', checkSidebar);
-</script>
-
+  </script>
 
   <script>
     setTimeout(() => {
@@ -2770,93 +2656,88 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
     reader.readAsArrayBuffer(file);
   }
 </script>
-<style>
-/* ===== Navbar Style ===== */
-nav {
-  background-color: rgba(255, 245, 240, 0.95); /* Soft peach with slight opacity */
-  backdrop-filter: blur(10px); /* Adds blur for visibility */
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, height 0.3s ease;
-}
-
-nav img {
-  height: 60px;
-  width: auto;
-}
-
-nav ul {
-  list-style: none;
-  display: flex;
-  margin: 0;
-  padding: 0;
-}
-
-nav ul li {
-  margin: 0 18px;
-}
-
-nav ul li a {
-  color: #333;
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 600;
-  transition: color 0.3s ease;
-}
-
-nav ul li a:hover {
-  color: #ff884d;
-}
-
-/* Responsive Navbar */
-@media (max-width: 768px) {
-  nav {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 20px;
-    height: auto;
-  }
-
-  nav ul {
-    flex-direction: column;
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  nav ul li {
-    margin: 10px 0;
-  }
-}
-
-
-</style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const navbar = document.querySelector(".navbar");
-    const collapse = document.querySelector("#navbarNav");
+async function saveUpiId() {
+  const upiId = document.getElementById("upiIdInput").value.trim();
+  if (!upiId) {
+    alert("Please enter a valid UPI ID.");
+    return;
+  }
 
-    collapse.addEventListener("shown.bs.collapse", () => {
-      navbar.classList.add("expanded");
-    });
+  const { data: { user }, error } = await client.auth.getUser();
+  if (error || !user) {
+    alert("❌ Unable to fetch user session.");
+    return;
+  }
 
-    collapse.addEventListener("hidden.bs.collapse", () => {
-      navbar.classList.remove("expanded");
-    });
-  });
+  // Generate QR code link (Google Charts API or QR server)
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(user.user_metadata?.full_name || "User")}`;
+
+  // Save to Supabase
+  const { error: upiError } = await client
+    .from("upi_details")
+    .upsert([{ user_id: user.id, upi_id: upiId, qr_code_url: qrUrl }], { onConflict: ["user_id"] });
+
+  if (upiError) {
+    alert("❌ Failed to save UPI ID.");
+    return;
+  }
+
+  alert("✅ UPI ID saved successfully!");
+  loadUpiDetails();
+}
+
+async function loadUpiDetails() {
+  const { data: { user } } = await client.auth.getUser();
+  if (!user) return;
+
+  const { data, error } = await client
+    .from("upi_details")
+    .select("*")
+    .eq("user_id", user.id)
+    .single();
+
+  if (error || !data) return;
+
+  document.getElementById("upiDisplay").style.display = "block";
+  document.getElementById("upiIdText").innerText = data.upi_id;
+  document.getElementById("upiQrCode").src = data.qr_code_url;
+}
+
+// Load on page start
+document.addEventListener("DOMContentLoaded", loadUpiDetails);
 </script>
+<style>
+  /* Ensure the navbar grows smoothly when expanded */
+  .navbar-collapse {
+    transition: max-height 0.5s ease;
+    overflow: hidden;
+    max-height: 0; /* collapsed by default */
+  }
 
+  .navbar-collapse.show {
+    max-height: 500px; /* adjust according to number of items */
+  }
 
+  /* Optional: Make button full width on mobile */
+  @media (max-width: 991px) {
+    #saveBtn {
+      width: 100%;
+      margin-top: 10px;
+    }
 
+    .navbar-nav .nav-item {
+      width: 100%;
+      text-align: center;
+    }
+
+    .navbar-nav .nav-item .nav-link {
+      display: block;
+      padding: 10px 0;
+    }
+  }
+</style>
 
 
 
