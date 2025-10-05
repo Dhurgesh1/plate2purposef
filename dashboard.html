@@ -250,7 +250,7 @@
         animation: twinkle 2s infinite ease-in-out;
         z-index: 1;
         }
-
+ 
         /* Individual Star Positions */
         .star-1 { top: 10px; right: 10px; animation-delay: 0s; }
         .star-2 { top: 25px; right: 30px; animation-delay: 0.4s; }
@@ -727,7 +727,7 @@
 
   <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
       <div class="container">
-          <button id="sidebarToggleBtn" onclick="toggleSidebar()">
+          <button id="sidebarToggleBtn" onclick="toggleSidebar()">☰</button>
             <i class="bi bi-list"></i>
           </button>
         <a href="dashboard.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
@@ -783,7 +783,85 @@
     <button class="btn btn-outline-danger btn-sm mt-2 w-100" onclick="logout(); event.stopPropagation();">Logout</button>
   </div>
 </div>
+<style>
+/* Sidebar default */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px; /* normal width */
+  height: 100vh;
+  background-color: #fff;
+  box-shadow: 2px 0 6px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+/* Collapsed sidebar (hidden) */
+.sidebar.collapsed {
+  transform: translateX(-100%);
+}
+
+/* Main content */
+.main {
+  margin-left: 220px; /* same as sidebar width */
+  transition: all 0.3s ease;
+}
+
+/* When sidebar is collapsed, main expands */
+.main.expanded {
+  margin-left: 0;
+}
+
+/* Toggle button (only mobile) */
+#sidebarToggleBtn {
+  display: none;
+  position: fixed;
+  top: 80px;
+  left: 10px;
+  z-index: 1001;
+  background: #ff5500;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 18px;
+}
+
+/* Show toggle on mobile */
+@media (max-width: 991px) {
+  #sidebarToggleBtn {
+    display: block;
+  }
+
+  .sidebar {
+    width: 180px; /* slimmer on mobile */
+  }
+
+  .main {
+    margin-left: 0; /* start expanded on mobile */
+  }
+}
+
 <!-- Button to toggle sidebar -->
+</style>
+<script>
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  const main = document.querySelector('.main');
+  sidebar.classList.toggle('collapsed');
+  main.classList.toggle('expanded');
+}
+
+// start collapsed automatically on mobile
+window.addEventListener('load', () => {
+  if (window.innerWidth <= 991) {
+    document.querySelector('.sidebar').classList.add('collapsed');
+    document.querySelector('.main').classList.add('expanded');
+  }
+});
+</script>
+
 
 
 
