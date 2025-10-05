@@ -2615,6 +2615,38 @@ async function loadUpiDetails() {
 document.addEventListener("DOMContentLoaded", loadUpiDetails);
 </script>
 
+<style>
+  /* Ensure the navbar grows smoothly when expanded */
+  .navbar-collapse {
+    transition: max-height 0.5s ease;
+    overflow: hidden;
+    max-height: 0; /* collapsed by default */
+  }
+
+  .navbar-collapse.show {
+    max-height: 500px; /* adjust according to number of items */
+  }
+
+  /* Optional: Make button full width on mobile */
+  @media (max-width: 991px) {
+    #saveBtn {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .navbar-nav .nav-item {
+      width: 100%;
+      text-align: center;
+    }
+
+    .navbar-nav .nav-item .nav-link {
+      display: block;
+      padding: 10px 0;
+    }
+  }
+</style>
+
+
 
 
 
