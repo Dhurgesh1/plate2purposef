@@ -408,5 +408,33 @@
         window.addEventListener("orientationchange", handleHeroForMobile);
       })();
     </script>
+    <style>
+@media (max-width: 991px) {
+  /* Fix hero button look on light peach background */
+  .hero-section .custom-btn {
+    background-color: #cb7575 !important; /* soft red accent */
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    font-size: 1rem;
+    padding: 10px 26px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+  }
+
+  .hero-section .custom-btn:hover {
+    background-color: #b84e4e !important; /* slightly darker hover */
+    transform: translateY(-2px);
+  }
+
+  /* Make text readable on peach */
+  .hero-section h1,
+  .hero-section h2 {
+    color: #333 !important;
+    text-align: left !important;
+  }
+}
+</style>
+
   </body>
 </html>
