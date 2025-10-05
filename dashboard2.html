@@ -1,1127 +1,2752 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Plate2Purpose - Restaurant Dashboard</title>
-    <link rel="icon" href="images/recycle-sign.png" type="image/png" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Playfair+Display&family=Poppins:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <style>
-      body {
-        font-family: "Poppins", Arial, sans-serif;
-        background: #fff5f0;
-        margin: 0;
-        padding-top: 100px;
-      }
-      .navbar {
-        height: 100px;
-        background: #fff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        font-family: "Playfair Display", serif;
-      }
-      .navbar-brand {
-        font-family: "Amatic SC", cursive;
-        font-size: 2.2rem;
-        color: #ff5500;
-      }
-      .nav-link {
-        font-size: 1.1rem;
-        color: #333;
-        margin-right: 1rem;
-        transition: color 0.2s;
-        font-family: "Poppins", sans-serif;
-      }
-      .nav-link:hover,
-      .nav-link.active {
-        color: #cb7575;
-        font-weight: bold;
-      }
-      .sidebar {
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plate2Purpose - Dashboard</title>
+  <link rel="icon" href="images/recycle-sign.png" type="image/png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Playfair+Display&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <style>
+    /* Background blur only */
+    #blurBackground {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(5px);
+      z-index: 998;
+    }
+
+    /* Full-screen overlay container */
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Centered drag modal */
+    #dropModal {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      border: 2px dashed #0d6efd;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      animation: popup 0.3s ease-in-out;
+      z-index: 1000;
+    }
+
+    @keyframes popup {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+
+
+
+  <style>
+    
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff5f0;
+    }
+
+    .preloader {
         position: fixed;
-        top: 110px;
-        left: 20px;
-        height: 650px;
-        width: 230px;
-        background-color: #ffffff;
-        border-radius: 16px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        padding-top: 30px;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff5f0; /* Match your site's theme */
         display: flex;
-        flex-direction: column;
-        gap: 12px;
-        padding: 20px 10px;
-        z-index: 100;
-        overflow-y: auto; /* <-- Make sidebar scrollable */
-      }
-      .sidebar a {
-        color: #333;
-        text-decoration: none;
-        padding: 15px 8px;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease;
+        z-index: 2000;
+    }
+
+    .spinner-rotate img {
+    animation: spin-pulse 2s linear infinite;
+    }
+
+    @keyframes spin-pulse {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+    }
+    .navbar {
+    height: 100px; /* set desired height */
+    display: flex;
+    align-items: center;
+    }
+    
+
+    .navbar .nav-link {
+        color: #717275;
+        height: 100px;
+        font-size: 14px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 300;
+        letter-spacing: 0px;
+        word-spacing: -2px;
+        margin: 0 20px;
+        height: 100%;
         display: flex;
         align-items: center;
-        gap: 14px;
-        transition: background 0.3s, color 0.3s;
-        border-radius: 8px;
-        margin: 0 10px;
-        font-family: "Poppins", sans-serif;
-      }
-      .sidebar a:hover,
-      .sidebar a.active {
+    }
+    .navbar .nav-link {
+      color: #222;
+      transition: all 0.3s;
+      font-family: 'Poppins', sans-serif;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+    .navbar .nav-link:hover,
+    .navbar .nav-link.active {
+      color: #cb7575;
+    }
+    .navbar-brand {
+      color: #ff5500 !important;
+    }
+    .sidebar {
+      position: fixed;
+      top: 110px;
+      left: 20px;
+      height: 550px;
+      width: 230px;
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding-top: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start; /* keep buttons grouped at top */
+      gap: 12px; /* ✅ adds space between buttons */
+      padding: 20px 10px;
+    }
+    .sidebar a {
+      color: #333;
+      text-decoration: none;
+      padding: 15px 8px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: background 0.3s, color 0.3s;
+      border-radius: 8px;
+      margin: 0 10px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .sidebar a:hover, .sidebar a.active {
+      background-color: #cb7575;
+      color: white;
+    }
+    .main {
+      margin-left: 270px;
+      margin-top: 80px; /* 👈 lowered from 130px */
+      padding: 30px;
+    }
+
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+    .section > .bg-white {
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* subtle shadow */
+      background-color: white; /* ensure background is visible */
+      min-height: 550px; /* optional height */
+    }
+
+    h2 {
+      color: #cb7575;
+    }
+
+        .side-semicircle {
+        position: fixed;
+        bottom: 30px;
+        right: 0;
+        height: 60px;
         background-color: #cb7575;
-        color: white;
-      }
-      .main {
-        margin-left: 270px;
-        margin-top: 80px;
-        padding: 30px;
-        max-width: 900px;
-      }
-      .section {
-        display: none;
-      }
-      .section.active {
-        display: block;
-      }
-      .section > .bg-white {
-        border-radius: 14px;
-        padding: 30px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border-top-left-radius: 60px;
+        border-bottom-left-radius: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0 15px 0 10px;
+        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        overflow: hidden;
+        }
+
+        /* Inner Content Layer (Above Stars) */
+        .side-semicircle .semicircle-content {
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+        }
+
+        /* Circular AI Button */
+        .rounded-button-link {
         background-color: white;
-        min-height: 550px;
-      }
-      h2 {
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
         color: #cb7575;
-        font-family: "Playfair Display", serif;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-      }
-      .form-control,
-      .form-select {
-        margin-bottom: 1rem;
-      }
-      .btn-theme {
-        background: #cb7575;
-        color: #fff;
-        border: none;
-        padding: 0.5rem 1.5rem;
-        border-radius: 4px;
-        transition: background 0.2s;
-      }
-      .btn-theme:hover {
-        background: #a94d4d;
-      }
-      .upload-box {
-        border: 2px dashed #cb7575;
-        border-radius: 8px;
-        padding: 2rem;
-        text-align: center;
-        background: #fff0eb;
-        margin-bottom: 2rem;
-        cursor: pointer;
-      }
-      .upload-box:hover {
-        background: #ffe5e0;
-      }
-      .list-group-item {
-        font-family: "Poppins", sans-serif;
-      }
-      .copyright {
-        text-align: center;
-        color: #888;
-        font-size: 1rem;
-        background: #fff;
-        margin-top: 2rem;
-        border-top: 1px solid #eee;
-        padding: 1rem 0;
-      }
-      .switch-mode-btn {
-        background-color: transparent;
-        color: #cb7575;
-        border: 2px solid #cb7575;
-        padding: 12px 20px;
-        font-size: 14px;
-        font-weight: 600;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        width: calc(100% - 40px);
-        margin: 0 20px;
-        font-family: "Poppins", sans-serif;
-        margin-bottom: 10px;
-      }
-      .switch-mode-btn:hover {
-        background-color: #cb7575;
+        text-decoration: none;
+        margin-right: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        }
+
+        .rounded-button-link:hover {
+        transform: scale(1.1);
+        }
+
+        /* AI Label */
+        .semicircle-label {
+        font-family: 'Amatic SC', cursive;
+        font-size: 22px;
         color: white;
-      }
-      .profile-box {
-        background-color: #fff0eb;
-        border-radius: 16px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        margin-top: 20px;
-        padding: 15px;
-        max-width: 100%;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        font-size: 14px;
-        font-family: "Poppins", sans-serif;
-      }
-      .profile-name {
-        color: #cb7575;
-        font-size: 16px;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: block;
-        width: 100%;
-        font-family: "Poppins", sans-serif;
-      }
-      .profile-email {
-        font-size: 13px;
-        margin-top: 4px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: block;
-        width: 100%;
-        font-family: "Poppins", sans-serif;
-      }
-    </style>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Plate2Purpose</a>
-        <div class="collapse navbar-collapse">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="dashboard.html">Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="dashboard2.html"
-                >Restaurant Dashboard</a
-              >
-            </li>
-            <li class="nav-item position-relative">
-              <button
-                id="saveBtn"
-                class="btn btn-outline-primary d-flex align-items-center gap-2"
-                style="font-family: 'Poppins', sans-serif; font-weight: 600"
-              >
-                <span
-                  class="spinner-border spinner-border-sm d-none"
-                  id="saveSpinner"
-                  role="status"
-                  aria-hidden="true"
-                ></span>
-                <span id="saveText">Save Changes</span>
-              </button>
-              <span
-                id="saveFeedback"
-                style="
-                  position: absolute;
-                  top: 100%;
-                  left: 50%;
-                  transform: translateX(-50%);
-                  background: #cb7575;
-                  color: #fff;
-                  padding: 4px 16px;
-                  border-radius: 8px;
-                  font-size: 14px;
-                  opacity: 0;
-                  transition: opacity 0.3s;
-                  margin-top: 4px;
-                  z-index: 10;
-                "
-                >Saved!</span
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+        }
 
-    <div class="sidebar">
-      <a href="#" class="sidebar-link active" data-target="attendance"
-        ><i class="bi bi-people-fill"></i> Attendance</a
-      >
-      <a href="#" class="sidebar-link" data-target="calculator"
-        ><i class="bi bi-calculator"></i> Food Calculator</a
-      >
-      <a href="#" class="sidebar-link" data-target="payments"
-        ><i class="bi bi-credit-card"></i> UPI Payments</a
-      >
-      <a href="#" class="sidebar-link" data-target="menu"
-        ><i class="bi bi-list"></i> Menu & Recipes</a
-      >
-      <a href="#" class="sidebar-link" data-target="bulk"
-        ><i class="bi bi-box-seam"></i> Bulk Orders</a
-      >
-      <a href="#" class="sidebar-link" data-target="preorder"
-        ><i class="bi bi-clock-history"></i> Pre-Orders</a
-      >
-      <a href="#" class="sidebar-link" data-target="reservations"
-        ><i class="bi bi-calendar-check"></i> Reservations</a
-      >
-      <a href="#" class="sidebar-link" data-target="feedback"
-        ><i class="bi bi-chat-dots"></i> Feedback</a
-      >
-      <button class="switch-mode-btn" id="modeSwitchBtn" onclick="switchMode()">
-        Switch Mode
+        /* Twinkling Stars Behind Button & Text */
+        .star {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background-image: url("data:image/svg+xml;utf8,<svg fill='white' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><polygon points='12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9'/></svg>");
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0.8;
+        filter: drop-shadow(0 0 4px white);
+        animation: twinkle 2s infinite ease-in-out;
+        z-index: 1;
+        }
+
+        /* Individual Star Positions */
+        .star-1 { top: 10px; right: 10px; animation-delay: 0s; }
+        .star-2 { top: 25px; right: 30px; animation-delay: 0.4s; }
+        .star-3 { top: 40px; right: 15px; animation-delay: 0.8s; }
+
+        /* Star Twinkle Animation */
+        @keyframes twinkle {
+        0%, 100% {
+            opacity: 0.3;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.8);
+        }
+        }
+        .mark-btn.active {
+          background-color: #0d6efd; /* Bootstrap primary blue */
+          color: white;
+          border-color: #0d6efd;
+        }
+
+        .edit-btn.active {
+          background-color: #ffc107; /* Bootstrap warning yellow */
+          color: black;
+          border-color: #ffc107;
+        }
+
+        .attendance-toggle {
+        transition: all 0.2s ease;
+      }
+
+      .attendance-toggle:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .menu-checkbox {
+      width: 20px;
+      height: 20px;
+      appearance: none;
+      border: 2px dotted #cb7575;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+    }
+    
+
+    .menu-checkbox:checked::before {
+      content: "✔";
+      position: absolute;
+      top: -2px;
+      left: 2px;
+      color: #cb7575;
+      font-size: 14px;
+    }
+
+    
+    /* Hide native radio */
+    .custom-radio input[type="radio"] {
+      display: none;
+    }
+
+    /* Create custom radio */
+    .custom-radio .radio-style {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #cb7575;
+      border-radius: 50%;
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+    }
+
+    /* Fill selected radio */
+    .custom-radio input[type="radio"]:checked + .radio-style::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background-color: #cb7575;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+    }
+
+    .profile-box {
+      background-color: #fff0eb;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      margin-top: 20px;
+      padding: 15px;
+      max-width: 100%;        /* prevent overflow */
+      word-wrap: break-word;  /* wraps long email text */
+      overflow-wrap: break-word;
+      font-size: 14px;         /* optional: to make content fit nicely */
+    }
+
+
+
+    .profile-name {
+      color: #cb7575;
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      width: 100%;  
+    }
+
+    .profile-email {
+      font-size: 13px;
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      width: 100%;  
+    }
+
+    .profile-info .text-truncate {
+      white-space: nowrap;         /* Don't allow text to wrap */
+      overflow: hidden;            /* Hide the overflow */
+      text-overflow: ellipsis;     /* Show '...' when text is too long */
+      display: block;              /* Ensure block element */
+      max-width: 100%;             /* Restrict width to container */
+    }
+
+    .btn-theme {
+      background-color: #cb7575;
+      color: white;
+      border: none;
+    }
+
+    .btn-theme:hover {
+      background-color: #b14c4c;
+      color: white;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 230, 220, 0.6); /* soft peach blur */
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+    }
+
+    .profile-modal {
+      background-color: #fff5f0;
+      border-radius: 24px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .profile-modal input {
+      margin-bottom: 10px;
+    }
+
+    /* ✅ Ultimate animated save button */
+    .save-animated-btn {
+      position: relative;
+      padding: 10px 24px;
+      border: 2px solid #0d6efd;
+      background-color: #0d6efd;
+      color: #fff;
+      font-weight: 600;
+      font-size: 16px;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: background-color 0.3s, transform 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .save-animated-btn:hover {
+      background-color: #0b5ed7;
+      transform: scale(1.05);
+    }
+
+    .save-loader {
+      display: inline-block;
+      width: 0;
+      height: 0;
+      border: 3px solid transparent;
+      border-top: 3px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+      opacity: 0;
+      transition: width 0.2s, height 0.2s, opacity 0.2s;
+    }
+
+    .save-animated-btn.saving .save-text {
+      opacity: 0.6;
+    }
+
+    .save-animated-btn.saving .save-loader {
+      width: 16px;
+      height: 16px;
+      opacity: 1;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ✅ STYLISH SAVE BUTTON */
+    .save-button {
+      position: relative;
+      padding: 14px 32px;
+      font-size: 16px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #00c9ff, #92fe9d);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 15px rgba(0, 201, 255, 0.6);
+    }
+
+    .save-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 201, 255, 0.9), 0 0 40px #92fe9d;
+    }
+
+    .save-label {
+      display: inline-block;
+      transition: opacity 0.3s ease;
+    }
+
+    .save-feedback {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      font-size: 16px;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    /* Show feedback */
+    .save-button.saved .save-label {
+      opacity: 0;
+    }
+
+    .save-button.saved .save-feedback {
+      opacity: 1;
+    }
+
+    /* ✅ Clean Modern Save Button */
+    .save-btn {
+      position: relative;
+      padding: 12px 28px;
+      font-size: 15px;
+      font-weight: 600;
+      background-color: #0d6efd;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .save-btn:hover {
+      background-color: #0b5ed7;
+      transform: scale(1.03);
+    }
+
+    .btn-loader {
+      width: 16px;
+      height: 16px;
+      border: 3px solid transparent;
+      border-top: 3px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: none;
+    }
+
+    .btn-check {
+      font-size: 16px;
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .save-btn.loading .btn-text {
+      opacity: 0.6;
+    }
+
+    .save-btn.loading .btn-loader {
+      display: inline-block;
+    }
+
+    .save-btn.saved .btn-loader,
+    .save-btn.saved .btn-text {
+      display: none;
+    }
+
+    .save-btn.saved .btn-check {
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .switch-mode-btn {
+      background-color: transparent;
+      color: #cb7575;
+      border: 2px solid #cb7575;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: calc(100% - 40px); /* to fit in sidebar nicely */
+      margin: 0 20px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .switch-mode-btn:hover {
+      background-color: #cb7575;
+      color: white;
+    }
+
+    /* Ensure all images scale nicely */
+img, .card-img-top, .preloader img, .preloader-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Make hero-like / generated card images cover on wide screens but remain proportional on small screens */
+.card-img-top {
+  object-fit: cover;
+  width: 100%;
+  height: 180px; /* preserved for desktop cards */
+}
+
+/* ---------- Responsive adjustments ---------- */
+
+/* Tablet and below: compact layout */
+@media (max-width: 991.98px) {
+  /* Sidebar converts to horizontal/stacked block and won't overlap main */
+  .sidebar {
+    position: static !important;
+    top: auto;
+    left: auto;
+    width: 100% !important;
+    height: auto !important;
+    margin: 90px 10px 10px 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  }
+
+  /* Main content takes full width */
+  .main {
+    margin-left: 0 !important;
+    margin-top: 12px !important;
+    padding: 16px !important;
+  }
+
+  /* Make bg-white sections adapt and be scrollable rather than fixed tall blocks */
+  .section > .bg-white {
+    min-height: auto !important;
+    padding: 18px !important;
+  }
+
+  /* Stack small groups vertically */
+  .d-flex.gap-2 {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  /* Inline checks become stacked for readability */
+  .form-check-inline {
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* Buttons inside content become full-width where it makes sense */
+  .main .btn,
+  .bg-white .btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Reduce preloader logo for tablets */
+  .preloader img {
+    width: 56px;
+    height: auto;
+    max-width: 56px;
+  }
+
+  /* Prevent accidental horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* Phones: more compact tweaks */
+@media (max-width: 575.98px) {
+  /* Tighten paddings and font sizes */
+  .main { padding: 10px !important; }
+  .section > .bg-white { padding: 12px !important; border-radius: 12px; }
+
+  h2 { font-size: 18px; }
+  .navbar .nav-link { font-size: 12px; margin: 0 6px; }
+  .navbar-brand { font-size: 22px; }
+
+  /* Hide decorative semicircle to regain horizontal space */
+  .side-semicircle { display: none !important; }
+
+  /* News / card images: remove fixed height so they scale naturally on phones */
+  .card-img-top { height: auto !important; }
+
+  /* Recipe/menu rows: force columns to stack */
+  .recipe-row .col-md-4 { flex-basis: 100% !important; max-width: 100% !important; }
+
+  /* List-group items: make content wrap instead of overflow */
+  #studentList .list-group-item,
+  #menuList .list-group-item {
+    word-break: break-word;
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  /* Profile box simplified */
+  .profile-box { padding: 10px; font-size: 13px; }
+
+  /* Make small controls (save button, mode buttons) slightly smaller */
+  .save-btn, .save-animated-btn, .save-button, .switch-mode-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    width: 100%;
+  }
+
+  /* Ensure modals and overlays stay within viewport */
+  .overlay, #overlay, #markOverlay {
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+
+  /* Make profile box fill more horizontal space on phones */
+  .profile-box {
+      max-width: none;             /* allow full width */
+      width: calc(100% - 12px);    /* leave small horizontal padding */
+      margin: 0 6px;               /* match container padding */
+      box-sizing: border-box;      /* include padding in width */
+      padding: 12px;               /* slightly tighter padding for phones */
+    }
+}
+
+/* Desktop tweak: keep preloader logo modest on big screens */
+@media (min-width: 992px) {
+  .preloader img { width: 48px; height: auto; max-width: 48px; }
+}
+
+/* Small utility: ensure form controls don't overflow their parent */
+.form-control {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+  </style>
+
+  <!-- ✅ Supabase Auth Protection -->
+  <!-- ✅ Supabase Auth Protection -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js"></script>
+
+  <script src="credentials.js"></script>
+  <script>
+    const client = supabase.createClient(
+      "https://pljmachiuahkrkiddehc.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsam1hY2hpdWFoa3JraWRkZWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMTAyNDEsImV4cCI6MjA2NjY4NjI0MX0.ke4EYw5lGX5DHrgu1GCDxRUbMYU-M6KzbLZVeesoVm8"
+    );
+
+    
+
+    document.addEventListener("DOMContentLoaded", async () => {
+    const { data, error } = await client.auth.getUser();
+
+    if (!data?.user) {
+      window.location.href = "login.html";
+    } else {
+      const name = data.user.user_metadata?.full_name || "User";
+
+      const email = data.user.email || "unknown@example.com";
+
+      // ✅ Set in sidebar profile
+      document.getElementById("profileNameDisplay").innerText = name;
+      document.getElementById("profileEmailDisplay").innerText = email;
+
+      // ✅ Set in modal when it's opened
+      document.getElementById("profileName").value = name;
+      document.getElementById("profileEmail").value = email;
+
+      console.log("✅ Logged in:", name, email);
+    }
+  });
+
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+
+    <section class="preloader" id="preloader">
+        <div class="spinner">
+            <span class="spinner-rotate">
+                <img src="images/recycle-sign.png" alt="Loading..." style="width: 60px; height: 60px;">
+            </span>
+        </div>
+    </section>
+
+  <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
+    <div class="container">
+      <!-- Added: Bootstrap burger (navbar-toggler) to open/close collapsed menu on small screens -->
+      <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- show bootstrap icon and fallback icon -->
+        <span class="navbar-toggler-icon" aria-hidden="true"></span>
+        <i class="bi bi-list" aria-hidden="true" style="font-size:1.1rem; margin-left:6px;"></i>
       </button>
-      <div
-        class="profile-box text-center mx-3 p-3 mt-auto"
-        style="cursor: pointer"
-      >
-        <div class="profile-name fw-semibold" id="profileNameDisplay">
-          Dhurgesh Maloth
+
+      <a href="dashboard.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
+        <span style="color: #ff5500;">Plate </span><span class="brand-icon" style="color: #ff5500;">2♻️</span><span style="color: #ff5500;">Purpose</span>
+      </a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link active" href="dashboard.html">DASHBOARD</a></li>
+          <li class="nav-item"><a class="nav-link" href="about2.html">ABOUT US</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact2.html">CONTACT US</a></li>
+          <button id="saveBtn" class="btn btn-outline-primary d-flex align-items-center gap-2">
+            <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
+            <span id="saveText">Save Changes</span>
+          </button>
+
+
+
+
+
+
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar: replace existing links with restaurant-mode links -->
+  <div class="sidebar">
+    <a href="#" class="sidebar-link active" data-target="attendance"><i class="bi bi-people-fill"></i> Attendance</a>
+    <a href="#" class="sidebar-link" data-target="calculator"><i class="bi bi-calculator"></i> Food Calculator</a>
+    <a href="#" class="sidebar-link" data-target="payments"><i class="bi bi-credit-card"></i> UPI Payments</a>
+    <a href="#" class="sidebar-link" data-target="menu"><i class="bi bi-list"></i> Menu &amp; Recipes</a>
+    <a href="#" class="sidebar-link" data-target="bulk"><i class="bi bi-box-seam"></i> Bulk Orders</a>
+    <a href="#" class="sidebar-link" data-target="preorder"><i class="bi bi-clock-history"></i> Pre-Orders</a>
+    <a href="#" class="sidebar-link" data-target="reservations"><i class="bi bi-calendar-check"></i> Reservations</a>
+     <button class="switch-mode-btn" id="modeSwitchBtn" onclick="switchMode()">
+       Switch Mode
+     </button>
+
+
+
+    <div class="profile-box text-center mx-3 p-3 mt-auto" onclick="openProfileModal()" style="cursor: pointer;">
+      <div class="profile-name fw-semibold" id="profileNameDisplay">Dhurgesh Maloth</div>
+      <div class="profile-email text-muted small" id="profileEmailDisplay">malothdhurgesh@gmail.com</div>
+      
+      <button class="btn btn-outline-danger btn-sm mt-2 w-100" onclick="logout(); event.stopPropagation();">Logout</button>
+    </div>
+
+
+  </div>
+
+  <div class="main">
+    <div id="attendance" class="section active">
+      <div class="bg-white" >
+        <h2>Attendance Tracking</h2>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="mb-0"></h4>
+          <div class="dropdown">
+            <button
+              class="btn border-0 p-1"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              style="background-color: transparent; font-size: 1.5rem; line-height: 1; box-shadow: none;"
+            >
+              &#x22EE;
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn">
+              
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <button class="dropdown-item" onclick="downloadTemplateforImport()">Download Template for Import</button>
+            </li>
+
+
+            <li>
+              <button class="dropdown-item" onclick="downloadTemplate()">Download Template for Attendance</button>
+            </li>
+            <li>
+              <button class="dropdown-item" onclick="document.getElementById('importBtn').click()">Import Students from Excel File</button>
+            </li>
+            <li>
+              <button class="dropdown-item" onclick="document.getElementById('markFromExcelBtn').click()">Mark Attendance from Excel</button>
+            </li>
+            <li>
+              <button class="dropdown-item" onclick="document.getElementById('exportAttendanceBtn').click()">Export Attendance</button>
+            </li>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+function downloadTemplate() {
+  // Data for template
+  const data = [
+    ["Name", "Status"], // Header row
+    ["", ""], // Empty row for user to fill
+  ];
+
+  // Create worksheet
+  const ws = XLSX.utils.aoa_to_sheet(data);
+
+  // Create workbook
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Template");
+
+  // Export to Excel file
+  XLSX.writeFile(wb, "Attendance_Template_Attendence.xlsx");
+}
+</script>
+<script>
+function downloadTemplateforImport() {
+  // Data for template
+  const data = [
+    ["Name", "Preferences"], // Header row
+    ["", ""], // Empty row for user to fill
+  ];
+
+  // Create worksheet
+  const ws = XLSX.utils.aoa_to_sheet(data);
+
+  // Create workbook
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Template");
+
+  // Export to Excel file
+  XLSX.writeFile(wb, "Attendance_Template_Import.xlsx");
+}
+</script>
+
+            </ul>
+          </div>
         </div>
-        <div class="profile-email text-muted small" id="profileEmailDisplay">
-          malothdhurgesh@gmail.com
+
+
+
+        <div class="mb-3 d-flex gap-2">
+          <button class="btn btn-outline-primary mode-btn mark-btn active" onclick="setMode('mark')">Mark Attendance</button>
+          <button class="btn btn-outline-warning mode-btn edit-btn" onclick="setMode('edit')">Edit Students</button>
         </div>
-        <button
-          class="btn btn-outline-danger btn-sm mt-2 w-100"
-          id="logoutBtn"
-          onclick="logout(); event.stopPropagation();"
-        >
-          Logout
-        </button>
+
+
+
+        <div class="mb-3">
+          <input type="text" id="studentName" placeholder="Enter student name" class="form-control mb-2" />
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="prefBreak" value="Breakfast">
+            <label class="form-check-label" for="prefBreak">Breakfast</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="prefLunch" value="Lunch">
+            <label class="form-check-label" for="prefLunch">Lunch</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="prefDinner" value="Dinner">
+            <label class="form-check-label" for="prefDinner">Dinner</label>
+          </div>
+          <button class="btn btn-primary mt-2" onclick="addStudent()">Add Student</button>
+        </div>
+
+        <!-- 📥 Import Button -->
+        <!-- 📥 Import Button -->
+        <div class="mb-3 d-flex gap-2">
+          
+          
+        </div>
+
+                <!-- Hidden control buttons for script access -->
+        <div class="d-none">
+          <button id="importBtn" class="btn btn-primary">Import Students</button>
+          <button id="markFromExcelBtn" class="btn btn-success">Mark Attendance from Excel</button>
+          <button id="exportAttendanceBtn" class="btn btn-success mt-3">Export Attendance</button>
+        </div>
+
+
+
+        <!-- 🌫️ Overlay with blur + modal -->
+        <div id="overlay">
+          <div id="blurBackground"></div>
+          <div id="dropModal">
+            <h5 class="mb-3"> Upload Excel File</h5>
+            <p> Drag & Drop here or click to choose</p>
+            <input type="file" id="fileInput" accept=".xlsx, .xls" hidden>
+          </div>
+        </div>
+
+        <!-- 📑 Mark Attendance from Excel -->
+        <div class="mb-3">
+         
+        </div>
+
+        
+
+        <!-- 🌫️ Overlay with Drag & Drop Modal -->
+        <div id="markOverlay" style="display: none;">
+          <div id="blurBackground" style="
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(5px);
+            z-index: 998;"></div>
+
+          <div id="markModal" style="
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px dashed #198754;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            z-index: 999;">
+            <h5> Upload Excel to Mark Attendance</h5>
+            <p>Drag & drop or click to select file</p>
+            <input type="file" id="markFileInput" accept=".xlsx, .xls" hidden>
+          </div>
+        </div>
+
+
+
+
+
+        <!-- 📥 Import Button (below Add Student box) -->
+
+
+        <ul id="studentList" class="list-group"></ul>
+
+
+        <script>
+          function renderStudents() {
+          const list = document.getElementById("studentList");
+          list.innerHTML = "";
+
+          students.forEach((student, i) => {
+            const li = document.createElement("li");
+            li.className = "list-group-item";
+
+            if (currentMode === 'mark') {
+            li.innerHTML = `
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>${student.name}</strong> - ${student.preferences.join(", ")}
+              </div>
+              <div>
+                <button 
+                  class="btn btn-sm attendance-toggle"
+                  style="
+                    background-color: ${student.present ? '#90ee90' : '#f08080'};
+                    color: black;
+                    
+                  "
+                  onclick="toggleAttendance(${i})"
+                >
+                  ${student.present ? 'Present' : 'Absent'}
+                </button>
+              </div>
+            </div>
+          `;
+
+          
+
+            } else if (currentMode === 'edit') {
+              li.innerHTML = `
+                <div class="row align-items-center">
+                  <div class="col-md-3">
+                    <input type="text" class="form-control" id="name-${i}" value="${student.name}">
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="edit-break-${i}" ${student.preferences.includes("Break") ? "checked" : ""}>
+                      <label class="form-check-label">Break</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="edit-lunch-${i}" ${student.preferences.includes("Lunch") ? "checked" : ""}>
+                      <label class="form-check-label">Lunch</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="edit-dinner-${i}" ${student.preferences.includes("Dinner") ? "checked" : ""}>
+                      <label class="form-check-label" for="edit-dinner-${i}">Dinner</label>
+                    </div>
+
+
+                  </div>
+                  <div class="col-md-5 d-flex gap-2">
+                    <button class="btn btn-sm btn-success" onclick="saveEdit(${i})">Save</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteStudent(${i})">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              `;
+            }
+
+            list.appendChild(li);
+          });
+        }
+        
+
+
+        </script>
+        
+
+      </div>
+      
+    
+    </div>
+
+
+
+    <div id="calculator" class="section">
+      <div class="bg-white">
+        <h2>Food Calculator</h2>
+        <button class="btn btn-primary mb-3" onclick="calculateFood()"> Calculate</button>
+        <p>This calculates the total ingredients needed based on attendance and recipes.</p>
       </div>
     </div>
 
-    <div class="main">
-      <!-- Attendance Section -->
-      <div id="attendance" class="section active">
-        <div class="bg-white">
-          <h2>Attendance Tracking</h2>
-          <div class="mb-3">
-            <input
-              type="text"
-              id="studentName"
-              placeholder="Enter guest name"
-              class="form-control mb-2"
-            />
-            <button class="btn btn-primary mt-2" onclick="addStudent()">
-              Add Guest
-            </button>
+
+    <div id="payments" class="section">
+      <div class="bg-white">
+        <h2>UPI Payments</h2>
+        <div id="upiSection" class="mt-4">
+          
+          <input type="text" id="upiIdInput" class="form-control mb-2" placeholder="Enter your UPI ID">
+          <button class="btn btn-theme" onclick="saveUpiId()">Save UPI ID</button>
+
+          <div id="upiDisplay" class="mt-3" style="display:none;">
+            <p><strong>UPI ID:</strong> <span id="upiIdText"></span></p>
+            <img id="upiQrCode" alt="UPI QR Code" style="max-width:200px;">
           </div>
-          <div
-            class="upload-box"
-            onclick="document.getElementById('attendanceExcel').click();"
-          >
-            <i
-              class="bi bi-cloud-arrow-up"
-              style="font-size: 2rem; color: #cb7575"
-            ></i>
-            <p>Upload Excel for Attendance</p>
-            <input
-              type="file"
-              id="attendanceExcel"
-              style="display: none"
-              accept=".xlsx,.xls"
-            />
+        </div>
+
+      </div>
+    </div>
+
+    <div id="menu" class="section">
+      <div class="bg-white" >
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2>Food Menu</h2>
+          <div class="btn-group">
+            <button id="chooseBtn" class="btn btn-outline-success" onclick="setRecipeMode('choose')">Choose Recipes</button>
+            <button id="editBtn" class="btn btn-outline-warning" onclick="setRecipeMode('edit')">Edit Recipes</button>
           </div>
-          <ul id="studentList" class="list-group"></ul>
+        </div>
+
+        <div class="mb-3">
+          <input type="text" id="recipeName" class="form-control mb-2" placeholder="Recipe Name">
+
+          
+
+
+          <div class="d-flex gap-2 mb-2">
+            <input type="text" id="ingredientName" class="form-control" placeholder="Ingredient Name">
+            <input type="text" id="ingredientQty" class="form-control" placeholder="Quantity">
+            <button class="btn btn-outline-secondary" onclick="addTempIngredient()">➕ Add Ingredient</button>
+          </div>
+
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="mealBreak" value="Break">
+            <label class="form-check-label">Breakfast</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="mealLunch" value="Lunch">
+            <label class="form-check-label">Lunch</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="mealDinner" value="Dinner">
+            <label class="form-check-label">Dinner</label>
+          </div>
+
+          <ul id="ingredientPreview" class="list-group mb-3"></ul>
+
+          <button class="btn btn-success" onclick="addRecipe()">Add Recipe</button>
+        </div>
+
+        <div id="recipeDisplay"></div>
+
+
+
+
+
+        <ul id="menuList" class="list-group"></ul>
+      </div>
+    </div>
+
+      
+
+
+    <div id="feedback" class="section">
+      <div class="bg-white">
+        <h2>Feedback</h2>
+        <p>Please rate your experience and leave your suggestions.</p>
+
+        <div class="mb-3">
+          <label class="form-label">Your Rating:</label>
+          <div id="starRating" class="d-flex gap-2">
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(1)"></i>
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(2)"></i>
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(3)"></i>
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(4)"></i>
+            <i class="bi bi-star-fill text-secondary fs-3" onclick="setRating(5)"></i>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="feedbackText" class="form-label">Your Feedback:</label>
+          <textarea class="form-control" id="feedbackText" rows="4" placeholder="Share your thoughts..."></textarea>
+        </div>
+
+        <button class="btn btn-theme" onclick="submitFeedback()">Submit Feedback</button>
+        <hr>
+        <h4>Public Feedback</h4>
+        <div id="publicFeedbackList" class="mt-3">
+          <p class="text-muted">Loading public feedback...</p>
         </div>
       </div>
 
-      <!-- Food Calculator Section -->
-      <div id="calculator" class="section">
-        <div class="bg-white">
-          <h2>Food Calculator</h2>
-          <button class="btn btn-primary mb-3" onclick="calculateFood()">
-            Calculate
-          </button>
-          <div id="calculatorResult"></div>
-        </div>
-      </div>
+      
 
-      <!-- UPI Payments Section -->
-      <div id="payments" class="section">
-        <div class="bg-white">
-          <h2>UPI Payments</h2>
-          <p>Feature: track and display UPI-based payments.</p>
-        </div>
-      </div>
+    </div>
 
-      <!-- Menu & Recipes Section -->
-      <div id="menu" class="section">
-        <div class="bg-white">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>Menu & Recipes</h2>
-            <div class="btn-group">
-              <button
-                id="chooseBtn"
-                class="btn btn-outline-success"
-                onclick="setRecipeMode('choose')"
-              >
-                Choose Recipes
-              </button>
-              <button
-                id="editBtn"
-                class="btn btn-outline-warning"
-                onclick="setRecipeMode('edit')"
-              >
-                Edit Recipes
-              </button>
+
+
+  <script>
+    const links = document.querySelectorAll('.sidebar-link');
+    const sections = document.querySelectorAll('.section');
+
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        const target = link.getAttribute('data-target'); // ⬅️ move this UP here
+
+        sections.forEach(section => {
+          section.classList.remove('active');
+          if (section.id === target) {
+            section.classList.add('active');
+
+            if (target === "attendance") {
+              renderStudents(); // ✅ Works now
+            }
+          }
+        });
+      });
+    });
+
+  </script>
+
+  <script>
+    setTimeout(() => {
+    const preloader = document.getElementById("preloader");
+    preloader.style.opacity = "0";
+    setTimeout(() => {
+        preloader.style.display = "none";
+    }, 500); // matches transition duration
+    }, 300);
+  </script>
+
+            <div class="side-semicircle">
+            <!-- Stars container moved below for layering -->
+            <div class="star star-1"></div>
+            <div class="star star-2"></div>
+            <div class="star star-3"></div>
+
+            <div class="semicircle-content">
+                <a href="https://www.chatbase.co/chatbot-iframe/mNj1B_5a_O7dnNtvOHAJY" class="rounded-button-link">
+                <i class="bi bi-cpu"></i>
+                </a>
+                <span class="semicircle-label">AI</span>
             </div>
+            </div>
+  <script>
+  let recipes = [];
+  let tempIngredients = [];
+  let editTempIngredients = {};
+  let recipeMode = 'choose'; // Default mode
+  let selectedRecipeIndexes = [];
+
+
+  window.addEventListener("DOMContentLoaded", () => {
+    setRecipeMode("choose"); // 👈 Start in choose mode
+    renderRecipes();
+  });
+
+  function setRecipeMode(mode) {
+    recipeMode = mode;
+    renderRecipes();
+
+    const chooseBtn = document.getElementById("chooseBtn");
+    const editBtn = document.getElementById("editBtn");
+
+    // Reset both buttons
+    chooseBtn.classList.remove("btn-success", "text-white");
+    chooseBtn.classList.add("btn-outline-success");
+
+    editBtn.classList.remove("btn-warning", "text-dark");
+    editBtn.classList.add("btn-outline-warning");
+
+    // Apply active styles based on mode
+    if (mode === "choose") {
+      chooseBtn.classList.remove("btn-outline-success");
+      chooseBtn.classList.add("btn-success", "text-white");
+    } else if (mode === "edit") {
+      editBtn.classList.remove("btn-outline-warning");
+      editBtn.classList.add("btn-warning", "text-dark");
+    }
+  }
+
+
+
+  function addTempIngredient() {
+    const name = document.getElementById("ingredientName").value.trim();
+    const qty = document.getElementById("ingredientQty").value.trim();
+    if (!name || !qty) return;
+
+    tempIngredients.push({ name, qty });
+    document.getElementById("ingredientName").value = "";
+    document.getElementById("ingredientQty").value = "";
+    renderIngredientPreview();
+  }
+
+  function renderIngredientPreview() {
+    const list = document.getElementById("ingredientPreview");
+    list.innerHTML = "";
+    tempIngredients.forEach((item, index) => {
+      const li = document.createElement("li");
+      li.className = "list-group-item d-flex justify-content-between";
+      li.innerHTML = `
+        <span>${item.name} - ${item.qty}</span>
+        <button class="btn btn-sm btn-outline-danger" onclick="removeTempIngredient(${index})">✖</button>
+      `;
+      list.appendChild(li);
+    });
+  }
+
+  function removeTempIngredient(index) {
+    tempIngredients.splice(index, 1);
+    renderIngredientPreview();
+  }
+
+  function addRecipe() {
+    const name = document.getElementById("recipeName").value.trim();
+    const ingName = document.getElementById("ingredientName").value.trim();
+    const ingQty = document.getElementById("ingredientQty").value.trim();
+
+    let ingredients = tempIngredients.length ? [...tempIngredients] : [];
+
+    // 👇 Add inline ingredient if user typed one but didn't click ➕
+    if (ingName && ingQty) {
+      ingredients.push({ name: ingName, qty: ingQty });
+    }
+
+    // Collect meals
+    const meals = [];
+    if (document.getElementById("mealBreak").checked) meals.push("Break");
+    if (document.getElementById("mealLunch").checked) meals.push("Lunch");
+    if (document.getElementById("mealDinner").checked) meals.push("Dinner");
+
+    // ❌ Validations
+    if (!name) {
+      alert("Please enter a recipe name.");
+      return;
+    }
+
+    if (ingredients.length === 0) {
+      alert("Please add at least one ingredient.");
+      return;
+    }
+
+    if (meals.length === 0) {
+      alert("Please select at least one meal (Breakfast, Lunch, or Dinner).");
+      return;
+    }
+
+    // ✅ Add the recipe
+    recipes.push({ name, ingredients, meals });
+
+    // ✅ Reset everything
+    document.getElementById("recipeName").value = "";
+    document.getElementById("ingredientName").value = "";
+    document.getElementById("ingredientQty").value = "";
+    document.getElementById("mealBreak").checked = false;
+    document.getElementById("mealLunch").checked = false;
+    document.getElementById("mealDinner").checked = false;
+
+    tempIngredients = [];
+    renderIngredientPreview();
+    renderRecipes();
+  }
+
+
+
+
+  function renderRecipes() {
+    const list = document.getElementById("menuList");
+    list.innerHTML = "";
+
+    recipes.forEach((recipe, i) => {
+      if (!editTempIngredients[i]) {
+        editTempIngredients[i] = recipe.ingredients ? [...recipe.ingredients] : [];
+      }
+
+      const li = document.createElement("li");
+      li.className = "list-group-item";
+
+      if (recipeMode === "choose") {
+      li.innerHTML = `
+        <div class="row align-items-center recipe-row" onclick="toggleRecipeSelection(${i})" style="cursor: pointer;">
+          <div class="col-md-4">
+            <strong>${recipe.name}</strong><br>
+            <small>${(recipe.meals || []).map(meal => meal === "Break" ? "Breakfast" : meal).join(", ")}</small>
           </div>
-          <div
-            class="upload-box"
-            onclick="document.getElementById('menuExcel').click();"
-          >
-            <i
-              class="bi bi-cloud-arrow-up"
-              style="font-size: 2rem; color: #cb7575"
-            ></i>
-            <p>Upload Excel for Menu & Recipes</p>
-            <input
-              type="file"
-              id="menuExcel"
-              style="display: none"
-              accept=".xlsx,.xls"
-            />
+          <div class="col-md-4">
+            ${(recipe.ingredients || []).map(ing => `${ing.name}: ${ing.qty}`).join('<br>')}}
           </div>
+          <div class="col-md-4 d-flex justify-content-end align-items-center">
+            <input 
+              type="checkbox" 
+              class="form-check-input choose-checkbox" 
+              id="choose-checkbox-${i}"
+              ${selectedRecipeIndexes.includes(i) ? "checked" : ""}
+              onclick="event.stopPropagation();" 
+            >
+
+          </div>
+        </div>
+      `;
+    
+
+    
+
+    
+
+      } else if (recipeMode === "edit") {
+        const ingredientsHtml = editTempIngredients[i].map((ing, j) => `
+          <li class="list-group-item d-flex gap-2 align-items-center">
+            <input type="text" class="form-control" id="edit-ing-name-${i}-${j}" value="${ing.name}" style="flex: 2;">
+            <input type="text" class="form-control" id="edit-ing-qty-${i}-${j}" value="${ing.qty}" style="flex: 1;">
+            <button class="btn btn-sm btn-outline-danger" onclick="removeEditIngredient(${i}, ${j})">
+              <i class="bi bi-x"></i>
+            </button>
+          </li>
+        `).join("");
+
+        li.innerHTML = `
           <div class="mb-3">
-            <input
-              type="text"
-              id="recipeName"
-              class="form-control mb-2"
-              placeholder="Recipe Name"
-            />
+            <input type="text" class="form-control mb-2" id="recipe-${i}" value="${recipe.name}" placeholder="Recipe Name">
+            
+            <ul class="list-group mb-2">${ingredientsHtml}</ul>
+
             <div class="d-flex gap-2 mb-2">
-              <input
-                type="text"
-                id="ingredientName"
-                class="form-control"
-                placeholder="Ingredient Name"
-              />
-              <input
-                type="text"
-                id="ingredientQty"
-                class="form-control"
-                placeholder="Quantity"
-              />
-              <button
-                class="btn btn-outline-secondary"
-                onclick="addTempIngredient()"
-              >
-                ➕ Add Ingredient
+              <input type="text" class="form-control" id="new-ing-name-${i}" placeholder="New Ingredient">
+              <input type="text" class="form-control" id="new-ing-qty-${i}" placeholder="Quantity">
+              <button class="btn btn-outline-secondary" onclick="addEditIngredient(${i})">➕</button>
+            </div>
+
+            <!-- ✅ Meals -->
+            <div class="mb-2">
+              <label><strong>Meals:</strong></label><br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="edit-meal-break-${i}" ${recipe.meals?.includes("Break") ? "checked" : ""}>
+                <label class="form-check-label" for="edit-meal-break-${i}">Breakfast</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="edit-meal-lunch-${i}" ${recipe.meals?.includes("Lunch") ? "checked" : ""}>
+                <label class="form-check-label" for="edit-meal-lunch-${i}">Lunch</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="edit-meal-dinner-${i}" ${recipe.meals?.includes("Dinner") ? "checked" : ""}>
+                <label class="form-check-label" for="edit-meal-dinner-${i}">Dinner</label>
+              </div>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-success" onclick="saveRecipe(${i})">Save</button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteRecipe(${i})">
+                <i class="bi bi-trash"></i>
               </button>
             </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="mealBreak"
-                value="Break"
-              />
-              <label class="form-check-label">Breakfast</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="mealLunch"
-                value="Lunch"
-              />
-              <label class="form-check-label">Lunch</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="mealDinner"
-                value="Dinner"
-              />
-              <label class="form-check-label">Dinner</label>
-            </div>
-            <ul id="ingredientPreview" class="list-group mb-3"></ul>
-            <button class="btn btn-success" onclick="addRecipe()">
-              Add Recipe
-            </button>
           </div>
-          <ul id="menuList" class="list-group"></ul>
-        </div>
-      </div>
+        `;
+      }
 
-      <!-- Bulk Orders Section -->
-      <div id="bulk" class="section">
-        <div class="bg-white">
-          <h2>Bulk Orders</h2>
-          <div
-            class="upload-box"
-            onclick="document.getElementById('bulkExcel').click();"
-          >
-            <i
-              class="bi bi-cloud-arrow-up"
-              style="font-size: 2rem; color: #cb7575"
-            ></i>
-            <p>Upload Excel for Bulk Orders</p>
-            <input
-              type="file"
-              id="bulkExcel"
-              style="display: none"
-              accept=".xlsx,.xls"
-            />
-          </div>
-          <form id="bulk-order-form">
-            <input
-              type="text"
-              class="form-control"
-              id="bulk-name"
-              name="bulk-name"
-              placeholder="Name"
-              required
-            />
-            <input
-              type="number"
-              class="form-control"
-              id="bulk-quantity"
-              name="bulk-quantity"
-              min="1"
-              placeholder="Quantity"
-              required
-            />
-            <input
-              type="text"
-              class="form-control"
-              id="bulk-item"
-              name="bulk-item"
-              placeholder="Menu Item"
-              required
-            />
-            <button type="submit" class="btn-theme">Place Bulk Order</button>
-          </form>
-          <ul id="bulk-list" class="list-group"></ul>
-          <div
-            id="bulk-success"
-            style="display: none"
-            class="mt-2 text-success"
-          >
-            Bulk order placed!
-          </div>
-        </div>
-      </div>
+      list.appendChild(li);
+    });
+  }
 
-      <!-- Pre-Orders Section -->
-      <div id="preorder" class="section">
-        <div class="bg-white">
-          <h2>Pre-Orders</h2>
-          <div
-            class="upload-box"
-            onclick="document.getElementById('preExcel').click();"
-          >
-            <i
-              class="bi bi-cloud-arrow-up"
-              style="font-size: 2rem; color: #cb7575"
-            ></i>
-            <p>Upload Excel for Pre-Orders</p>
-            <input
-              type="file"
-              id="preExcel"
-              style="display: none"
-              accept=".xlsx,.xls"
-            />
-          </div>
-          <form id="pre-order-form">
-            <input
-              type="text"
-              class="form-control"
-              id="pre-order-name"
-              name="pre-order-name"
-              placeholder="Name"
-              required
-            />
-            <input
-              type="text"
-              class="form-control"
-              id="pre-order-item"
-              name="pre-order-item"
-              placeholder="Menu Item"
-              required
-            />
-            <input
-              type="date"
-              class="form-control"
-              id="pre-order-date"
-              name="pre-order-date"
-              required
-            />
-            <button type="submit" class="btn-theme">Pre-Order</button>
-          </form>
-          <ul id="pre-list" class="list-group"></ul>
-          <div
-            id="preorder-success"
-            style="display: none"
-            class="mt-2 text-success"
-          >
-            Pre-order successful!
-          </div>
-        </div>
-      </div>
 
-      <!-- Reservations Section -->
-      <div id="reservations" class="section">
-        <div class="bg-white">
-          <h2>Reservations</h2>
-          <form id="reservation-form" class="mb-3">
-            <input
-              type="text"
-              class="form-control mb-2"
-              id="reservation-name"
-              placeholder="Your Name"
-              required
-            />
-            <input
-              type="number"
-              class="form-control mb-2"
-              id="reservation-seats"
-              min="1"
-              placeholder="Number of Seats"
-              required
-            />
-            <input
-              type="datetime-local"
-              class="form-control mb-2"
-              id="reservation-datetime"
-              required
-            />
-            <button type="submit" class="btn-theme">Book Reservation</button>
-          </form>
-          <ul id="reservation-list" class="list-group"></ul>
-          <div
-            id="reservation-success"
-            style="display: none"
-            class="mt-2 text-success"
-          >
-            Reservation booked!
-          </div>
-        </div>
-      </div>
+  function addIngredientToRecipe(i) {
+    const name = document.getElementById(`new-ing-name-${i}`).value.trim();
+    const qty = document.getElementById(`new-ing-qty-${i}`).value.trim();
+    if (!name || !qty) return;
 
-      <!-- Feedback Section -->
-      <div id="feedback" class="section">
-        <div class="bg-white">
-          <h2>Feedback</h2>
-          <div class="mb-3">
-            <label class="form-label">Your Rating:</label>
-            <div id="starRating" class="d-flex gap-2">
-              <i
-                class="bi bi-star-fill text-secondary fs-3"
-                onclick="setRating(1)"
-              ></i>
-              <i
-                class="bi bi-star-fill text-secondary fs-3"
-                onclick="setRating(2)"
-              ></i>
-              <i
-                class="bi bi-star-fill text-secondary fs-3"
-                onclick="setRating(3)"
-              ></i>
-              <i
-                class="bi bi-star-fill text-secondary fs-3"
-                onclick="setRating(4)"
-              ></i>
-              <i
-                class="bi bi-star-fill text-secondary fs-3"
-                onclick="setRating(5)"
-              ></i>
+    editTempIngredients[i].push({ name, qty });
+    document.getElementById(`new-ing-name-${i}`).value = "";
+    document.getElementById(`new-ing-qty-${i}`).value = "";
+    renderRecipes();
+  }
+
+  function removeEditIngredient(recipeIndex, ingIndex) {
+    editTempIngredients[recipeIndex].splice(ingIndex, 1);
+    renderRecipes();
+  }
+
+  function saveRecipe(i) {
+    const name = document.getElementById(`recipe-${i}`).value.trim();
+
+    const updatedIngredients = [];
+    for (let j = 0; j < editTempIngredients[i].length; j++) {
+      const ingName = document.getElementById(`edit-ing-name-${i}-${j}`).value.trim();
+      const ingQty = document.getElementById(`edit-ing-qty-${i}-${j}`).value.trim();
+      if (ingName && ingQty) {
+        updatedIngredients.push({ name: ingName, qty: ingQty });
+      }
+    }
+
+    const meals = [];
+    if (document.getElementById(`edit-meal-break-${i}`).checked) meals.push("Break");
+    if (document.getElementById(`edit-meal-lunch-${i}`).checked) meals.push("Lunch");
+    if (document.getElementById(`edit-meal-dinner-${i}`).checked) meals.push("Dinner");
+
+    if (!name) {
+      alert("Please enter a recipe name.");
+      return;
+    }
+
+    if (updatedIngredients.length === 0) {
+      alert("Please enter at least one ingredient.");
+      return;
+    }
+
+    if (meals.length === 0) {
+      alert("Please select at least one meal.");
+      return;
+    }
+
+    // ✅ Update both arrays properly
+    recipes[i] = {
+      name,
+      ingredients: updatedIngredients,
+      meals
+    };
+
+    editTempIngredients[i] = [...updatedIngredients]; // 🔁 Update temp state too
+
+    renderRecipes(); // ✅ Reflect changes visually
+  }
+
+
+
+
+  
+  function addEditIngredient(i) {
+    const name = document.getElementById(`new-ing-name-${i}`).value.trim();
+    const qty = document.getElementById(`new-ing-qty-${i}`).value.trim();
+    if (!name || !qty) return;
+
+    if (!editTempIngredients[i]) editTempIngredients[i] = [];
+    editTempIngredients[i].push({ name, qty });
+
+    document.getElementById(`new-ing-name-${i}`).value = '';
+    document.getElementById(`new-ing-qty-${i}`).value = '';
+    renderRecipes();
+  }
+  
+  function calculateFood() {
+    const mealCounts = { Break: 0, Lunch: 0, Dinner: 0 };
+
+    // Count present students and their meal preferences
+    students.forEach(student => {
+      if (student.present) {
+        student.preferences.forEach(meal => {
+          if (mealCounts[meal] !== undefined) mealCounts[meal]++;
+        });
+      }
+    });
+
+    const mealDetails = { Break: [], Lunch: [], Dinner: [] };
+
+    // Only include selected recipes
+    selectedRecipeIndexes.forEach(index => {
+      const recipe = recipes[index];
+      (recipe.meals || []).forEach(meal => {
+        const studentCount = mealCounts[meal] || 0;
+        const recipeInfo = {
+          name: recipe.name,
+          ingredients: (recipe.ingredients || []).map(ing => {
+            const num = parseFloat(ing.qty);
+            const unit = ing.qty.replace(/[0-9.]/g, '').trim();
+            const finalQty = isNaN(num) ? ing.qty : (num * studentCount).toFixed(2);
+            return { name: ing.name, quantity: finalQty, unit };
+          })
+        };
+        mealDetails[meal].push(recipeInfo);
+      });
+    });
+
+    const calculatorSection = document.getElementById("calculator");
+    calculatorSection.innerHTML = `
+      <div class="bg-white">
+        <h2>Food Calculator</h2>
+        ${["Break", "Lunch", "Dinner"].map(meal => `
+          <div class="card mb-4 shadow-sm border-0 rounded-4">
+            <div class="card-body">
+              <h4 class="card-title mb-3 text-primary">${meal === "Break" ? "Breakfast" : meal}</h4>
+              ${mealDetails[meal].length === 0
+                ? "<p class='text-muted'>No selected recipes for this meal.</p>"
+                : mealDetails[meal].map(recipe => `
+                  <div class="mb-3">
+                    <h5>${recipe.name}</h5>
+                    <ul class="list-group">
+                      ${recipe.ingredients.map(ing => `
+                        <li class="list-group-item d-flex justify-content-between">
+                          <span>${ing.name}</span>
+                          <span><strong>${ing.quantity} ${ing.unit}</strong></span>
+                        </li>
+                      `).join("")}
+                    </ul>
+                  </div>
+                `).join("")}
             </div>
           </div>
-          <div class="mb-3">
-            <label for="feedbackText" class="form-label">Your Feedback:</label>
-            <textarea
-              class="form-control"
-              id="feedbackText"
-              rows="4"
-              placeholder="Share your thoughts..."
-            ></textarea>
-          </div>
-          <button class="btn btn-theme" onclick="submitFeedback()">
-            Submit Feedback
-          </button>
-        </div>
+        `).join("")}
+        <button class="btn btn-primary mt-3" onclick="calculateFood()">🔄 Recalculate</button>
       </div>
-    </div>
+    `;
+  }
 
-    <div class="copyright">&copy; 2025 Plate2Purpose. All rights reserved.</div>
+  
 
-    <script>
-      // LocalStorage keys
-      const LS_KEYS = {
-        students: "dashboard2_students",
-        recipes: "dashboard2_recipes",
-        bulkOrders: "dashboard2_bulkOrders",
-        preOrders: "dashboard2_preOrders",
-        reservations: "dashboard2_reservations",
+ 
+
+  
+
+  function toggleRecipeSelection(index) {
+    const checkbox = document.getElementById(`choose-checkbox-${index}`);
+    checkbox.checked = !checkbox.checked;
+
+    if (checkbox.checked) {
+      if (!selectedRecipeIndexes.includes(index)) {
+        selectedRecipeIndexes.push(index);
+      }
+    } else {
+      selectedRecipeIndexes = selectedRecipeIndexes.filter(i => i !== index);
+    }
+  }
+
+
+
+
+
+  </script>
+
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      setRecipeMode("choose");
+    });
+  </script>
+
+  <script>
+  let students = [];
+  let currentMode = 'mark';
+
+  function setMode(mode) {
+    currentMode = mode;
+
+    const markBtn = document.querySelector('.mark-btn');
+    const editBtn = document.querySelector('.edit-btn');
+
+    markBtn.classList.remove('active');
+    editBtn.classList.remove('active');
+
+    if (mode === 'mark') {
+      markBtn.classList.add('active');
+    } else {
+      editBtn.classList.add('active');
+    }
+
+    renderStudents();
+  }
+
+  function addStudent() {
+    const name = document.getElementById("studentName").value.trim();
+    const preferences = [];
+
+    if (document.getElementById("prefBreak").checked) preferences.push("Break");
+    if (document.getElementById("prefLunch").checked) preferences.push("Lunch");
+    if (document.getElementById("prefDinner").checked) preferences.push("Dinner");
+
+    if (!name || preferences.length === 0) return;
+
+    students.push({ name, preferences, present: false });
+
+    document.getElementById("studentName").value = "";
+    document.getElementById("prefBreak").checked = false;
+    document.getElementById("prefLunch").checked = false;
+    document.getElementById("prefDinner").checked = false;
+
+    renderStudents();
+  }
+
+  function renderStudents() {
+    const list = document.getElementById("studentList");
+    list.innerHTML = "";
+
+    students.forEach((student, i) => {
+      const li = document.createElement("li");
+      li.className = "list-group-item";
+
+      if (currentMode === "mark") {
+        li.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <strong>${student.name}</strong> - ${student.preferences.map(pref => {
+                if (pref === "Break") return "Breakfast";
+                return pref;
+              }).join(", ")}
+            </div>
+            <div>
+              <button 
+                class="btn btn-sm attendance-toggle"
+                style="
+                  background-color: ${student.present ? '#90ee90' : '#f08080'};
+                  color: black;
+                "
+                onclick="toggleAttendance(${i})"
+              >
+                ${student.present ? 'Present' : 'Absent'}
+              </button>
+            </div>
+          </div>
+        `;
+      } else if (currentMode === "edit") {
+        li.innerHTML = `
+          <div class="row align-items-center">
+            <div class="col-md-3">
+              <input type="text" class="form-control" id="name-${i}" value="${student.name}">
+            </div>
+            <div class="col-md-4">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="edit-break-${i}" ${student.preferences.includes("Break") ? "checked" : ""}>
+                <label class="form-check-label">Breakfast</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="edit-lunch-${i}" ${student.preferences.includes("Lunch") ? "checked" : ""}>
+                <label class="form-check-label">Lunch</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="edit-dinner-${i}" ${student.preferences.includes("Dinner") ? "checked" : ""}>
+                <label class="form-check-label" for="edit-dinner-${i}">Dinner</label>
+              </div>
+            </div>
+            <div class="col-md-5 d-flex gap-2">
+              <button class="btn btn-sm btn-success" onclick="saveEdit(${i})">Save</button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteStudent(${i})">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      list.appendChild(li);
+    });
+  }
+
+  function toggleAttendance(index) {
+    students[index].present = !students[index].present;
+    renderStudents();
+  }
+
+  
+
+  async function saveEdit(index) {
+    // Get DOM inputs (guard in case indices changed)
+    const nameInput = document.getElementById(`name-${index}`);
+    const breakBox = document.getElementById(`edit-break-${index}`);
+    const lunchBox = document.getElementById(`edit-lunch-${index}`);
+    const dinnerBox = document.getElementById(`edit-dinner-${index}`);
+
+    if (!nameInput) return; // nothing to save
+
+    const oldName = students[index] ? students[index].name : null;
+    const name = nameInput.value.trim();
+    const preferences = [];
+    if (breakBox && breakBox.checked) preferences.push("Break");
+    if (lunchBox && lunchBox.checked) preferences.push("Lunch");
+    if (dinnerBox && dinnerBox.checked) preferences.push("Dinner");
+
+    if (!name) {
+      alert("Please enter a valid name.");
+      return;
+    }
+    if (preferences.length === 0) {
+      alert("Please select at least one meal preference.");
+      return;
+    }
+
+    // Preserve present flag
+    const existingPresent = students[index] ? Boolean(students[index].present) : false;
+
+    // Overwrite the existing student locally
+    students[index] = {
+      name,
+      preferences,
+      present: existingPresent
+    };
+
+    // Try to update Supabase so we don't leave the old record behind
+    try {
+      const {
+        data: { user },
+        error: userErr
+      } = await client.auth.getUser();
+
+      if (!user || userErr) {
+        renderStudents();
+        return;
+      }
+
+      // If name changed, delete the old DB record (so we don't keep the old name)
+      if (oldName && oldName !== name) {
+        await client
+          .from('data')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('students_name', oldName);
+      }
+
+      // Upsert the updated student record (will insert or update by user_id+students_name)
+      const studentRecord = {
+        user_id: user.id,
+        user_name: user.user_metadata?.full_name || "User",
+        user_email: user.email,
+        students_name: name,
+        attendence: existingPresent,
+        student_preferences: preferences
       };
 
-      // Global arrays (will be initialized by loadDashboardData)
-      let students = [];
-      let recipes = [];
-      let bulkOrders = [];
-      let preOrders = [];
-      let reservations = [];
-      let tempIngredients = [];
-      let recipeMode = "choose";
-      let selectedRecipeIndexes = [];
+      const { error: upsertErr } = await client
+        .from('data')
+        .upsert([studentRecord], { onConflict: ['user_id', 'students_name'] });
 
-      // Load data from localStorage
-      function loadDashboardData() {
-        students = JSON.parse(localStorage.getItem(LS_KEYS.students) || "[]");
-        recipes = JSON.parse(localStorage.getItem(LS_KEYS.recipes) || "[]");
-        bulkOrders = JSON.parse(
-          localStorage.getItem(LS_KEYS.bulkOrders) || "[]"
-        );
-        preOrders = JSON.parse(localStorage.getItem(LS_KEYS.preOrders) || "[]");
-        reservations = JSON.parse(
-          localStorage.getItem(LS_KEYS.reservations) || "[]"
-        );
-        renderStudents();
-        renderRecipes();
-        renderBulkOrders();
-        renderPreOrders();
-        renderReservations();
+      if (upsertErr) {
+        console.error("Failed to upsert student:", upsertErr);
       }
+    } catch (err) {
+      console.error("Error saving edited student:", err);
+    } finally {
+      renderStudents();
+    }
+  }
 
-      // Save all arrays to localStorage
-      function saveDashboardData() {
-        localStorage.setItem(LS_KEYS.students, JSON.stringify(students));
-        localStorage.setItem(LS_KEYS.recipes, JSON.stringify(recipes));
-        localStorage.setItem(LS_KEYS.bulkOrders, JSON.stringify(bulkOrders));
-        localStorage.setItem(LS_KEYS.preOrders, JSON.stringify(preOrders));
-        localStorage.setItem(
-          LS_KEYS.reservations,
-          JSON.stringify(reservations)
-        );
-      }
+  // Ensure renderStudents runs when Attendance tab is shown
+  window.addEventListener("DOMContentLoaded", () => {
+    renderStudents();
+  });
 
-      // Immediately load data on page open
-      loadDashboardData();
+  async function logout() {
+    await saveDashboardData(); // ✅ Call save before logout
+    await client.auth.signOut();
+    window.location.href = "login.html";
+  }
 
-      // Attendance logic
-      function addStudent() {
-        const name = document.getElementById("studentName").value.trim();
-        if (!name) return;
-        students.push({ name, present: false });
-        document.getElementById("studentName").value = "";
-        renderStudents();
-        saveDashboardData();
-      }
-      function renderStudents() {
-        const list = document.getElementById("studentList");
-        list.innerHTML = "";
-        students.forEach((student, i) => {
-          const li = document.createElement("li");
-          li.className =
-            "list-group-item d-flex justify-content-between align-items-center";
-          li.innerHTML = `<span>${student.name}</span>
-          <div>
-            <button class="btn btn-sm ${
-              student.present ? "btn-success" : "btn-outline-danger"
-            }" onclick="toggleAttendance(${i})">${
-            student.present ? "Present" : "Absent"
-          }</button>
-            <button class="btn btn-sm btn-outline-danger ms-2" onclick="deleteStudent(${i})"><i class="bi bi-trash"></i></button>
-          </div>`;
-          list.appendChild(li);
-        });
-      }
-      function toggleAttendance(i) {
-        students[i].present = !students[i].present;
-        renderStudents();
-        saveDashboardData();
-      }
-      function deleteStudent(i) {
-        students.splice(i, 1);
-        renderStudents();
-        saveDashboardData();
-      }
+  window.logout = logout; // ✅ Ensure button can call it
 
-      // Recipes/Menu logic
-      function setRecipeMode(mode) {
-        recipeMode = mode;
-        renderRecipes();
-        const chooseBtn = document.getElementById("chooseBtn");
-        const editBtn = document.getElementById("editBtn");
-        chooseBtn.classList.remove("btn-success", "text-white");
-        chooseBtn.classList.add("btn-outline-success");
-        editBtn.classList.remove("btn-warning", "text-dark");
-        editBtn.classList.add("btn-outline-warning");
-        if (mode === "choose") {
-          chooseBtn.classList.remove("btn-outline-success");
-          chooseBtn.classList.add("btn-success", "text-white");
-        } else if (mode === "edit") {
-          editBtn.classList.remove("btn-outline-warning");
-          editBtn.classList.add("btn-warning", "text-dark");
-        }
+  </script>
+
+  <script>
+    openProfileModal = () => {
+      document.getElementById("profileOverlay").style.display = "flex";
+      document.getElementById("profileName").value = document.getElementById("profileNameDisplay").innerText;
+      document.getElementById("profileEmail").value = document.getElementById("profileEmailDisplay").innerText;
+    }
+
+    closeProfileModal = () => {
+      document.getElementById("profileOverlay").style.display = "none";
+    }
+
+    saveProfile = async () => {
+      const name = document.getElementById("profileName").value.trim();
+      const email = document.getElementById("profileEmail").value.trim();
+      if (name && email) {
+        document.getElementById("profileNameDisplay").innerText = name;
+        document.getElementById("profileEmailDisplay").innerText = email;
+        closeProfileModal();
+      } else {
+        alert("Please enter valid name and email.");
       }
-      function addTempIngredient() {
-        const name = document.getElementById("ingredientName").value.trim();
-        const qty = document.getElementById("ingredientQty").value.trim();
-        if (!name || !qty) return;
-        tempIngredients.push({ name, qty });
-        document.getElementById("ingredientName").value = "";
-        document.getElementById("ingredientQty").value = "";
-        renderIngredientPreview();
-      }
-      function renderIngredientPreview() {
-        const list = document.getElementById("ingredientPreview");
-        list.innerHTML = "";
-        tempIngredients.forEach((item, index) => {
-          const li = document.createElement("li");
-          li.className = "list-group-item d-flex justify-content-between";
-          li.innerHTML = `<span>${item.name} - ${item.qty}</span>
-          <button class="btn btn-sm btn-outline-danger" onclick="removeTempIngredient(${index})">✖</button>`;
-          list.appendChild(li);
-        });
-      }
-      function removeTempIngredient(index) {
-        tempIngredients.splice(index, 1);
-        renderIngredientPreview();
-      }
-      function addRecipe() {
-        const name = document.getElementById("recipeName").value.trim();
-        const meals = [];
-        if (document.getElementById("mealBreak").checked)
-          meals.push("Breakfast");
-        if (document.getElementById("mealLunch").checked) meals.push("Lunch");
-        if (document.getElementById("mealDinner").checked) meals.push("Dinner");
-        if (!name || tempIngredients.length === 0 || meals.length === 0) return;
-        recipes.push({ name, ingredients: [...tempIngredients], meals });
-        document.getElementById("recipeName").value = "";
-        document.getElementById("mealBreak").checked = false;
-        document.getElementById("mealLunch").checked = false;
-        document.getElementById("mealDinner").checked = false;
-        tempIngredients = [];
-        renderIngredientPreview();
-        renderRecipes();
-        saveDashboardData();
-      }
-      function renderRecipes() {
-        const list = document.getElementById("menuList");
-        list.innerHTML = "";
-        recipes.forEach((recipe, i) => {
-          // FIX: Use backticks for template string inside map
-          const ingList = recipe.ingredients
-            .map((ing) => `${ing.name}: ${ing.qty}`)
-            .join(", ");
-          const mealList = recipe.meals.join(", ");
-          const li = document.createElement("li");
-          li.className =
-            "list-group-item d-flex justify-content-between align-items-center";
-          if (recipeMode === "choose") {
-            li.innerHTML = `<span><strong>${
-              recipe.name
-            }</strong> (${mealList})<br><small>${ingList}</small></span>
-            <input type="checkbox" class="form-check-input" id="choose-checkbox-${i}" ${
-              selectedRecipeIndexes.includes(i) ? "checked" : ""
-            } onclick="toggleRecipeSelection(${i})">`;
+    }
+  </script>
+
+
+  <!-- Profile Modal -->
+  <div class="overlay" id="profileOverlay">
+    <div class="profile-modal">
+      <h4>Edit Profile</h4>
+      <input type="text" id="profileName" class="form-control mb-2" placeholder="Name">
+      <input type="email" id="profileEmail" class="form-control mb-3" placeholder="Email" disabled>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" onclick="closeProfileModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveProfile()">Save</button>
+      </div>
+      <button class="btn btn-outline-danger w-100 mt-3" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+
+  <!-- your other content above -->
+
+
+
+<!-- ... any other scripts ... -->
+  <!-- Supabase Client -->
+  
+
+
+
+
+  <div class="overlay" id="profileOverlay" style="display:none;">
+    <div class="profile-modal">
+      <h4>Edit Profile</h4>
+      <input type="text" id="profileName" class="form-control mb-2" placeholder="Name">
+      <input type="email" id="profileEmail" class="form-control mb-3" placeholder="Email" disabled>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" onclick="closeProfileModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveProfile()">Save</button>
+      </div>
+      <button class="btn btn-outline-danger w-100 mt-3" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const btn = document.getElementById("saveBtn");
+      const spinner = document.getElementById("saveSpinner");
+      const text = document.getElementById("saveText");
+
+      if (btn) {
+        btn.addEventListener("click", async () => {
+          if (typeof saveDashboardData === "function") {
+            // Start loading
+            spinner.classList.remove("d-none");
+            text.textContent = "Saving...";
+
+            await saveDashboardData();
+
+            // End loading
+            spinner.classList.add("d-none");
+            text.textContent = "Saved ";
+
+            // Reset after 2 seconds
+            setTimeout(() => {
+              text.textContent = "Save Changes";
+            }, 2000);
           } else {
-            li.innerHTML = `<span><strong>${recipe.name}</strong> (${mealList})<br><small>${ingList}</small></span>
-            <button class="btn btn-sm btn-outline-danger" onclick="deleteRecipe(${i})"><i class="bi bi-trash"></i></button>`;
+            alert("Save function not found.");
           }
-          list.appendChild(li);
         });
       }
-      function deleteRecipe(i) {
-        recipes.splice(i, 1);
-        renderRecipes();
-        saveDashboardData();
-      }
-      function toggleRecipeSelection(index) {
-        // FIX: Reference id as a string
-        const checkbox = document.getElementById(`choose-checkbox-${index}`);
-        checkbox.checked = !checkbox.checked;
-        if (checkbox.checked) {
-          if (!selectedRecipeIndexes.includes(index)) {
-            selectedRecipeIndexes.push(index);
-          }
+    });
+
+
+  </script>
+
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    
+
+    window.saveDashboardData = async function () {
+      // ✅ 1. Get the logged-in user
+      const {
+        data: { user },
+        error: sessionError
+      } = await client.auth.getUser();
+
+      
+
+      // ✅ 2. Save Students
+      if (students.length > 0) {
+        const studentRecords = students.map(student => ({
+          user_id: user.id,
+          user_name: user.user_metadata?.full_name || "User",
+          user_email: user.email,
+          students_name: student.name,
+          attendence: student.present || false,
+          student_preferences: student.preferences || []
+        }));
+
+        const { error: studentError } = await client
+          .from("data")
+          .upsert(studentRecords, { onConflict: ["user_id", "students_name"] });
+
+        if (studentError) {
+          alert("❌ Failed to save students: " + studentError.message);
         } else {
-          selectedRecipeIndexes = selectedRecipeIndexes.filter(
-            (i) => i !== index
-          );
+          console.log("✅ Students saved.");
         }
       }
 
-      // Bulk Orders logic
-      document
-        .getElementById("bulk-order-form")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          const name = document.getElementById("bulk-name").value;
-          const qty = document.getElementById("bulk-quantity").value;
-          const item = document.getElementById("bulk-item").value;
-          bulkOrders.push({ name, qty, item });
-          renderBulkOrders();
-          document.getElementById("bulk-success").style.display = "block";
-          setTimeout(() => {
-            document.getElementById("bulk-success").style.display = "none";
-            e.target.reset();
-          }, 2000);
-          saveDashboardData();
+      // ✅ 3. Save Recipes
+      if (recipes.length > 0) {
+        const recipeRecords = recipes.map(recipe => {
+          const ingredients = {};
+          const quantities = {};
+
+          recipe.ingredients.forEach(ing => {
+            ingredients[ing.name] = ing.qty;
+            quantities[ing.name] = parseFloat(ing.qty) || ing.qty;
+          });
+
+          return {
+            recipe_name: recipe.name,
+            ingredient: ingredients,
+            quantity: quantities,
+            meal_type: recipe.meals || [],
+            user_email: user.email // ✅ now correctly attached
+          };
         });
-      function renderBulkOrders() {
-        const list = document.getElementById("bulk-list");
-        list.innerHTML = "";
-        bulkOrders.forEach((order, i) => {
-          const li = document.createElement("li");
-          li.className =
-            "list-group-item d-flex justify-content-between align-items-center";
-          li.innerHTML = `<span>${order.name} - ${order.qty} x ${order.item}</span>
-          <button class="btn btn-sm btn-outline-danger" onclick="deleteBulkOrder(${i})"><i class="bi bi-trash"></i></button>`;
-          list.appendChild(li);
-        });
+
+        const { error: recipeError } = await client
+          .from("recipes")
+          .upsert(recipeRecords, { onConflict: ["user_email", "recipe_name"] });
+
+        
       }
-      function deleteBulkOrder(i) {
-        bulkOrders.splice(i, 1);
-        renderBulkOrders();
-        saveDashboardData();
+    };
+
+
+    // ✅ Load students from Supabase
+    async function loadDashboardData() {
+      const { data: { user }, error: sessionError } = await client.auth.getUser();
+      if (sessionError || !user) return;
+
+      const { data, error: fetchError } = await client
+        .from('data')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('updated_at', { ascending: false })
+        .limit(100);
+
+      if (fetchError || !data || data.length === 0) return;
+
+      students = data.map(record => ({
+        name: record.students_name,
+        preferences: record.student_preferences || [],
+        present: record.attendence || false
+      }));
+
+
+
+      renderStudents();
+    }
+
+    // ✅ Load recipes from Supabase
+    
+
+    async function deleteStudent(index) {
+    const student = students[index];
+    students.splice(index, 1);
+    renderStudents();
+
+    const { data: { user } } = await client.auth.getUser();
+    if (!user) return;
+
+    await client
+      .from('data')
+      .delete()
+      .eq('user_id', user.id)
+      .eq('students_name', student.name);
+  }
+
+  window.deleteStudent = deleteStudent; // ✅ make it available to onclick
+
+
+    async function deleteRecipe(index) {
+    const recipe = recipes[index];
+    recipes.splice(index, 1);
+    delete editTempIngredients[index];
+    renderRecipes();
+
+    const { data: { user } } = await client.auth.getUser();
+    if (!user) return;
+
+    await client
+      .from('recipes')
+     
+      .delete()
+      .eq('recipe_name', recipe.name);
+  }
+    
+    async function saveProfile() {
+    const name = document.getElementById("profileName").value.trim();
+
+    if (!name) {
+      alert("❌ Name cannot be empty.");
+      return;
+    }
+
+    // ✅ 1. Update user metadata
+    const { error: updateError } = await client.auth.updateUser({
+      data: { full_name: name }
+    });
+
+    if (updateError) {
+      alert("❌ Failed to update name: " + updateError.message);
+      return;
+    }
+
+    // ✅ 2. Refetch user info to get latest name
+    const { data: refreshedUser, error: fetchError } = await client.auth.getUser();
+
+    if (fetchError || !refreshedUser?.user) {
+      alert("❌ Failed to refresh user data.");
+      return;
+    }
+
+    const updatedName = refreshedUser.user.user_metadata?.full_name || "User";
+    const updatedEmail = refreshedUser.user.email;
+
+    // ✅ 3. Update sidebar and modal display
+    document.getElementById("profileNameDisplay").innerText = updatedName;
+    document.getElementById("profileEmailDisplay").innerText = updatedEmail;
+    document.getElementById("profileName").value = updatedName;
+    document.getElementById("profileEmail").value = updatedEmail;
+
+    closeProfileModal();
+    alert("✅ Profile name updated!");
+  }
+  
+    
+
+
+
+
+
+  window.deleteRecipe = deleteRecipe; // ✅ So the trash icon calls it correctly
+
+
+
+
+    // ✅ Run both loaders on page load
+    window.addEventListener("DOMContentLoaded", () => {
+          loadDashboardData();
+          loadRecipesFromSupabase();
+        });
+
+      window.addEventListener("beforeunload", (event) => {
+  if (students.length === 0 && recipes.length === 0) return;
+
+  const payload = {
+    students: students,
+    recipes: recipes,
+    timestamp: new Date().toISOString()
+  };
+
+  // Best-effort async save without blocking unload or showing the browser prompt
+  try {
+    if (typeof saveDashboardData === "function") {
+      // Fire-and-forget; do not await and do NOT call preventDefault()/set returnValue
+      saveDashboardData().catch(() => {});
+    }
+  } catch (err) {
+    // ignore errors during unload attempt
+  }
+
+  // NOTE: event.preventDefault() and event.returnValue = '' were removed
+});
+
+
+    // ✅ Save before logout
+    document.getElementById("logoutBtn")?.addEventListener("click", async () => {
+      await saveDashboardData();
+      await client.auth.signOut();
+      window.location.href = "login.html";
+    });
+
+    window.addEventListener("load", async () => {
+      await loadRecipesFromSupabase();
+    });
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      await loadRecipesFromSupabase();
+    });
+
+
+
+
+
+  </script>
+
+  <script>
+    async function loadRecipesFromSupabase() {
+    try {
+      const {
+        data: { user },
+        error: userError
+      } = await client.auth.getUser();
+
+      if (userError || !user) {
+        console.error("❌ User not found:", userError);
+        return;
       }
 
-      // Pre-Orders logic
-      document
-        .getElementById("pre-order-form")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          const name = document.getElementById("pre-order-name").value;
-          const item = document.getElementById("pre-order-item").value;
-          const date = document.getElementById("pre-order-date").value;
-          preOrders.push({ name, item, date });
-          renderPreOrders();
-          document.getElementById("preorder-success").style.display = "block";
-          setTimeout(() => {
-            document.getElementById("preorder-success").style.display = "none";
-            e.target.reset();
-          }, 2000);
-          saveDashboardData();
-        });
-      function renderPreOrders() {
-        const list = document.getElementById("pre-list");
-        list.innerHTML = "";
-        preOrders.forEach((order, i) => {
-          const li = document.createElement("li");
-          li.className =
-            "list-group-item d-flex justify-content-between align-items-center";
-          li.innerHTML = `<span>${order.name} - ${order.item} for ${order.date}</span>
-          <button class="btn btn-sm btn-outline-danger" onclick="deletePreOrder(${i})"><i class="bi bi-trash"></i></button>`;
-          list.appendChild(li);
-        });
-      }
-      function deletePreOrder(i) {
-        preOrders.splice(i, 1);
-        renderPreOrders();
-        saveDashboardData();
+      const email = user.email;
+      console.log("🔍 Loading recipes for:", email);
+
+      const { data: fetchedRecipes, error: recipeError } = await client
+        .from("recipes")
+        .select("*")
+        .eq("user_email", email)
+        .order("created_at", { ascending: false });
+
+      if (recipeError) {
+        console.error("❌ Error loading recipes:", recipeError);
+        return;
       }
 
-      // Reservations logic
-      document
-        .getElementById("reservation-form")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          const name = document.getElementById("reservation-name").value.trim();
-          const seats = document.getElementById("reservation-seats").value;
-          const datetime = document.getElementById(
-            "reservation-datetime"
-          ).value;
-          if (!name || !seats || !datetime) return;
-          reservations.push({ name, seats, datetime });
-          renderReservations();
-          document.getElementById("reservation-success").style.display =
-            "block";
-          setTimeout(() => {
-            document.getElementById("reservation-success").style.display =
-              "none";
-            e.target.reset();
-          }, 2000);
-          saveDashboardData();
-        });
-      function renderReservations() {
-        const list = document.getElementById("reservation-list");
-        list.innerHTML = "";
-        reservations.forEach((r, i) => {
-          const li = document.createElement("li");
-          li.className =
-            "list-group-item d-flex justify-content-between align-items-center";
-          li.innerHTML = `<span>${r.name} - ${r.seats} seat(s) at ${new Date(
-            r.datetime
-          ).toLocaleString()}</span>
-          <button class="btn btn-sm btn-outline-danger" onclick="deleteReservation(${i})"><i class="bi bi-trash"></i></button>`;
-          list.appendChild(li);
-        });
-      }
-      function deleteReservation(i) {
-        reservations.splice(i, 1);
-        renderReservations();
-        saveDashboardData();
+      if (!fetchedRecipes || fetchedRecipes.length === 0) {
+        console.warn("📭 No recipes found for this user.");
+        return;
       }
 
-      // Feedback logic
-      let selectedRating = 0;
-      function setRating(rating) {
-        selectedRating = rating;
-        const stars = document.querySelectorAll("#starRating i");
-        stars.forEach((star, index) => {
-          star.classList.remove("text-warning");
-          star.classList.add("text-secondary");
-          if (index < rating) {
-            star.classList.remove("text-secondary");
-            star.classList.add("text-warning");
-          }
+      // ✅ Clear existing recipes
+      recipes = [];
+
+      fetchedRecipes.forEach(recipe => {
+        const ingredients = Object.entries(recipe.ingredient || {}).map(([name, qty]) => ({
+          name,
+          qty
+        }));
+
+        recipes.push({
+          name: recipe.recipe_name,
+          ingredients,
+          meals: recipe.meal_type || []
         });
+      });
+
+      renderRecipes();
+      console.log("✅ Recipes loaded and rendered.");
+    } catch (err) {
+      console.error("💥 Unexpected error:", err);
+    }
+  }
+
+
+
+  </script>
+
+  <script>
+    client.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN") {
+        loadRecipesFromSupabase();
       }
-      function submitFeedback() {
-        const feedbackText = document
-          .getElementById("feedbackText")
-          .value.trim();
-        if (selectedRating === 0 || feedbackText === "") {
-          alert("Please provide both a rating and feedback.");
-          return;
+    });
+
+
+  </script>
+
+  <script>
+    let selectedRating = 0;
+
+    function setRating(rating) {
+      selectedRating = rating;
+      const stars = document.querySelectorAll('#starRating i');
+      stars.forEach((star, index) => {
+        star.classList.remove('text-warning');
+        star.classList.add('text-secondary');
+        if (index < rating) {
+          star.classList.remove('text-secondary');
+          star.classList.add('text-warning');
         }
+      });
+    }
+
+    async function submitFeedback() {
+      const feedbackText = document.getElementById("feedbackText").value.trim();
+
+      if (selectedRating === 0 || feedbackText === "") {
+        alert("Please provide both a rating and feedback.");
+        return;
+      }
+
+      const { data: { user }, error } = await client.auth.getUser();
+      if (error || !user) {
+        alert("❌ Unable to fetch user info.");
+        return;
+      }
+
+      const { error: insertError } = await client
+        .from("feedback")
+        .insert([{
+          user_email: user.email,
+          rating: selectedRating,
+          message: feedbackText
+        }]);
+
+      if (insertError) {
+        alert("❌ Failed to submit feedback: " + insertError.message);
+      } else {
         alert("✅ Feedback submitted! Thank you.");
         setRating(0);
         document.getElementById("feedbackText").value = "";
       }
+    }
+  </script>
 
-      // Excel upload handlers
-      function handleExcelUpload(inputId, type) {
-        document
-          .getElementById(inputId)
-          .addEventListener("change", function (e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function (ev) {
-              const data = new Uint8Array(ev.target.result);
-              const workbook = XLSX.read(data, { type: "array" });
-              const sheet = workbook.Sheets[workbook.SheetNames[0]];
-              const json = XLSX.utils.sheet_to_json(sheet);
-              if (type === "attendance") {
-                students = json.map((row) => ({
-                  name: row.Name || "",
-                  present: (row.Status || "").toLowerCase() === "present",
-                }));
-                renderStudents(); // <-- Immediately show attendance data
-              } else if (type === "menu") {
-                recipes = json.map((row) => ({
-                  name: row.Recipe || row.Name || "",
-                  ingredients: row.Ingredients
-                    ? row.Ingredients.split(",").map((ing) => {
-                        const [name, qty] = ing.split(":");
-                        return {
-                          name: name?.trim() || "",
-                          qty: qty?.trim() || "",
-                        };
-                      })
-                    : [],
-                  meals: row.Meals
-                    ? row.Meals.split(",").map((m) => m.trim())
-                    : [],
-                }));
-                renderRecipes(); // <-- Immediately show menu data
-              } else if (type === "bulk") {
-                bulkOrders = json.map((row) => ({
-                  name: row.Name || "",
-                  qty: row.Quantity || "",
-                  item: row.Item || "",
-                }));
-                renderBulkOrders(); // <-- Immediately show bulk orders
-              } else if (type === "pre") {
-                preOrders = json.map((row) => ({
-                  name: row.Name || "",
-                  item: row.Item || "",
-                  date: row.Date || "",
-                }));
-                renderPreOrders(); // <-- Immediately show pre-orders
-              }
-            };
-            reader.readAsArrayBuffer(file);
-          });
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("modeSwitchBtn");
+      const currentPage = window.location.pathname;
+
+      if (currentPage.includes("dashboard2.html")) {
+        btn.innerText = "Switch Mode";
+      } else {
+        btn.innerText = "Switch Mode";
       }
-      handleExcelUpload("attendanceExcel", "attendance");
-      handleExcelUpload("menuExcel", "menu");
-      handleExcelUpload("bulkExcel", "bulk");
-      handleExcelUpload("preExcel", "pre");
+    });
 
-      // Switch Mode logic
-      function switchMode() {
-        const currentPage = window.location.pathname;
-        if (currentPage.includes("dashboard2.html")) {
-          window.location.href = "dashboard.html";
-        } else {
-          window.location.href = "dashboard2.html";
-        }
-        // After navigation, load data
-        setTimeout(() => {
-          loadDashboardData();
-        }, 500);
+    function switchMode() {
+      const currentPage = window.location.pathname;
+      if (currentPage.includes("dashboard2.html")) {
+        window.location.href = "dashboard.html";
+      } else {
+        window.location.href = "dashboard2.html";
       }
-      window.addEventListener("DOMContentLoaded", () => {
-        const btn = document.getElementById("modeSwitchBtn");
-        if (btn) {
-          btn.innerText = "Switch Mode";
+    }
+  </script>
+
+  <script>
+    function checkAndResetAttendance() {
+  const today = new Date().toISOString().slice(0, 10);
+  const lastReset = localStorage.getItem("lastResetDate");
+  if (lastReset !== today) {
+    // Reset all students' present status
+    students.forEach(student => {
+      student.present = false;
+    });
+    localStorage.setItem("lastResetDate", today);
+    if (typeof renderStudents === "function") renderStudents();
+  }
+}
+
+// Run on page load and every 60 seconds
+window.addEventListener("DOMContentLoaded", () => {
+  checkAndResetAttendance();
+  setInterval(checkAndResetAttendance, 60000);
+});
+  </script>
+
+  <!-- Add SheetJS CDN for XLSX export -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+<!-- Place this button below the Attendance section (after studentList ul) -->
+
+
+<script>
+  // ...existing code...
+
+  function exportAttendanceToExcel() {
+  const today = new Date();
+  const dateStr = today.toISOString().slice(0, 10);
+
+  // Prepare today's attendance as JSON objects
+  const todayRows = students.map(student => ({
+    Name: student.name,
+    Preferences: (student.preferences || []).map(p => p === "Break" ? "Breakfast" : p).join(", "),
+    Status: student.present ? "Present" : "Absent",
+    Date: dateStr
+  }));
+
+  const key = "attendance_xlsx";
+  let wb, ws;
+  let wbBinary = localStorage.getItem(key);
+
+  if (wbBinary) {
+    // Load workbook from localStorage
+    const data = Uint8Array.from(atob(wbBinary), c => c.charCodeAt(0));
+    wb = XLSX.read(data, { type: "array" });
+    ws = wb.Sheets["Attendance"];
+    // Convert to JSON to check for today's date
+    let sheetData = XLSX.utils.sheet_to_json(ws);
+    const alreadyLogged = sheetData.some(row => row.Date === dateStr);
+    if (!alreadyLogged) {
+      // Append today's rows
+      const newData = sheetData.concat(todayRows);
+      ws = XLSX.utils.json_to_sheet(newData, { header: ["Name", "Preferences", "Status", "Date"] });
+      wb.Sheets["Attendance"] = ws;
+    }
+  } else {
+    // Create new workbook and sheet
+    wb = XLSX.utils.book_new();
+    ws = XLSX.utils.json_to_sheet(todayRows, { header: ["Name", "Preferences", "Status", "Date"] });
+    XLSX.utils.book_append_sheet(wb, ws, "Attendance");
+  }
+
+  // Save updated workbook to localStorage
+  const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+  const wbBase64 = btoa(String.fromCharCode(...new Uint8Array(wbout)));
+  localStorage.setItem(key, wbBase64);
+
+  // Download as Attendance.xlsx
+  const blob = new Blob([wbout], { type: "application/octet-stream" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "Attendance.xlsx";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, 100);
+}
+
+function exportAttendanceToGoogleSheet() {
+  const today = new Date().toISOString().split("T")[0];
+
+  const data = students.map(student => ({
+    Name: student.name,
+    Preferences: student.preferences.join(', '),
+    Status: student.present ? "Present" : "Absent",
+    Date: today
+  }));
+
+  fetch("https://script.google.com/macros/s/AKfycbyzL2zBUKCvcZ3mEEfSut-xzSElRxLN5L353h26aEXoyluyTPaLxPFFZ4mWtWSqL8if4A/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(res => res.text())
+  .then(msg => {
+    alert("✅ Export Status: " + msg);
+  })
+  .catch(err => {
+    console.error("❌ Export error:", err);
+    alert("❌ Failed to export to Google Sheet");
+  });
+}
+
+
+document.getElementById("exportAttendanceBtn").addEventListener("click", exportAttendanceToExcel);
+document.getElementById("exportAttendanceGoogleBtn").addEventListener("click", exportAttendanceToGoogleSheet);
+
+
+
+// ...existing code...
+</script>
+
+
+<script>
+  const importBtn = document.getElementById("importBtn");
+  const overlay = document.getElementById("overlay");
+  const dropModal = document.getElementById("dropModal");
+  const fileInput = document.getElementById("fileInput");
+
+  // Show overlay with blur
+  importBtn.addEventListener("click", () => {
+    overlay.style.display = "flex";
+  });
+
+  // Click box to upload
+  dropModal.addEventListener("click", () => fileInput.click());
+
+  // Drag & Drop styling
+  overlay.addEventListener("dragover", e => {
+    e.preventDefault();
+    dropModal.classList.add("bg-info", "text-white");
+  });
+
+  overlay.addEventListener("dragleave", () => {
+    dropModal.classList.remove("bg-info", "text-white");
+  });
+
+  overlay.addEventListener("drop", e => {
+    e.preventDefault();
+    dropModal.classList.remove("bg-info", "text-white");
+    const file = e.dataTransfer.files[0];
+    handleExcel(file);
+  });
+
+  fileInput.addEventListener("change", e => {
+    const file = e.target.files[0];
+    handleExcel(file);
+  });
+
+  function handleExcel(file) {
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const data = new Uint8Array(e.target.result);
+    const workbook = XLSX.read(data, { type: "array" });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const json = XLSX.utils.sheet_to_json(sheet);
+
+    let count = 0;
+    const today = new Date().toISOString().split("T")[0];
+
+    json.forEach(entry => {
+      const name = entry.Name?.trim();
+      const status = entry.Status?.trim().toLowerCase();
+
+      if (!name || !status) return;
+
+      const student = students.find(s => s.name.toLowerCase() === name.toLowerCase());
+      if (student) {
+        student.present = status === "present";
+        count++;
+      }
+    });
+
+    if (count > 0) {
+      updateStudentTable(); // update UI
+      alert(`✅ Attendance marked for ${count} students.`);
+      overlay.style.display = "none";
+      setTimeout(() => location.reload(), 500);
+    } else {
+      alert("⚠️ No valid matches found in file.");
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+</script>
+
+<script>
+  const markBtn = document.getElementById("markFromExcelBtn");
+  const markOverlay = document.getElementById("markOverlay");
+  const markModal = document.getElementById("markModal");
+  const markInput = document.getElementById("markFileInput");
+
+  // Open overlay on button click
+  markBtn.addEventListener("click", () => {
+    markOverlay.style.display = "block";
+  });
+
+  // Click modal to open file picker
+  markModal.addEventListener("click", () => {
+    markInput.click();
+  });
+
+  // Drag styling
+  markOverlay.addEventListener("dragover", e => {
+    e.preventDefault();
+    markModal.classList.add("bg-success", "text-white");
+  });
+
+  markOverlay.addEventListener("dragleave", () => {
+    markModal.classList.remove("bg-success", "text-white");
+  });
+
+  // Handle file drop
+  markOverlay.addEventListener("drop", e => {
+    e.preventDefault();
+    markModal.classList.remove("bg-success", "text-white");
+    const file = e.dataTransfer.files[0];
+    if (file) handleMarkExcel(file);
+  });
+
+  // Handle file input change
+  markInput.addEventListener("change", e => {
+    const file = e.target.files[0];
+    if (file) handleMarkExcel(file);
+  });
+
+  // Parse Excel and mark attendance
+  function handleMarkExcel(file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const data = new Uint8Array(e.target.result);
+      const wb = XLSX.read(data, { type: "array" });
+      const sheet = wb.Sheets[wb.SheetNames[0]];
+      const json = XLSX.utils.sheet_to_json(sheet);
+
+      let count = 0;
+
+      json.forEach(row => {
+        const name = row.Name?.trim();
+        const status = row.Status?.trim().toLowerCase();
+
+        if (!name || !status) return;
+
+        const student = students.find(s => s.name.toLowerCase() === name.toLowerCase());
+        if (student) {
+          student.present = status === "present";
+          count++;
         }
       });
 
-      // Save Changes button logic
-      document.addEventListener("DOMContentLoaded", function () {
-        const btn = document.getElementById("saveBtn");
-        const spinner = document.getElementById("saveSpinner");
-        const text = document.getElementById("saveText");
-        const feedback = document.getElementById("saveFeedback");
+      alert(`✅ Marked ${count} students from Excel`);
+      renderStudents();
+      markOverlay.style.display = "none";
+    };
 
-        if (btn) {
-          btn.addEventListener("click", () => {
-            spinner.classList.remove("d-none");
-            text.textContent = "Saving...";
-            saveDashboardData();
-            spinner.classList.add("d-none");
-            text.textContent = "Saved";
-            if (feedback) {
-              feedback.style.opacity = "1";
-              setTimeout(() => {
-                feedback.style.opacity = "0";
-                text.textContent = "Save Changes";
-              }, 2000);
-            } else {
-              setTimeout(() => {
-                text.textContent = "Save Changes";
-              }, 2000);
-            }
-          });
+    reader.readAsArrayBuffer(file);
+  }
+</script>
+<!-- Bootstrap JS and Popper.js (required for dropdowns to work) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+<script>
+async function loadPublicFeedback() {
+  const { data, error } = await client
+    .from("feedback")
+    .select("*")
+    .eq("public", true)
+    .order("created_at", { ascending: false });
+
+  const container = document.getElementById("publicFeedbackList");
+  container.innerHTML = "";
+
+  if (error) {
+    container.innerHTML = `<p class="text-danger">❌ Failed to load public feedback.</p>`;
+    console.error(error);
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.innerHTML = `<p class="text-muted">No public feedback available.</p>`;
+    return;
+  }
+
+  data.forEach(entry => {
+    const card = document.createElement("div");
+    card.className = "card mb-3 shadow-sm";
+    card.innerHTML = `
+      <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-primary">${entry.user_email}</h6>
+        <p class="text-warning fs-5 mb-1">${"★".repeat(entry.rating)}${"☆".repeat(5 - entry.rating)}</p>
+        <p class="card-text">${entry.message}</p>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// Load public feedback on page load
+document.addEventListener("DOMContentLoaded", loadPublicFeedback);
+</script>
+<script>
+  // Handle Excel Import
+  document.getElementById("importBtn").addEventListener("click", () => {
+    document.getElementById("overlay").style.display = "flex";
+    document.getElementById("fileInput").click(); // open file dialog
+  });
+
+  document.getElementById("fileInput").addEventListener("change", handleFile);
+
+  async function handleFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: "array" });
+      const sheet = workbook.Sheets[workbook.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+      // Skip header row, start from row 1
+      rows.slice(1).forEach(row => {
+        const name = row[0]?.trim();
+        const prefs = (row[1] || "").split(",").map(p => p.trim());
+        if (name && prefs.length > 0) {
+          students.push({ name, preferences: prefs, present: false });
         }
       });
 
-      // Sidebar navigation (move to end, after all DOM is loaded)
-      document.addEventListener("DOMContentLoaded", function () {
-        const links = document.querySelectorAll(".sidebar-link");
-        const sections = document.querySelectorAll(".section");
-        links.forEach((link) => {
-          link.addEventListener("click", function (e) {
-            e.preventDefault();
-            links.forEach((l) => l.classList.remove("active"));
-            link.classList.add("active");
-            const target = link.getAttribute("data-target");
-            sections.forEach((section) => {
-              section.classList.remove("active");
-              if (section.id === target) section.classList.add("active");
-            });
-          });
-        });
-      });
-    </script>
-  </body>
+      renderStudents();
+      document.getElementById("overlay").style.display = "none";
+      alert("✅ Students imported successfully!");
+    };
+    reader.readAsArrayBuffer(file);
+  }
+</script>
+
+<script>
+async function saveUpiId() {
+  const upiId = document.getElementById("upiIdInput").value.trim();
+  if (!upiId) {
+    alert("Please enter a valid UPI ID.");
+    return;
+  }
+
+  const { data: { user }, error } = await client.auth.getUser();
+  if (error || !user) {
+    alert("❌ Unable to fetch user session.");
+    return;
+  }
+
+  // Generate QR code link (Google Charts API or QR server)
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(user.user_metadata?.full_name || "User")}`;
+
+  // Save to Supabase
+  const { error: upiError } = await client
+    .from("upi_details")
+    .upsert([{ user_id: user.id, upi_id: upiId, qr_code_url: qrUrl }], { onConflict: ["user_id"] });
+
+  if (upiError) {
+    alert("❌ Failed to save UPI ID.");
+    return;
+  }
+
+  alert("✅ UPI ID saved successfully!");
+  loadUpiDetails();
+}
+
+async function loadUpiDetails() {
+  const { data: { user } } = await client.auth.getUser();
+  if (!user) return;
+
+  const { data, error } = await client
+    .from("upi_details")
+    .select("*")
+    .eq("user_id", user.id)
+    .single();
+
+  if (error || !data) return;
+
+  document.getElementById("upiDisplay").style.display = "block";
+  document.getElementById("upiIdText").innerText = data.upi_id;
+  document.getElementById("upiQrCode").src = data.qr_code_url;
+}
+
+// Load on page start
+document.addEventListener("DOMContentLoaded", loadUpiDetails);
+</script>
+
+
+
+
+
+
+</body>
 </html>
