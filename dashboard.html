@@ -599,100 +599,6 @@
       background-color: #cb7575;
       color: white;
     }
-    /* ===== Sidebar ===== */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh; /* full height */
-      width: 220px;
-      background-color: #fff5f0; /* light peach background */
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      padding: 20px 0;
-      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-      transition: all 0.3s ease;
-      font-family: 'Amatic SC', cursive;
-    }
-
-    /* Sidebar links */
-    .sidebar-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 20px;
-      font-size: 20px;
-      color: #333;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    .sidebar-link i {
-      font-size: 20px;
-    }
-
-    .sidebar-link:hover,
-    .sidebar-link.active {
-      background-color: #cb7575; /* active/hover color */
-      color: white;
-      border-radius: 8px;
-    }
-
-    /* Switch mode button */
-    .switch-mode-btn {
-      margin: 20px;
-      padding: 10px 15px;
-      background-color: #ff9c7a;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    .switch-mode-btn:hover {
-      background-color: #cb5750;
-    }
-
-    /* Profile box at the bottom */
-    .profile-box {
-      background-color: #ffd9cc;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 20px;
-      margin-top: auto;
-      text-align: center;
-    }
-
-    .profile-box .profile-name {
-      font-weight: 700;
-      font-size: 18px;
-    }
-
-    .profile-box .profile-email {
-      font-size: 14px;
-      color: #555;
-    }
-
-    .profile-box button {
-      margin-top: 10px;
-      font-size: 14px;
-    }
-
-    /* Responsive: collapse sidebar on smaller screens */
-    @media (max-width: 991px) {
-      .sidebar {
-        width: 0;
-        overflow: hidden;
-      }
-      .sidebar.show {
-        width: 220px;
-      }
-    }
-
 
 
 
@@ -761,42 +667,29 @@
   <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
     <div class="container">
       <a href="dashboard.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
-        <span style="color: #ff5500;">Plate </span>
-        <span class="brand-icon" style="color: #ff5500;">2♻️</span>
-        <span style="color: #ff5500;">Purpose</span>
+        <span style="color: #ff5500;">Plate </span><span class="brand-icon" style="color: #ff5500;">2♻️</span><span style="color: #ff5500;">Purpose</span>
       </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
       <div class="collapse navbar-collapse" id="navbarNav">
+        
         <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item">
-            <a class="nav-link active" href="dashboard.html">DASHBOARD</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about2.html">ABOUT US</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact2.html">CONTACT US</a>
-          </li>
-          <li class="nav-item">
-            <button id="saveBtn" class="btn btn-outline-primary d-flex align-items-center gap-2 ms-3">
-              <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
-              <span id="saveText">Save Changes</span>
-            </button>
-          </li>
+          <li class="nav-item"><a class="nav-link active" href="dashboard.html">DASHBOARD</a></li>
+          <li class="nav-item"><a class="nav-link" href="about2.html">ABOUT US</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact2.html">CONTACT US</a></li>
+          <button id="saveBtn" class="btn btn-outline-primary d-flex align-items-center gap-2">
+            <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
+            <span id="saveText">Save Changes</span>
+          </button>
+
+
+
+
+
+
+
         </ul>
       </div>
     </div>
   </nav>
-
-
-  
 
   <div class="sidebar">
     <a href="#" class="sidebar-link active" data-target="attendance"><i class="bi bi-people-fill"></i> Attendance</a>
@@ -2708,37 +2601,6 @@ async function loadUpiDetails() {
 // Load on page start
 document.addEventListener("DOMContentLoaded", loadUpiDetails);
 </script>
-<style>
-  /* Ensure the navbar grows smoothly when expanded */
-  .navbar-collapse {
-    transition: max-height 0.5s ease;
-    overflow: hidden;
-    max-height: 0; /* collapsed by default */
-  }
-
-  .navbar-collapse.show {
-    max-height: 500px; /* adjust according to number of items */
-  }
-
-  /* Optional: Make button full width on mobile */
-  @media (max-width: 991px) {
-    #saveBtn {
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    .navbar-nav .nav-item {
-      width: 100%;
-      text-align: center;
-    }
-
-    .navbar-nav .nav-item .nav-link {
-      display: block;
-      padding: 10px 0;
-    }
-  }
-</style>
-
 
 
 
