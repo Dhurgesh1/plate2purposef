@@ -431,10 +431,11 @@
           const discoverBtn = hero.querySelector(".custom-btn");
 
           if (isMobile) {
-            if (heroTitle) heroTitle.style.color = "#000"; // Make h1 text black
+            if (heroTitle)
+              heroTitle.style.setProperty("color", "#000", "important"); // Black text with !important
             if (discoverBtn) discoverBtn.style.display = "none"; // Hide button
           } else {
-            if (heroTitle) heroTitle.style.color = ""; // Reset to default color
+            if (heroTitle) heroTitle.style.removeProperty("color"); // Reset color
             if (discoverBtn) discoverBtn.style.display = "inline-block"; // Show button
           }
         }
