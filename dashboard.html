@@ -2563,9 +2563,10 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
   }
 </script>
 <style>
- /* ===== Navbar Style ===== */
+/* ===== Navbar Style ===== */
 nav {
-  background-color: #fff5f0;
+  background-color: rgba(255, 245, 240, 0.95); /* Soft peach with slight opacity */
+  backdrop-filter: blur(10px); /* Adds blur for visibility */
   height: 80px;
   display: flex;
   align-items: center;
@@ -2576,7 +2577,7 @@ nav {
   left: 0;
   width: 100%;
   z-index: 1000;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, height 0.3s ease;
 }
 
@@ -2627,6 +2628,7 @@ nav ul li a:hover {
     margin: 10px 0;
   }
 }
+
 
 </style>
 
