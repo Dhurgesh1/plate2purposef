@@ -599,101 +599,7 @@
       background-color: #cb7575;
       color: white;
     }
-    /* ===== Sidebar ===== */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh; /* full height */
-      width: 220px;
-      background-color: #fff5f0; /* light peach background */
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      padding: 20px 0;
-      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-      transition: all 0.3s ease;
-      font-family: 'Amatic SC', cursive;
-    }
-    
-    /* Sidebar links */
-    .sidebar-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 20px;
-      font-size: 20px;
-      color: #333;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-    
-    .sidebar-link i {
-      font-size: 20px;
-    }
-    
-    .sidebar-link:hover,
-    .sidebar-link.active {
-      background-color: #cb7575; /* active/hover color */
-      color: white;
-      border-radius: 8px;
-    }
-    
-    /* Switch mode button */
-    .switch-mode-btn {
-      margin: 20px;
-      padding: 10px 15px;
-      background-color: #ff9c7a;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-    
-    .switch-mode-btn:hover {
-      background-color: #cb5750;
-    }
-    
-    /* Profile box at the bottom */
-    .profile-box {
-      background-color: #ffd9cc;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 20px;
-      margin-top: auto;
-      text-align: center;
-    }
-    
-    .profile-box .profile-name {
-      font-weight: 700;
-      font-size: 18px;
-    }
-    
-    .profile-box .profile-email {
-      font-size: 14px;
-      color: #555;
-    }
-    
-    .profile-box button {
-      margin-top: 10px;
-      font-size: 14px;
-    }
-    
-    /* Responsive: collapse sidebar on smaller screens */
-    @media (max-width: 991px) {
-      .sidebar {
-        width: 0;
-        overflow: hidden;
-      }
-      .sidebar.show {
-        width: 220px;
-      }
-    }
-
-
+ 
 
 
 
@@ -798,30 +704,86 @@
 
   
 
-  <div class="sidebar">
-    <a href="#" class="sidebar-link active" data-target="attendance"><i class="bi bi-people-fill"></i> Attendance</a>
-    <a href="#" class="sidebar-link" data-target="calculator"><i class="bi bi-calculator"></i> Food Calculator</a>
-    <a href="#" class="sidebar-link" data-target="payments"><i class="bi bi-credit-card"></i> UPI Payments</a>
-    <a href="#" class="sidebar-link" data-target="menu"><i class="bi bi-list"></i> Menu</a>
-    <a href="#" class="sidebar-link" data-target="feedback"><i class="bi bi-chat-dots"></i> Feedback</a>
-    <button class="switch-mode-btn" id="modeSwitchBtn" onclick="switchMode()">
-      Switch Mode
-    </button>
+  <!-- Sidebar -->
+<div id="sidebar" class="sidebar">
+  <button class="close-btn" onclick="toggleSidebar()">×</button>
+  <a href="#" class="sidebar-link active" data-target="attendance"><i class="bi bi-people-fill"></i> Attendance</a>
+  <a href="#" class="sidebar-link" data-target="calculator"><i class="bi bi-calculator"></i> Food Calculator</a>
+  <a href="#" class="sidebar-link" data-target="payments"><i class="bi bi-credit-card"></i> UPI Payments</a>
+  <a href="#" class="sidebar-link" data-target="menu"><i class="bi bi-list"></i> Menu</a>
+  <a href="#" class="sidebar-link" data-target="feedback"><i class="bi bi-chat-dots"></i> Feedback</a>
 
-
-
-    
-
-
-    <div class="profile-box text-center mx-3 p-3 mt-auto" onclick="openProfileModal()" style="cursor: pointer;">
-      <div class="profile-name fw-semibold" id="profileNameDisplay">Dhurgesh Maloth</div>
-      <div class="profile-email text-muted small" id="profileEmailDisplay">malothdhurgesh@gmail.com</div>
-      
-      <button class="btn btn-outline-danger btn-sm mt-2 w-100" onclick="logout(); event.stopPropagation();">Logout</button>
-    </div>
-
-
+  <div class="profile-box text-center mx-3 p-3 mt-auto" onclick="openProfileModal()" style="cursor: pointer;">
+    <div class="profile-name fw-semibold" id="profileNameDisplay">Dhurgesh Maloth</div>
+    <div class="profile-email text-muted small" id="profileEmailDisplay">malothdhurgesh@gmail.com</div>
+    <button class="btn btn-outline-danger btn-sm mt-2 w-100" onclick="logout(); event.stopPropagation();">Logout</button>
   </div>
+</div>
+
+<!-- Button to open sidebar -->
+<button id="openSidebarBtn" class="btn btn-primary" onclick="toggleSidebar()">☰ Menu</button>
+
+<style>
+  /* Sidebar styles */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; /* hide by default */
+    width: 250px;
+    height: 100%;
+    background: #fff5f0;
+    padding: 20px;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.2);
+    overflow-y: auto;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar.open {
+    left: 0; /* show sidebar */
+  }
+
+  .sidebar .close-btn {
+    align-self: flex-end;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+
+  .sidebar-link {
+    display: block;
+    padding: 10px 0;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+
+  .sidebar-link:hover,
+  .sidebar-link.active {
+    background: #cb7575;
+    color: white;
+    border-radius: 5px;
+  }
+
+  #openSidebarBtn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1100;
+  }
+</style>
+
+<script>
+  function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("open");
+  }
+</script>
+
 
   <div class="main">
     <div id="attendance" class="section active">
