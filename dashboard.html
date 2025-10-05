@@ -614,6 +614,69 @@
 
 
   </style>
+      <!-- Sidebar toggle button (mobile only) -->
+    <button id="sidebarToggleBtn" onclick="toggleSidebar()">
+      <i class="bi bi-list"></i>
+    </button>
+    
+    <style>
+      /* Wrapper flex layout */
+      .wrapper {
+        display: flex;
+        transition: all 0.3s ease;
+      }
+    
+      /* Sidebar */
+      .sidebar {
+        width: 260px; /* normal width */
+        transition: all 0.3s ease;
+      }
+    
+      .sidebar.collapsed {
+        width: 0;
+        overflow: hidden;
+      }
+    
+      /* Main content */
+      .main {
+        flex: 1;
+        transition: all 0.3s ease;
+        padding: 20px;
+      }
+    
+      /* Sidebar toggle button style */
+      #sidebarToggleBtn {
+        display: none; /* hidden on desktop */
+        position: fixed;
+        top: 90px; /* below navbar */
+        left: 10px;
+        z-index: 1000;
+        background: #cb7575;
+        color: white;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-size: 20px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        transition: background 0.3s ease, transform 0.2s ease;
+      }
+    
+      #sidebarToggleBtn:hover {
+        background: #ff7575;
+        transform: scale(1.1);
+      }
+    
+      /* Show button only on mobile */
+      @media (max-width: 991px) {
+        #sidebarToggleBtn {
+          display: block;
+        }
+      }
+    </style>
+
+
+
   <!-- ✅ Supabase Auth Protection -->
   <!-- ✅ Supabase Auth Protection -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -666,7 +729,9 @@
 
   <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
       <div class="container">
-        <button id="sidebarToggleBtn" onclick="toggleSidebar()">☰</button>
+        <button id="sidebarToggleBtn" onclick="toggleSidebar()">
+          <i class="bi bi-list"></i>
+        </button>
         <a href="dashboard.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
           <span style="color: #ff5500;">Plate </span>
           <span class="brand-icon" style="color: #ff5500;">2♻️</span>
@@ -727,6 +792,37 @@
   function toggleSidebar() {
     const sidebar = document.querySelector('.sidebar');
     sidebar.classList.toggle('collapsed'); // just toggles a class
+  }
+</script>
+
+<script>
+  function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('collapsed');
+  }
+
+  // Optional: close sidebar when clicking outside (mobile)
+  window.addEventListener('click', function(e) {
+    const sidebar = document.querySelector('.sidebar');
+    const btn = document.getElementById('sidebarToggleBtn');
+    if (window.innerWidth <= 991 && !sidebar.contains(e.target) && !btn.contains(e.target)) {
+      sidebar.classList.add('collapsed');
+    }
+  });
+
+  // Automatically collapse sidebar on mobile resize
+  window.addEventListener('resize', function() {
+    const sidebar = document.querySelector('.sidebar');
+    if (window.innerWidth <= 991) {
+      sidebar.classList.add('collapsed');
+    } else {
+      sidebar.classList.remove('collapsed');
+    }
+  });
+
+  // Initialize
+  if (window.innerWidth <= 991) {
+    document.querySelector('.sidebar').classList.add('collapsed');
   }
 </script>
 
