@@ -347,15 +347,24 @@
           style.id = "no-hero-bg-style";
           style.textContent = `
       @media (max-width: 991px) {
+        /* ✅ Apply very light peach background ONLY to the hero section */
         html.no-hero-bg .hero-section,
         html.no-hero-bg .hero-section::before,
-        html.no-hero-bg .hero-section::after,
-        html.no-hero-bg .hero-section * {
-          background: #FFF2E6 !important; /* 💎 very light peach */
+        html.no-hero-bg .hero-section::after {
+          background: #FFF2E6 !important;
           background-image: none !important;
           background-color: #FFF2E6 !important;
           content: none !important;
           box-shadow: none !important;
+        }
+
+        /* ✅ Do NOT override styles inside buttons or links */
+        html.no-hero-bg .hero-section button,
+        html.no-hero-bg .hero-section a,
+        html.no-hero-bg .hero-section .btn {
+          background: initial !important;
+          background-color: initial !important;
+          color: inherit !important;
         }
       }
     `;
@@ -367,30 +376,26 @@
           if (!hero) return;
 
           const isMobile = window.matchMedia("(max-width: 991px)").matches;
-
           injectOverrideCSS();
 
           if (isMobile) {
             document.documentElement.classList.add("no-hero-bg");
 
+            // Only modify the hero container itself
             hero.style.setProperty("background", "#FFF2E6", "important");
             hero.style.setProperty("background-image", "none", "important");
             hero.style.setProperty("background-color", "#FFF2E6", "important");
             hero.style.setProperty("min-height", "auto", "important");
             hero.style.setProperty("padding", "100px 20px", "important");
 
+            // Hide hero images if any
             hero.querySelectorAll("img").forEach((img) => {
               img.style.setProperty("display", "none", "important");
               img.style.setProperty("visibility", "hidden", "important");
             });
 
-            hero.querySelectorAll("*").forEach((el) => {
-              el.style.setProperty("background-image", "none", "important");
-              el.style.setProperty("background-color", "#FFF2E6", "important");
-            });
-
             console.log(
-              "[hero-bg] removed & set to very light peach for mobile"
+              "[hero-bg] removed; hero now light peach; buttons preserved"
             );
           } else {
             document.documentElement.classList.remove("no-hero-bg");
