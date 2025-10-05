@@ -320,22 +320,7 @@
     <script src="js/custom.js"></script>
 
     <!-- Device Check Script -->
-    <script>
-      function checkDevice() {
-        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-        const isSmallScreen = window.innerWidth < 768;
-
-        if (isMobile || isSmallScreen) {
-          document.getElementById("desktop-warning").style.display = "flex";
-          document.body.style.overflow = "hidden";
-        } else {
-          document.getElementById("desktop-warning").style.display = "none";
-          document.body.style.overflow = "auto";
-        }
-      }
-      checkDevice();
-      window.addEventListener("resize", checkDevice);
-    </script>
+    
 
     <!-- News Fetch Script -->
     <script>
