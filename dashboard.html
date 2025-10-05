@@ -740,6 +740,83 @@
       }
     }
 
+    /* Very small phones: avoid overflow under 400px */
+    @media (max-width: 400px) {
+      /* slightly reduce main paddings and typography */
+      .main {
+        padding: 10px;
+      }
+
+      .bg-white {
+        padding: 10px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      .navbar-brand {
+        font-size: 20px;
+      }
+
+      .navbar .nav-link {
+        font-size: 12px;
+        margin-left: 6px;
+        margin-right: 6px;
+        padding: 6px 4px;
+      }
+
+      .sidebar {
+        gap: 6px;
+        padding: 6px;
+        margin: 72px 6px 6px 6px;
+      }
+
+      .sidebar a {
+        font-size: 12px;
+        padding: 8px;
+      }
+
+      .profile-box {
+        padding: 8px;
+        font-size: 12px;
+      }
+
+      /* Make most stacked controls vertical to prevent overflow */
+      .main .d-flex.gap-2 {
+        flex-direction: column !important;
+        gap: 6px !important;
+      }
+
+      /* Make inputs and action buttons full-width on tiny screens */
+      .main .form-control,
+      .main .btn,
+      .main .btn-outline-secondary,
+      .main .btn-outline-success,
+      .main .btn-outline-warning {
+        width: 100% !important;
+        box-sizing: border-box;
+      }
+
+      /* Reduce list font-size to prevent overflow */
+      #studentList .list-group-item,
+      #menuList .list-group-item {
+        font-size: 13px;
+        padding: 8px 10px;
+      }
+
+      /* Allow sections to be naturally tall and scrollable */
+      .section > .bg-white {
+        min-height: auto;
+      }
+
+      /* reduce space for recipe rows that used col-md classes */
+      .recipe-row .col-md-4, .recipe-row .col-md-4, .recipe-row .col-md-4 {
+        flex-basis: 100%;
+        max-width: 100%;
+      }
+    }
+
     /* small utility to ensure images scale */
     img.img-fluid {
       max-width: 100%;
@@ -2075,6 +2152,7 @@ function downloadTemplateforImport() {
     }
 
     // ✅ Load recipes from Supabase
+
     
 
     async function deleteStudent(index) {
