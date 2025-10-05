@@ -2564,21 +2564,26 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
 </script>
 <style>
   .navbar {
-    background: rgba(255, 255, 255, 0); /* keep transparent */
+    background: rgba(255, 255, 255, 0); /* transparent by default */
     transition: all 0.4s ease;
+    backdrop-filter: none;
+  }
+
+  /* When toggled open */
+  .navbar.expanded {
+    background: rgba(255, 255, 255, 0.15); /* slight visible tint */
+    backdrop-filter: blur(10px); /* adds glass blur effect */
   }
 
   @media (max-width: 991px) {
-    /* Set transition for smooth open */
     .navbar-collapse {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease;
     }
 
-    /* When menu is open */
     .navbar-collapse.show {
-      max-height: 300px; /* ✅ this increases the height visibly */
+      max-height: 300px; /* increases visible height */
     }
 
     .navbar-nav {
@@ -2604,6 +2609,24 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
     }
   }
 </style>
+
+<script>
+  // Add this small script to toggle "expanded" class
+  document.addEventListener("DOMContentLoaded", function () {
+    const navbar = document.querySelector(".navbar");
+    const toggler = document.querySelector(".navbar-toggler");
+    const collapse = document.querySelector("#navbarNav");
+
+    collapse.addEventListener("shown.bs.collapse", () => {
+      navbar.classList.add("expanded");
+    });
+
+    collapse.addEventListener("hidden.bs.collapse", () => {
+      navbar.classList.remove("expanded");
+    });
+  });
+</script>
+
 
 
 
