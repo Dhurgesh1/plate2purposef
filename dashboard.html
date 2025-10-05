@@ -2564,15 +2564,15 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
 </script>
 <style>
   .navbar {
-    background: rgba(255, 255, 255, 0); /* transparent by default */
-    transition: all 0.4s ease;
-    backdrop-filter: none;
+    background: rgba(255, 255, 255, 0) !important; /* fully transparent by default */
+    transition: all 0.4s ease !important;
+    backdrop-filter: none !important;
   }
 
-  /* When toggled open */
+  /* When expanded (burger clicked) */
   .navbar.expanded {
-    background: rgba(255, 255, 255, 0.15); /* slight visible tint */
-    backdrop-filter: blur(10px); /* adds glass blur effect */
+    background: rgba(255, 85, 0, 0.25) !important; /* orange tint */
+    backdrop-filter: blur(10px) !important; /* blurred glass look */
   }
 
   @media (max-width: 991px) {
@@ -2583,7 +2583,7 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
     }
 
     .navbar-collapse.show {
-      max-height: 300px; /* increases visible height */
+      max-height: 400px; /* increases height smoothly */
     }
 
     .navbar-nav {
@@ -2611,10 +2611,8 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
 </style>
 
 <script>
-  // Add this small script to toggle "expanded" class
   document.addEventListener("DOMContentLoaded", function () {
     const navbar = document.querySelector(".navbar");
-    const toggler = document.querySelector(".navbar-toggler");
     const collapse = document.querySelector("#navbarNav");
 
     collapse.addEventListener("shown.bs.collapse", () => {
@@ -2626,6 +2624,7 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
     });
   });
 </script>
+
 
 
 
