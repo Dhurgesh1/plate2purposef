@@ -2848,12 +2848,64 @@ async function loadUpiDetails() {
 document.addEventListener("DOMContentLoaded", loadUpiDetails);
 </script>
 
+<!-- Add robust sidebar toggle behavior -->
+<script>
+  (function () {
+    const sbToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.querySelector('.sidebar');
 
+    if (!sbToggle || !sidebar) return;
 
+    // Toggle open/close
+    sbToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const opening = !sidebar.classList.contains('show-mobile');
+      sidebar.classList.toggle('show-mobile');
+      document.body.style.overflow = opening ? 'hidden' : '';
+      sbToggle.setAttribute('aria-expanded', opening ? 'true' : 'false');
+    });
 
+    // Close when any sidebar link clicked (mobile)
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+      link.addEventListener('click', function () {
+        if (window.innerWidth <= 991.98 && sidebar.classList.contains('show-mobile')) {
+          sidebar.classList.remove('show-mobile');
+          document.body.style.overflow = '';
+          sbToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
 
+    // Click outside closes the sidebar on mobile
+    document.addEventListener('click', function (e) {
+      if (window.innerWidth <= 991.98 && sidebar.classList.contains('show-mobile')) {
+        if (!sidebar.contains(e.target) && e.target !== sbToggle && !sbToggle.contains(e.target)) {
+          sidebar.classList.remove('show-mobile');
+          document.body.style.overflow = '';
+          sbToggle.setAttribute('aria-expanded', 'false');
+        }
+      }
+    }, { passive: true });
 
+    // Close on Escape
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && sidebar.classList.contains('show-mobile')) {
+        sidebar.classList.remove('show-mobile');
+        document.body.style.overflow = '';
+        sbToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
 
+    // Reset when resizing to desktop
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 991.98) {
+        sidebar.classList.remove('show-mobile');
+        document.body.style.overflow = '';
+        sbToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+</script>
 </body>
 </html>
 
