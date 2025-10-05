@@ -845,22 +845,37 @@
     }
 
     /* PRELOADER logo sizing (reduce on laptops) */
-    .preloader .preloader-img {
-      width: 48px;
-      height: 48px;
-      max-width: 48px;
-      object-fit: contain;
-      display: block;
+ 
+    
+
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
     }
 
-    /* Make it slightly smaller on laptop/desktop to avoid large display on high-DPI assets */
-    @media (min-width: 992px) {
-      .preloader .preloader-img {
-        width: 36px;
-        height: 36px;
-        max-width: 36px;
+    /* Make logo responsive */
+    #preloader img {
+      width: 20vw;      /* 20% of viewport width */
+      max-width: 180px; /* Limit max size on big screens */
+      min-width: 90px;  /* Prevent too small on phones */
+      height: auto;
+    }
+
+    /* On very small screens */
+    @media (max-width: 576px) {
+      #preloader img {
+        width: 40vw;
       }
     }
+
 
     /* ...existing code... */
   </style>
