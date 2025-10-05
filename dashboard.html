@@ -600,311 +600,20 @@
       color: white;
     }
 
-    /* ---------- Responsive adjustments (added) ---------- */
-
-    /* Hide mobile-only toggle by default; will be shown via media queries */
-    #sidebarToggle {
-      display: none;
-      border: none;
-    }
-
-    /* When shown on mobile, the sidebar will be a fixed floating panel */
-    .sidebar.show-mobile {
-      display: flex !important;
-      position: fixed;
-      top: 80px;
-      left: 8px;
-      right: 8px;
-      z-index: 1200;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-      gap: 8px;
-      padding: 10px;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-      background: #fff;
-      max-height: calc(100vh - 100px);
-      overflow: auto;
-    }
-
-    /* Tablet and below: transform sidebar into a multi-row top block */
-    @media (max-width: 991.98px) {
-      .navbar {
-        height: auto;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-      }
-
-      #sidebarToggle {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .sidebar {
-        position: static;
-        top: auto;
-        left: auto;
-        height: auto;
-        width: 100%;
-        border-radius: 10px;
-        padding: 8px;
-        margin: 90px 10px 10px 10px; /* push below fixed navbar */
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 8px;
-        align-items: center;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-      }
-
-      .sidebar a {
-        flex: 0 0 auto;
-        padding: 10px 12px;
-        margin: 0;
-        font-size: 14px;
-      }
-
-      .main {
-        margin-left: 0;
-        margin-top: 12px;
-        padding: 16px;
-      }
-
-      .navbar .nav-link {
-        height: auto;
-        font-size: 13px;
-        margin-left: 8px;
-        margin-right: 8px;
-      }
-
-      .preloader {
-        background-color: #fff5f0;
-      }
-    }
-
-    /* Small phones: tighter spacing, scale fonts and hide decorative extras */
-    @media (max-width: 575.98px) {
-      .sidebar {
-        gap: 6px;
-        padding: 6px;
-        margin: 86px 6px 6px 6px;
-      }
-
-      .sidebar a {
-        padding: 8px 10px;
-        font-size: 13px;
-      }
-
-      .navbar-brand {
-        font-size: 24px;
-      }
-
-      .side-semicircle {
-        display: none; /* hide decorative semicircle on small screens */
-      }
-
-      .profile-box {
-        padding: 10px;
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 8px;
-      }
-
-      .profile-name {
-        font-size: 14px;
-      }
-
-      .profile-email {
-        font-size: 12px;
-      }
-
-      .bg-white {
-        padding: 14px;
-      }
-
-      .save-btn, .save-animated-btn, .save-button {
-        padding: 10px 14px;
-        font-size: 14px;
-      }
-
-      .preloader .preloader-img {
-        width: 48px;
-        height: 48px;
-      }
-
-      /* Ensure list-group items stack and are readable */
-      .list-group-item .row > [class*="col-"] {
-        margin-bottom: 8px;
-      }
-    }
-
-    /* Very small phones: avoid overflow under 400px */
-    @media (max-width: 400px) {
-      /* Prevent any accidental horizontal scroll */
-      html, body {
-        max-width: 100%;
-        overflow-x: hidden;
-      }
-
-      /* slightly reduce main paddings and typography */
-      .main {
-        padding: 8px;
-      }
-
-      .bg-white {
-        padding: 8px;
-      }
-
-      h2 {
-        font-size: 18px;
-      }
-
-      .navbar-brand {
-        font-size: 20px;
-      }
-
-      .navbar .nav-link {
-        font-size: 12px;
-        margin-left: 6px;
-        margin-right: 6px;
-        padding: 6px 4px;
-      }
-
-      .sidebar {
-        gap: 6px;
-        padding: 6px;
-        margin: 70px 6px 6px 6px;
-        left: 6px;
-        right: 6px;
-      }
-
-      .sidebar a {
-        font-size: 12px;
-        padding: 8px;
-      }
-
-      .profile-box {
-        padding: 8px;
-        font-size: 12px;
-      }
-
-      /* Force stacked layout for small grouped controls inside main */
-      .main .d-flex.gap-2,
-      .bg-white .d-flex.gap-2 {
-        flex-direction: column !important;
-        gap: 6px !important;
-      }
-
-      /* Make inputs/buttons full width to avoid overflow */
-      .main .form-control,
-      .main .btn,
-      .main .btn-outline-secondary,
-      .main .btn-outline-success,
-      .main .btn-outline-warning {
-        width: 100% !important;
-        box-sizing: border-box;
-      }
-
-      /* Reduce list padding and font-size */
-      #studentList .list-group-item,
-      #menuList .list-group-item {
-        font-size: 13px;
-        padding: 8px 10px;
-      }
-
-      /* Make recipe-row columns full width so they stack */
-      .recipe-row .col-md-4 {
-        flex-basis: 100%;
-        max-width: 100%;
-      }
-
-      /* Ensure side-semicircle doesn't cause overflow */
-      .side-semicircle {
-        display: none;
-      }
-
-      /* tighten margins on navbar container at very small widths */
-      .navbar .container {
-        padding-left: 6px;
-        padding-right: 6px;
-      }
-    }
-
-    /* Small utility to ensure images scale and are centered on tiny screens */
-    @media (max-width: 575.98px) {
-      .img-fluid {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .rounded-button-link, .bi {
-        transform-origin: center;
-      }
-    }
-
-    /* PRELOADER logo sizing (reduce on laptops) */
- 
-    
-
-    #preloader {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: fixed;
-      inset: 0;
-      background: white;
-      z-index: 9999;
-    }
-
-    #preloader.fade-out {
-      opacity: 0;
-      transition: opacity 0.6s ease;
-      pointer-events: none;
-    }
-
-
-    /* Adjusted preloader logo size */
-    #preloader img {
-      width: 28vw;        /* takes about 1/4 of the laptop screen width */
-      max-width: 260px;   /* limits it on large screens */
-      min-width: 120px;   /* ensures it's visible on phones */
-      height: auto;
-    }
-
-    /* For tablets (medium devices) */
-    @media (max-width: 992px) {
-      #preloader img {
-        width: 35vw;
-        max-width: 220px;
-      }
-    }
-
- 
-    /* Responsive preloader logo size */
-    .spinner-rotate img {
-      width: clamp(80px, 12vw, 140px); /* min 80px, ideal 12vw, max 140px */
-      height: auto;
-      animation: spin 2s linear infinite;
-    }
-
-    /* On small tablets and phones */
-    @media (max-width: 768px) {
-      .spinner-rotate img {
-        width: clamp(70px, 18vw, 110px);
-      }
-    }
-
-
-   
 
 
 
 
-    /* ...existing code... */
+
+
+
+
+
+
+
+
+
   </style>
-
   <!-- ✅ Supabase Auth Protection -->
   <!-- ✅ Supabase Auth Protection -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -950,8 +659,7 @@
     <section class="preloader" id="preloader">
         <div class="spinner">
             <span class="spinner-rotate">
-                <!-- replaced fixed width/height with responsive class -->
-                <img src="images/recycle-sign.png" alt="Loading..." class="img-fluid preloader-img">
+                <img src="images/recycle-sign.png" alt="Loading..." style="width: 60px; height: 60px;">
             </span>
         </div>
     </section>
@@ -961,17 +669,6 @@
       <a href="dashboard.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
         <span style="color: #ff5500;">Plate </span><span class="brand-icon" style="color: #ff5500;">2♻️</span><span style="color: #ff5500;">Purpose</span>
       </a>
-
-      <!-- Mobile sidebar toggle (visible on md and below via CSS) -->
-      <button id="sidebarToggle" class="btn btn-outline-secondary d-lg-none me-2" type="button" aria-label="Toggle sidebar">
-        <i class="bi bi-list"></i> Menu
-      </button>
-
-      <!-- Navbar collapse toggler -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
       <div class="collapse navbar-collapse" id="navbarNav">
         
         <ul class="navbar-nav ms-auto align-items-center">
@@ -2210,7 +1907,6 @@ function downloadTemplateforImport() {
       if (sessionError || !user) return;
 
       const { data, error: fetchError } = await client
-
         .from('data')
         .select('*')
         .eq('user_id', user.id)
@@ -2231,7 +1927,6 @@ function downloadTemplateforImport() {
     }
 
     // ✅ Load recipes from Supabase
-
     
 
     async function deleteStudent(index) {
@@ -2703,6 +2398,7 @@ document.getElementById("exportAttendanceGoogleBtn").addEventListener("click", e
 
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
   const markBtn = document.getElementById("markFromExcelBtn");
   const markOverlay = document.getElementById("markOverlay");
@@ -2906,64 +2602,12 @@ async function loadUpiDetails() {
 document.addEventListener("DOMContentLoaded", loadUpiDetails);
 </script>
 
-<!-- Add robust sidebar toggle behavior -->
-<script>
-  (function () {
-    const sbToggle = document.getElementById('sidebarToggle');
-    const sidebar = document.querySelector('.sidebar');
 
-    if (!sbToggle || !sidebar) return;
 
-    // Toggle open/close
-    sbToggle.addEventListener('click', function (e) {
-      e.stopPropagation();
-      const opening = !sidebar.classList.contains('show-mobile');
-      sidebar.classList.toggle('show-mobile');
-      document.body.style.overflow = opening ? 'hidden' : '';
-      sbToggle.setAttribute('aria-expanded', opening ? 'true' : 'false');
-    });
 
-    // Close when any sidebar link clicked (mobile)
-    document.querySelectorAll('.sidebar-link').forEach(link => {
-      link.addEventListener('click', function () {
-        if (window.innerWidth <= 991.98 && sidebar.classList.contains('show-mobile')) {
-          sidebar.classList.remove('show-mobile');
-          document.body.style.overflow = '';
-          sbToggle.setAttribute('aria-expanded', 'false');
-        }
-      });
-    });
 
-    // Click outside closes the sidebar on mobile
-    document.addEventListener('click', function (e) {
-      if (window.innerWidth <= 991.98 && sidebar.classList.contains('show-mobile')) {
-        if (!sidebar.contains(e.target) && e.target !== sbToggle && !sbToggle.contains(e.target)) {
-          sidebar.classList.remove('show-mobile');
-          document.body.style.overflow = '';
-          sbToggle.setAttribute('aria-expanded', 'false');
-        }
-      }
-    }, { passive: true });
 
-    // Close on Escape
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && sidebar.classList.contains('show-mobile')) {
-        sidebar.classList.remove('show-mobile');
-        document.body.style.overflow = '';
-        sbToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
 
-    // Reset when resizing to desktop
-    window.addEventListener('resize', function () {
-      if (window.innerWidth > 991.98) {
-        sidebar.classList.remove('show-mobile');
-        document.body.style.overflow = '';
-        sbToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-  })();
-</script>
 </body>
 </html>
 
