@@ -664,43 +664,36 @@
         </div>
     </section>
 
-  <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
-    <div class="container">
-      <a href="dashboard.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
-        <span style="color: #ff5500;">Plate </span>
-        <span class="brand-icon" style="color: #ff5500;">2♻️</span>
-        <span style="color: #ff5500;">Purpose</span>
-      </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item">
-            <a class="nav-link active" href="dashboard.html">DASHBOARD</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about2.html">ABOUT US</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact2.html">CONTACT US</a>
-          </li>
-          <li class="nav-item">
-            <button id="saveBtn" class="btn btn-outline-primary d-flex align-items-center gap-2 ms-3">
-              <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
-              <span id="saveText">Save Changes</span>
-            </button>
-          </li>
-        </ul>
+  <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a href="index.html" class="navbar-brand mx-auto mx-lg-0">
+          <span>Plate2</span>
+          <span class="brand-icon">♻️</span>
+          <span>Purpose</span>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link click-scroll" href="index.html">Homepage</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact Us</a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
-
+    </nav>
 
   
 
@@ -2561,68 +2554,6 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
     };
     reader.readAsArrayBuffer(file);
   }
-</script>
-<style>
-  .navbar {
-    background: rgba(255, 255, 255, 0) !important; /* fully transparent by default */
-    transition: all 0.4s ease !important;
-    backdrop-filter: none !important;
-  }
-
-  /* When expanded (burger clicked) */
-  .navbar.expanded {
-    background: rgba(255, 85, 0, 0.25) !important; /* orange tint */
-    backdrop-filter: blur(10px) !important; /* blurred glass look */
-  }
-
-  @media (max-width: 991px) {
-    .navbar-collapse {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
-    }
-
-    .navbar-collapse.show {
-      max-height: 400px; /* increases height smoothly */
-    }
-
-    .navbar-nav {
-      flex-direction: column;
-      align-items: center;
-      padding: 10px 0;
-    }
-
-    .navbar-nav .nav-item {
-      width: 100%;
-      text-align: center;
-      padding: 8px 0;
-    }
-
-    .navbar-nav .nav-link {
-      font-size: 18px;
-    }
-
-    #saveBtn {
-      width: 80%;
-      margin: 10px auto;
-      display: block;
-    }
-  }
-</style>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const navbar = document.querySelector(".navbar");
-    const collapse = document.querySelector("#navbarNav");
-
-    collapse.addEventListener("shown.bs.collapse", () => {
-      navbar.classList.add("expanded");
-    });
-
-    collapse.addEventListener("hidden.bs.collapse", () => {
-      navbar.classList.remove("expanded");
-    });
-  });
 </script>
 
 
