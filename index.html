@@ -341,110 +341,76 @@
     </script>
     <script>
       (function () {
-        // HIGHLY-ROBUST: create a CSS rule that only applies when we add .no-hero-bg to <html>
-        // This uses high specificity + !important and targets ::before / ::after and children.
-        function ensureOverrideStyle() {
+        // Inject strong CSS overrides (handles ::before, ::after, etc.)
+        function injectOverrideCSS() {
           if (document.getElementById("no-hero-bg-style")) return;
-          const css = `
+          const style = document.createElement("style");
+          style.id = "no-hero-bg-style";
+          style.textContent = `
       @media (max-width: 991px) {
         html.no-hero-bg .hero-section,
         html.no-hero-bg .hero-section::before,
         html.no-hero-bg .hero-section::after,
         html.no-hero-bg .hero-section * {
+          background: #FFE5B4 !important;
           background-image: none !important;
-          background: none !important;
-          background-color: #cb7575 !important;
-          background-size: initial !important;
-          background-position: initial !important;
-          box-shadow: none !important;
+          background-color: #FFE5B4 !important;
           content: none !important;
+          box-shadow: none !important;
         }
       }
     `;
-          const style = document.createElement("style");
-          style.id = "no-hero-bg-style";
-          style.appendChild(document.createTextNode(css));
           document.head.appendChild(style);
         }
 
-        function removeHeroBackground() {
+        // Main logic
+        function handleHeroForMobile() {
           const hero = document.querySelector(".hero-section");
           if (!hero) return;
 
-          const isMobileOrTablet =
-            window.matchMedia("(max-width: 991px)").matches;
+          const isMobile = window.matchMedia("(max-width: 991px)").matches;
 
-          ensureOverrideStyle();
+          injectOverrideCSS();
 
-          if (isMobileOrTablet) {
-            // add a class to html so our injected stylesheet takes effect
+          if (isMobile) {
             document.documentElement.classList.add("no-hero-bg");
 
-            // also aggressively set inline styles on the hero element itself
+            // Inline overrides — strongest effect
+            hero.style.setProperty("background", "#FFE5B4", "important");
             hero.style.setProperty("background-image", "none", "important");
-            hero.style.setProperty("background", "none", "important");
-            hero.style.setProperty("background-color", "#cb7575", "important");
+            hero.style.setProperty("background-color", "#FFE5B4", "important");
             hero.style.setProperty("min-height", "auto", "important");
             hero.style.setProperty("padding", "100px 20px", "important");
 
-            // remove any <img> inside hero if present (some templates put an img instead)
+            // Hide any <img> backgrounds inside hero
             hero.querySelectorAll("img").forEach((img) => {
-              // hide instead of remove so markup stays (less surprising)
               img.style.setProperty("display", "none", "important");
               img.style.setProperty("visibility", "hidden", "important");
             });
 
-            // remove inline backgrounds on children too
+            // Remove child background images
             hero.querySelectorAll("*").forEach((el) => {
               el.style.setProperty("background-image", "none", "important");
-              el.style.setProperty("background", "none", "important");
+              el.style.setProperty("background-color", "#FFE5B4", "important");
             });
 
-            console.log("[hero-bg] removed for mobile/tablet");
+            console.log("[hero-bg] removed & set to light peach for mobile");
           } else {
-            // desktop -> restore (remove our class & inline overrides)
+            // Restore desktop defaults
             document.documentElement.classList.remove("no-hero-bg");
-
-            // remove the inline values that we set
-            [
-              "background-image",
-              "background",
-              "background-color",
-              "min-height",
-              "padding",
-            ].forEach((prop) => {
-              hero.style.removeProperty(prop);
-            });
-
-            // un-hide images inside hero
+            hero.removeAttribute("style");
             hero.querySelectorAll("img").forEach((img) => {
               img.style.removeProperty("display");
               img.style.removeProperty("visibility");
             });
-
             console.log("[hero-bg] restored for desktop");
           }
         }
 
-        // Run as early as possible once DOM is ready
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", removeHeroBackground);
-        } else {
-          removeHeroBackground();
-        }
-
-        // Re-run on resize / orientation change
-        window.addEventListener("resize", debounce(removeHeroBackground, 120));
-        window.addEventListener("orientationchange", removeHeroBackground);
-
-        // tiny debounce helper
-        function debounce(fn, ms) {
-          let t;
-          return function () {
-            clearTimeout(t);
-            t = setTimeout(() => fn.apply(this, arguments), ms);
-          };
-        }
+        // Run now and when resized/orientation changes
+        document.addEventListener("DOMContentLoaded", handleHeroForMobile);
+        window.addEventListener("resize", handleHeroForMobile);
+        window.addEventListener("orientationchange", handleHeroForMobile);
       })();
     </script>
   </body>
