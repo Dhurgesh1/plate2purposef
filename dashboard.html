@@ -619,66 +619,32 @@ img, .card-img-top, .preloader img, .preloader-img {
 
 /* Tablet and below: compact layout */
 @media (max-width: 991.98px) {
-  /* Sidebar converts to horizontal/stacked block and won't overlap main */
-  .sidebar {
-    position: static !important;
-    top: auto;
-    left: auto;
-    width: 100% !important;
+  /* Allow navbar to expand on small screens so collapsed links are visible */
+  .navbar {
     height: auto !important;
-    margin: 90px 10px 10px 10px;
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
-    border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    padding-bottom: 0.25rem;
   }
 
-  /* Main content takes full width */
-  .main {
-    margin-left: 0 !important;
-    margin-top: 12px !important;
-    padding: 16px !important;
-  }
-
-  /* Make bg-white sections adapt and be scrollable rather than fixed tall blocks */
-  .section > .bg-white {
-    min-height: auto !important;
-    padding: 18px !important;
-  }
-
-  /* Stack small groups vertically */
-  .d-flex.gap-2 {
-    flex-direction: column !important;
-    gap: 8px !important;
-  }
-
-  /* Inline checks become stacked for readability */
-  .form-check-inline {
-    display: block;
-    margin-bottom: 6px;
-  }
-
-  /* Buttons inside content become full-width where it makes sense */
-  .main .btn,
-  .bg-white .btn {
+  /* Make collapsed menu visually separate and readable */
+  .navbar-collapse {
+    background: rgba(255,255,255,0.98);
     width: 100%;
-    box-sizing: border-box;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    padding: 0.5rem 1rem;
   }
 
-  /* Reduce preloader logo for tablets */
-  .preloader img {
-    width: 56px;
-    height: auto;
-    max-width: 56px;
+  /* Make nav links stack and be easy to tap */
+  .navbar .nav-link {
+    display: block;
+    padding: 0.5rem 0;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 
-  /* Prevent accidental horizontal scroll */
-  body {
-    overflow-x: hidden;
+  /* Ensure the save button in collapsed menu fits and wraps nicely */
+  .navbar .btn {
+    width: 100%;
+    margin-top: 8px;
   }
 }
 
@@ -2742,10 +2708,47 @@ async function loadUpiDetails() {
 document.addEventListener("DOMContentLoaded", loadUpiDetails);
 </script>
 
+<script>
+  (function () {
+    const navbar = document.querySelector('.navbar');
+    const collapseEl = document.getElementById('navbarNav');
+    const mainEl = document.querySelector('.main');
 
+    if (!navbar || !collapseEl || !mainEl) return;
 
+    function updateMainMargin() {
+      // Compute navbar total height (including expanded collapse)
+      const navHeight = navbar.getBoundingClientRect().height;
+      // Add a tiny gap so content isn't flush against navbar
+      mainEl.style.marginTop = (navHeight + 10) + 'px';
+    }
 
+    // Listen for Bootstrap collapse events to know when menu opens/closes
+    collapseEl.addEventListener('show.bs.collapse', () => {
+      // give the collapse a small timeout to finish expanding before measuring
+      setTimeout(updateMainMargin, 200);
+    });
 
+    collapseEl.addEventListener('hidden.bs.collapse', () => {
+      // restore mobile spacing (keeps previous mobile rule of 12px / 16px)
+      mainEl.style.marginTop = window.innerWidth >= 992 ? '80px' : '12px';
+    });
 
+    // Keep layout correct on resize
+    window.addEventListener('resize', () => {
+      // If collapsed is currently shown, update margin; else set default
+      if (collapseEl.classList.contains('show')) {
+        setTimeout(updateMainMargin, 120);
+      } else {
+        mainEl.style.marginTop = window.innerWidth >= 992 ? '80px' : '12px';
+      }
+    });
+
+    // run once on load in case collapse is open by default on some view
+    window.addEventListener('DOMContentLoaded', () => {
+      if (collapseEl.classList.contains('show')) updateMainMargin();
+    });
+  })();
+</script>
 </body>
 </html>
