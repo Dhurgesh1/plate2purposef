@@ -2564,29 +2564,23 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
 </script>
 
 <style>
-  /* Make navbar transition smoothly */
   .navbar {
     transition: all 0.4s ease-in-out;
   }
 
-  /* When expanded, allow height to auto-adjust */
   .navbar-collapse {
     transition: all 0.4s ease-in-out;
   }
 
-  /* Fix overlapping issue and make full background when expanded */
+  /* Only affects mobile screens */
   @media (max-width: 991px) {
-    .navbar {
-      background: white; /* or your theme color */
-    }
-
     .navbar-collapse.collapse.show {
       display: block !important;
       position: relative;
       width: 100%;
-      background: white;
       padding: 10px 0;
       height: auto !important;
+      background: transparent !important; /* ✅ Keeps your original color */
     }
 
     .navbar-nav {
@@ -2610,6 +2604,7 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
     }
   }
 </style>
+
 
 
 
