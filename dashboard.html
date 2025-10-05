@@ -600,20 +600,156 @@
       color: white;
     }
 
+    /* ---------- Responsive adjustments (added) ---------- */
 
+    /* Hide mobile-only toggle by default; will be shown via media queries */
+    #sidebarToggle {
+      display: none;
+      border: none;
+    }
 
+    /* When shown on mobile, the sidebar will be a fixed floating panel */
+    .sidebar.show-mobile {
+      display: flex !important;
+      position: fixed;
+      top: 80px;
+      left: 8px;
+      right: 8px;
+      z-index: 1200;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 8px;
+      padding: 10px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      background: #fff;
+      max-height: calc(100vh - 100px);
+      overflow: auto;
+    }
 
+    /* Tablet and below: transform sidebar into a multi-row top block */
+    @media (max-width: 991.98px) {
+      .navbar {
+        height: auto;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+      }
 
+      #sidebarToggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
 
+      .sidebar {
+        position: static;
+        top: auto;
+        left: auto;
+        height: auto;
+        width: 100%;
+        border-radius: 10px;
+        padding: 8px;
+        margin: 90px 10px 10px 10px; /* push below fixed navbar */
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      }
 
+      .sidebar a {
+        flex: 0 0 auto;
+        padding: 10px 12px;
+        margin: 0;
+        font-size: 14px;
+      }
 
+      .main {
+        margin-left: 0;
+        margin-top: 12px;
+        padding: 16px;
+      }
 
+      .navbar .nav-link {
+        height: auto;
+        font-size: 13px;
+        margin-left: 8px;
+        margin-right: 8px;
+      }
 
+      .preloader {
+        background-color: #fff5f0;
+      }
+    }
 
+    /* Small phones: tighter spacing, scale fonts and hide decorative extras */
+    @media (max-width: 575.98px) {
+      .sidebar {
+        gap: 6px;
+        padding: 6px;
+        margin: 86px 6px 6px 6px;
+      }
 
+      .sidebar a {
+        padding: 8px 10px;
+        font-size: 13px;
+      }
 
+      .navbar-brand {
+        font-size: 24px;
+      }
 
+      .side-semicircle {
+        display: none; /* hide decorative semicircle on small screens */
+      }
+
+      .profile-box {
+        padding: 10px;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .profile-name {
+        font-size: 14px;
+      }
+
+      .profile-email {
+        font-size: 12px;
+      }
+
+      .bg-white {
+        padding: 14px;
+      }
+
+      .save-btn, .save-animated-btn, .save-button {
+        padding: 10px 14px;
+        font-size: 14px;
+      }
+
+      .preloader .preloader-img {
+        width: 48px;
+        height: 48px;
+      }
+
+      /* Ensure list-group items stack and are readable */
+      .list-group-item .row > [class*="col-"] {
+        margin-bottom: 8px;
+      }
+    }
+
+    /* small utility to ensure images scale */
+    img.img-fluid {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ...existing code... */
   </style>
+
   <!-- ✅ Supabase Auth Protection -->
   <!-- ✅ Supabase Auth Protection -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -659,7 +795,8 @@
     <section class="preloader" id="preloader">
         <div class="spinner">
             <span class="spinner-rotate">
-                <img src="images/recycle-sign.png" alt="Loading..." style="width: 60px; height: 60px;">
+                <!-- replaced fixed width/height with responsive class -->
+                <img src="images/recycle-sign.png" alt="Loading..." class="img-fluid preloader-img">
             </span>
         </div>
     </section>
@@ -669,6 +806,17 @@
       <a href="dashboard.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
         <span style="color: #ff5500;">Plate </span><span class="brand-icon" style="color: #ff5500;">2♻️</span><span style="color: #ff5500;">Purpose</span>
       </a>
+
+      <!-- Mobile sidebar toggle (visible on md and below via CSS) -->
+      <button id="sidebarToggle" class="btn btn-outline-secondary d-lg-none me-2" type="button" aria-label="Toggle sidebar">
+        <i class="bi bi-list"></i> Menu
+      </button>
+
+      <!-- Navbar collapse toggler -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
       <div class="collapse navbar-collapse" id="navbarNav">
         
         <ul class="navbar-nav ms-auto align-items-center">
@@ -2398,7 +2546,6 @@ document.getElementById("exportAttendanceGoogleBtn").addEventListener("click", e
 
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
   const markBtn = document.getElementById("markFromExcelBtn");
   const markOverlay = document.getElementById("markOverlay");
