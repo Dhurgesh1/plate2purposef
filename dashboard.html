@@ -1216,32 +1216,77 @@ function downloadTemplateforImport() {
 
 
 
-  <script>
-    const links = document.querySelectorAll('.sidebar-link');
-    const sections = document.querySelectorAll('.section');
+  <style>
+/* Sidebar styles */
+.sidebar {
+  position: fixed;        /* fix it so it slides over content */
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100vh;
+  background-color: #fff;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+  overflow-y: auto;
+  transform: translateX(0); /* visible by default */
+  transition: transform 0.3s ease;
+  z-index: 999;           /* above content */
+}
 
-    links.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        links.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
+/* Collapsed sidebar */
+.sidebar.collapsed {
+  transform: translateX(-100%); /* slide out fully */
+}
 
-        const target = link.getAttribute('data-target'); // ⬅️ move this UP here
+/* Toggle button */
+#sidebarToggleBtn {
+  display: none; /* hide on desktop */
+  position: fixed;
+  top: 90px; /* below navbar */
+  left: 10px;
+  z-index: 1001;
+  background: #cb7575;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: background 0.3s ease;
+}
 
-        sections.forEach(section => {
-          section.classList.remove('active');
-          if (section.id === target) {
-            section.classList.add('active');
+#sidebarToggleBtn:hover {
+  background: #ff7575;
+}
 
-            if (target === "attendance") {
-              renderStudents(); // ✅ Works now
-            }
-          }
-        });
-      });
-    });
+/* Show button only on mobile */
+@media (max-width: 991px) {
+  #sidebarToggleBtn {
+    display: block;
+  }
+}
+</style>
 
-  </script>
+<script>
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  sidebar.classList.toggle('collapsed');
+}
+
+// Automatically collapse on mobile
+function checkSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  if (window.innerWidth <= 991) {
+    sidebar.classList.add('collapsed');
+  } else {
+    sidebar.classList.remove('collapsed');
+  }
+}
+
+window.addEventListener('resize', checkSidebar);
+window.addEventListener('DOMContentLoaded', checkSidebar);
+</script>
+
 
   <script>
     setTimeout(() => {
