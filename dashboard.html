@@ -657,8 +657,100 @@
     </div>
   </nav>
 
+  <style>
+    /* Sidebar default */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100vh;
+  background-color: #fff;
+  box-shadow: 2px 0 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px; /* space for navbar */
+}
+
+/* Sidebar links */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  font-size: 1rem;
+  color: #333;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.sidebar-link:hover {
+  background-color: #f0f0f0;
+}
+
+.sidebar-link.active {
+  background-color: #ffe6cc;
+  font-weight: 600;
+}
+
+/* Profile box at bottom */
+.profile-box {
+  margin-top: auto;
+  padding: 16px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+/* Sidebar collapsed for mobile */
+.sidebar.collapsed {
+  transform: translateX(-100%);
+}
+
+/* Main content */
+.main {
+  margin-left: 260px;
+  transition: margin-left 0.3s ease;
+}
+
+/* When sidebar is collapsed (mobile) */
+.main.expanded {
+  margin-left: 0;
+}
+
+/* Toggle button */
+#sidebarToggleBtn {
+  display: none;
+  position: fixed;
+  top: 80px;
+  left: 10px;
+  z-index: 1001;
+  background: #ff5500;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 18px;
+}
+
+/* Show toggle button on mobile */
+@media (max-width: 991px) {
+  #sidebarToggleBtn {
+    display: block;
+  }
+
+  .main {
+    margin-left: 0;
+  }
+}
+
+
+  </style>
+
 
   
+
+  <button id="sidebarToggleBtn" onclick="toggleSidebar()">☰</button>
 
   <div class="sidebar">
     <a href="#" class="sidebar-link active" data-target="attendance"><i class="bi bi-people-fill"></i> Attendance</a>
@@ -666,24 +758,18 @@
     <a href="#" class="sidebar-link" data-target="payments"><i class="bi bi-credit-card"></i> UPI Payments</a>
     <a href="#" class="sidebar-link" data-target="menu"><i class="bi bi-list"></i> Menu</a>
     <a href="#" class="sidebar-link" data-target="feedback"><i class="bi bi-chat-dots"></i> Feedback</a>
-    <button class="switch-mode-btn" id="modeSwitchBtn" onclick="switchMode()">
-      Switch Mode
-    </button>
-
-
-
-    
-
-
-    <div class="profile-box text-center mx-3 p-3 mt-auto" onclick="openProfileModal()" style="cursor: pointer;">
+  
+    <div class="profile-box" onclick="openProfileModal()" style="cursor:pointer;">
       <div class="profile-name fw-semibold" id="profileNameDisplay">Dhurgesh Maloth</div>
       <div class="profile-email text-muted small" id="profileEmailDisplay">malothdhurgesh@gmail.com</div>
-      
       <button class="btn btn-outline-danger btn-sm mt-2 w-100" onclick="logout(); event.stopPropagation();">Logout</button>
     </div>
-
-
   </div>
+  
+  <div class="main">
+    <!-- Your main content goes here -->
+  </div>
+
 
   <div class="main">
     <div id="attendance" class="section active">
