@@ -6,6 +6,12 @@
     <title>Plate2Purpose - Homepage</title>
     <link rel="icon" href="images/recycle-sign.png" type="image/png" />
 
+    <!-- ✅ Google Search Console Verification -->
+    <meta
+      name="google-site-verification"
+      content="8UiUjcstjvVqaZr729tdZSz-h0UEDCxY5op1znm75fg"
+    />
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,16 +28,15 @@
 
     <style>
       .custom-btn {
-        background-color: #cb7575; /* sets button color */
-        color: white; /* keeps text readable */
-        border: none; /* optional: remove border */
-        padding: 10px 20px; /* optional: button padding */
-        border-radius: 5px; /* optional: rounded corners */
-        text-decoration: none; /* ensures it looks like a button */
+        background-color: #cb7575;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
         display: inline-block;
       }
 
-      /* Spinner Animation for Preloader */
       .spinner-rotate img {
         animation: spin 2s linear infinite;
       }
@@ -44,7 +49,6 @@
         }
       }
 
-      /* Side Semicircle */
       .side-semicircle {
         position: fixed;
         bottom: 30px;
@@ -130,7 +134,6 @@
         }
       }
 
-      /* News Section Styles */
       #news-section {
         padding: 60px 15px;
       }
@@ -154,25 +157,23 @@
 
   <body>
     <script>
-  // Handle OAuth redirect token
-        (function () {
-          if (window.location.hash) {
-            const params = new URLSearchParams(window.location.hash.substring(1));
-            const token = params.get('access_token');
-            if (token) {
-              localStorage.setItem('access_token', token);
-              console.log('Access token stored:', token);
-      
-              // Remove token from URL to clean up
-              history.replaceState(null, '', window.location.pathname + window.location.search);
-            }
+      (function () {
+        if (window.location.hash) {
+          const params = new URLSearchParams(window.location.hash.substring(1));
+          const token = params.get("access_token");
+          if (token) {
+            localStorage.setItem("access_token", token);
+            console.log("Access token stored:", token);
+            history.replaceState(
+              null,
+              "",
+              window.location.pathname + window.location.search
+            );
           }
-        })();
+        }
+      })();
     </script>
 
-    <!-- Mobile Warning -->
-
-    <!-- Preloader -->
     <section class="preloader" id="preloader">
       <div class="spinner">
         <span class="spinner-rotate">
@@ -185,7 +186,6 @@
       </div>
     </section>
 
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
       <div class="container">
         <button
@@ -231,7 +231,6 @@
       </div>
     </nav>
 
-    <!-- Hero Section -->
     <main>
       <section class="hero-section d-flex" id="section_1">
         <div
@@ -251,7 +250,6 @@
         </div>
       </section>
 
-      <!-- News Section -->
       <section id="news-section" class="container my-5">
         <div class="text-center mb-4">
           <button id="loadNewsBtn" class="btn btn-dark px-4 py-2 rounded-pill">
@@ -261,7 +259,6 @@
         <div id="newsContainer" class="row g-4 justify-content-center"></div>
       </section>
 
-      <!-- Side AI Button -->
       <div class="side-semicircle">
         <div class="star star-1"></div>
         <div class="star star-2"></div>
@@ -275,7 +272,6 @@
       </div>
     </main>
 
-    <!-- JS Files -->
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.sticky.js"></script>
@@ -284,9 +280,6 @@
     <script src="js/magnific-popup-options.js"></script>
     <script src="js/custom.js"></script>
 
-    <!-- Device Check Script -->
-
-    <!-- News Fetch Script -->
     <script>
       document
         .getElementById("loadNewsBtn")
@@ -301,7 +294,6 @@
             );
             const data = await response.json();
 
-            // ✅ Keyword groups
             const foodKeywords = [
               "food",
               "waste",
@@ -334,9 +326,6 @@
               });
             }
 
-            // ✅ Fallback static articles if API returns nothing
-
-            // ✅ Display news cards
             container.innerHTML = filtered
               .map(
                 (article) => `
@@ -365,102 +354,6 @@
             console.error(err);
           }
         });
-    </script>
-    <script>
-      (function () {
-        function injectOverrideCSS() {
-          if (document.getElementById("no-hero-bg-style")) return;
-          const style = document.createElement("style");
-          style.id = "no-hero-bg-style";
-          style.textContent = `
-      @media (max-width: 991px) {
-        html.no-hero-bg .hero-section,
-        html.no-hero-bg .hero-section::before,
-        html.no-hero-bg .hero-section::after,
-        html.no-hero-bg .hero-section * {
-          background: #FFF2E6 !important; /* 💎 very light peach */
-          background-image: none !important;
-          background-color: #FFF2E6 !important;
-          content: none !important;
-          box-shadow: none !important;
-        }
-      }
-    `;
-          document.head.appendChild(style);
-        }
-
-        function handleHeroForMobile() {
-          const hero = document.querySelector(".hero-section");
-          if (!hero) return;
-
-          const isMobile = window.matchMedia("(max-width: 991px)").matches;
-
-          injectOverrideCSS();
-
-          if (isMobile) {
-            document.documentElement.classList.add("no-hero-bg");
-
-            hero.style.setProperty("background", "#FFF2E6", "important");
-            hero.style.setProperty("background-image", "none", "important");
-            hero.style.setProperty("background-color", "#FFF2E6", "important");
-            hero.style.setProperty("min-height", "auto", "important");
-            hero.style.setProperty("padding", "100px 20px", "important");
-
-            hero.querySelectorAll("img").forEach((img) => {
-              img.style.setProperty("display", "none", "important");
-              img.style.setProperty("visibility", "hidden", "important");
-            });
-
-            hero.querySelectorAll("*").forEach((el) => {
-              el.style.setProperty("background-image", "none", "important");
-              el.style.setProperty("background-color", "#FFF2E6", "important");
-            });
-
-            console.log(
-              "[hero-bg] removed & set to very light peach for mobile"
-            );
-          } else {
-            document.documentElement.classList.remove("no-hero-bg");
-            hero.removeAttribute("style");
-            hero.querySelectorAll("img").forEach((img) => {
-              img.style.removeProperty("display");
-              img.style.removeProperty("visibility");
-            });
-            console.log("[hero-bg] restored for desktop");
-          }
-        }
-
-        document.addEventListener("DOMContentLoaded", handleHeroForMobile);
-        window.addEventListener("resize", handleHeroForMobile);
-        window.addEventListener("orientationchange", handleHeroForMobile);
-      })();
-    </script>
-    <script>
-      (function () {
-        function handleMobileHeroText() {
-          const hero = document.querySelector(".hero-section");
-          if (!hero) return;
-
-          const isMobile = window.matchMedia("(max-width: 991px)").matches;
-
-          // Only target the h1.hero-title
-          const heroTitle = hero.querySelector("h1.hero-title");
-          const discoverBtn = hero.querySelector(".custom-btn");
-
-          if (isMobile) {
-            if (heroTitle)
-              heroTitle.style.setProperty("color", "#000", "important"); // Black text with !important
-            if (discoverBtn) discoverBtn.style.display = "none"; // Hide button
-          } else {
-            if (heroTitle) heroTitle.style.removeProperty("color"); // Reset color
-            if (discoverBtn) discoverBtn.style.display = "inline-block"; // Show button
-          }
-        }
-
-        document.addEventListener("DOMContentLoaded", handleMobileHeroText);
-        window.addEventListener("resize", handleMobileHeroText);
-        window.addEventListener("orientationchange", handleMobileHeroText);
-      })();
     </script>
   </body>
 </html>
