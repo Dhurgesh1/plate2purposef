@@ -834,7 +834,7 @@ img, .card-img-top, .preloader img, .preloader-img {
 
   <!-- Sidebar: replace existing links with restaurant-mode links -->
   <div class="sidebar">
-    <a href="#" class="sidebar-link active" data-target="attendance"><i class="bi bi-people-fill"></i> Attendance</a>
+  <a href="#" class="sidebar-link active" data-target="reservations"><i class="bi bi-people-fill"></i> Reservations</a>
     <a href="#" class="sidebar-link" data-target="calculator"><i class="bi bi-calculator"></i> Food Calculator</a>
     <a href="#" class="sidebar-link" data-target="payments"><i class="bi bi-credit-card"></i> UPI Payments</a>
     <a href="#" class="sidebar-link" data-target="menu"><i class="bi bi-list"></i> Menu &amp; Recipes</a>
@@ -858,9 +858,9 @@ img, .card-img-top, .preloader img, .preloader-img {
   </div>
 
   <div class="main">
-    <div id="attendance" class="section active">
+  <div id="reservations" class="section active">
       <div class="bg-white" >
-        <h2>Attendance Tracking</h2>
+    <h2>Reservation Tracking</h2>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h4 class="mb-0"></h4>
@@ -943,14 +943,14 @@ function downloadTemplateforImport() {
 
 
         <div class="mb-3 d-flex gap-2">
-          <button class="btn btn-outline-primary mode-btn mark-btn active" onclick="setMode('mark')">Mark Attendance</button>
-          <button class="btn btn-outline-warning mode-btn edit-btn" onclick="setMode('edit')">Edit Students</button>
+          <button class="btn btn-outline-primary mode-btn mark-btn active" onclick="setMode('mark')">Mark Reservation</button>
+          <button class="btn btn-outline-warning mode-btn edit-btn" onclick="setMode('edit')">Edit Customers</button>
         </div>
 
 
 
         <div class="mb-3">
-          <input type="text" id="studentName" placeholder="Enter student name" class="form-control mb-2" />
+          <input type="text" id="customerName" placeholder="Enter customer name" class="form-control mb-2" />
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="checkbox" id="prefBreak" value="Breakfast">
             <label class="form-check-label" for="prefBreak">Breakfast</label>
@@ -963,7 +963,7 @@ function downloadTemplateforImport() {
             <input class="form-check-input" type="checkbox" id="prefDinner" value="Dinner">
             <label class="form-check-label" for="prefDinner">Dinner</label>
           </div>
-          <button class="btn btn-primary mt-2" onclick="addStudent()">Add Student</button>
+          <button class="btn btn-primary mt-2" onclick="addCustomer()">Add Customer</button>
         </div>
 
         <!-- 📥 Import Button -->
@@ -1033,7 +1033,7 @@ function downloadTemplateforImport() {
         <!-- 📥 Import Button (below Add Student box) -->
 
 
-        <ul id="studentList" class="list-group"></ul>
+  <ul id="customerList" class="list-group"></ul>
 
 
         <script>
