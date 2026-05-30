@@ -892,3 +892,11 @@ strong {
     padding: 30px;
   }
 }
+/* Remove hero image on phones */
+@media screen and (max-width: 767px) {
+  .hero-container {
+    background-image: none !important;
+    background-color: #FFDAB9 !important; /* Peach */
+    min-height: 500px;
+  }
+}
