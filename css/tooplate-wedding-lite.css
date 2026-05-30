@@ -893,10 +893,13 @@ strong {
   }
 }
 /* Remove hero image on phones */
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1200px) {
   .hero-container {
     background-image: none !important;
-    background-color: #FFDAB9 !important; /* Peach */
-    min-height: 500px;
+    background-color: #FFE5D0 !important;
+  }
+
+  .hero-title {
+    color: #333 !important;
   }
 }
