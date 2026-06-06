@@ -22,7 +22,7 @@ SIDEBAR
 
 .sidebar{
 width:300px;
-background:#cb7575;
+background:#E39191;
 color:white;
 display:flex;
 flex-direction:column;
@@ -150,7 +150,7 @@ background:white;
 
 .chat-header{
 height:90px;
-background:#cb7575;
+background:#E39191;
 display:flex;
 justify-content:space-between;
 align-items:center;
