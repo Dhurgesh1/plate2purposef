@@ -45,8 +45,8 @@ margin-bottom:20px;
 }
 
 .logo{
-width:260px;
-height:auto;
+width:200px;
+height:80px;
 display:block;
 object-fit:contain;
 transition:.3s;
@@ -170,8 +170,8 @@ align-items:center;
 }
 
 .header-logo{
-width:180px;
-height:auto;
+width:200px;
+height:80px;
 display:block;
 object-fit:contain;
 }
