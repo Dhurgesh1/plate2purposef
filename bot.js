@@ -4,7 +4,7 @@
 
 const API_KEY = "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";
 
-const SYSTEM_PROMPT = `
+const SYSTEM_PROMPT = ` 
 You are Plate2Purpose AI.
 
 Plate2Purpose is a school food wastage reduction platform.
