@@ -16,17 +16,19 @@ display:flex;
 height:100vh;
 }
 
-/* SIDEBAR */
+/* =========================
+SIDEBAR
+========================= */
 
 .sidebar{
-width:300px;
+width:280px;
 background:#cb7575;
-color:white;
 display:flex;
 flex-direction:column;
 padding:20px;
-transition:.3s;
+transition:.3s ease;
 overflow:hidden;
+color:white;
 }
 
 .sidebar.hidden{
@@ -36,30 +38,31 @@ padding:0;
 
 .sidebar-header{
 display:flex;
+justify-content:center;
 align-items:center;
-gap:12px;
 margin-bottom:20px;
 }
 
 .logo{
-width:80px;
-height:180px;
+width:110px;
+height:110px;
 object-fit:contain;
+transition:.3s;
 }
 
-.sidebar-header h2{
-font-family:'Amatic SC',cursive;
-font-size:42px;
+.logo:hover{
+transform:scale(1.05);
 }
 
 .new-chat-btn{
 background:white;
 color:#cb7575;
 border:none;
-padding:12px;
-border-radius:12px;
+padding:14px;
+border-radius:14px;
 cursor:pointer;
 font-weight:600;
+font-size:15px;
 margin-bottom:15px;
 transition:.2s;
 }
@@ -72,8 +75,8 @@ transform:translateY(-2px);
 width:100%;
 padding:12px;
 border:none;
-border-radius:12px;
 outline:none;
+border-radius:12px;
 margin-bottom:15px;
 }
 
@@ -84,8 +87,8 @@ overflow-y:auto;
 
 .chat-item{
 background:rgba(255,255,255,.15);
-border-radius:12px;
 padding:12px;
+border-radius:12px;
 margin-bottom:10px;
 transition:.2s;
 }
@@ -102,8 +105,8 @@ font-weight:600;
 
 .chat-content{
 display:flex;
-align-items:center;
 justify-content:space-between;
+align-items:center;
 gap:10px;
 }
 
@@ -128,7 +131,9 @@ transition:.2s;
 opacity:1;
 }
 
-/* CHAT AREA */
+/* =========================
+CHAT AREA
+========================= */
 
 .chat-container{
 flex:1;
@@ -138,13 +143,12 @@ background:white;
 }
 
 .chat-header{
-height:80px;
+height:90px;
 background:#cb7575;
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:0 20px;
-color:white;
 }
 
 .left-header{
@@ -156,18 +160,12 @@ gap:15px;
 .brand{
 display:flex;
 align-items:center;
-gap:12px;
 }
 
 .header-logo{
-width:45px;
-height:45px;
+width:70px;
+height:70px;
 object-fit:contain;
-}
-
-.brand span{
-font-size:22px;
-font-weight:600;
 }
 
 .header-actions{
@@ -179,7 +177,7 @@ gap:10px;
 width:45px;
 height:45px;
 border:none;
-border-radius:10px;
+border-radius:12px;
 cursor:pointer;
 transition:.2s;
 }
@@ -187,6 +185,10 @@ transition:.2s;
 .icon-btn:hover{
 transform:scale(1.05);
 }
+
+/* =========================
+MESSAGES
+========================= */
 
 .messages{
 flex:1;
@@ -204,6 +206,7 @@ padding:14px 18px;
 line-height:1.6;
 animation:fadeIn .25s ease;
 word-wrap:break-word;
+font-size:15px;
 }
 
 .user{
@@ -211,6 +214,7 @@ align-self:flex-end;
 background:#cb7575;
 color:white;
 border-radius:20px 20px 0 20px;
+box-shadow:0 4px 10px rgba(0,0,0,.08);
 }
 
 .bot{
@@ -218,12 +222,17 @@ align-self:flex-start;
 background:#fff0eb;
 color:#333;
 border-radius:20px 20px 20px 0;
+box-shadow:0 4px 10px rgba(0,0,0,.05);
 }
+
+/* =========================
+INPUT
+========================= */
 
 .input-area{
 display:flex;
-padding:20px;
 gap:10px;
+padding:20px;
 border-top:1px solid #eee;
 }
 
@@ -231,11 +240,11 @@ textarea{
 flex:1;
 height:60px;
 border:none;
-background:#fff0eb;
-padding:15px;
-border-radius:16px;
 outline:none;
 resize:none;
+background:#fff0eb;
+padding:15px;
+border-radius:18px;
 font-size:15px;
 }
 
@@ -244,7 +253,7 @@ width:60px;
 border:none;
 background:#cb7575;
 color:white;
-border-radius:16px;
+border-radius:18px;
 font-size:22px;
 cursor:pointer;
 transition:.2s;
@@ -253,6 +262,10 @@ transition:.2s;
 .send-btn:hover{
 transform:scale(1.05);
 }
+
+/* =========================
+TYPING
+========================= */
 
 .typing{
 display:flex;
@@ -292,6 +305,23 @@ transform:translateY(0);
 }
 }
 
+/* =========================
+SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+width:6px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#cb7575;
+border-radius:10px;
+}
+
+/* =========================
+MOBILE
+========================= */
+
 @media(max-width:768px){
 
 .sidebar{
@@ -304,8 +334,18 @@ height:100%;
 max-width:90%;
 }
 
-.brand span{
-font-size:18px;
+.logo{
+width:90px;
+height:90px;
+}
+
+.header-logo{
+width:55px;
+height:55px;
+}
+
+.chat-header{
+height:80px;
 }
 
 }
