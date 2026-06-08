@@ -1496,7 +1496,7 @@ function downloadTemplateforImport() {
             <small>${(recipe.meals || []).map(meal => meal === "Break" ? "Breakfast" : meal).join(", ")}</small>
           </div>
           <div class="col-md-4">
-            ${(recipe.ingredients || []).map(ing => `${ing.name}: ${ing.qty}`).join('<br>')}}
+            ${(recipe.ingredients || []).map(ing => `${ing.name}: ${ing.qty}`).join('<br>')}
           </div>
           <div class="col-md-4 d-flex justify-content-end align-items-center">
             <input 
