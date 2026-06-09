@@ -2959,57 +2959,9 @@ document.addEventListener("DOMContentLoaded", loadPublicFeedback);
 loadSubscription();
 </script>
 
-<script>
-async function saveUpiId() {
-  const upiId = document.getElementById("upiIdInput").value.trim();
-  if (!upiId) {
-    alert("Please enter a valid UPI ID.");
-    return;
-  }
 
-  const { data: { user }, error } = await client.auth.getUser();
-  if (error || !user) {
-    alert("❌ Unable to fetch user session.");
-    return;
-  }
-
-  // Generate QR code link (Google Charts API or QR server)
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(user.user_metadata?.full_name || "User")}`;
-
-  // Save to Supabase
-  const { error: upiError } = await client
-    .from("upi_details")
-    .upsert([{ user_id: user.id, upi_id: upiId, qr_code_url: qrUrl }], { onConflict: ["user_id"] });
-
-  if (upiError) {
-    alert("❌ Failed to save UPI ID.");
-    return;
-  }
-
-  alert("✅ UPI ID saved successfully!");
-  loadUpiDetails();
-}
-
-async function loadUpiDetails() {
-  const { data: { user } } = await client.auth.getUser();
-  if (!user) return;
-
-  const { data, error } = await client
-    .from("upi_details")
-    .select("*")
-    .eq("user_id", user.id)
-    .single();
-
-  if (error || !data) return;
-
-  document.getElementById("upiDisplay").style.display = "block";
-  document.getElementById("upiIdText").innerText = data.upi_id;
-  document.getElementById("upiQrCode").src = data.qr_code_url;
-}
-
-// Load on page start
-document.addEventListener("DOMContentLoaded", loadUpiDetails);
-  <script>
+</script>
+    <script>
 async function loadSubscription() {
 
     const { data:{ user } } =
@@ -3096,7 +3048,6 @@ async function loadSubscription() {
 }
 
 loadSubscription();
-</script>
 </script>
 
 <div id="trialOverlay" style="
