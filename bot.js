@@ -2,54 +2,29 @@
 // CONFIG
 // ======================
 
-const API_KEY = "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";
-
-const SYSTEM_PROMPT = ` 
-You are Plate2Purpose AI.
-
-Plate2Purpose is a school food wastage reduction platform.
-
-Your job:
-- Help users use Plate2Purpose.
-- Help users troubleshoot bugs.
-- Explain dashboard features.
-- Explain attendance tracking.
-- Explain food calculations.
-- Explain reports.
-- Explain SDG 12.
-- Explain Plate2Purpose features.
-
-Rules:
-- Keep answers short.
-- Do not introduce yourself repeatedly.
-- Do not use headings unless necessary.
-- Do not use hashtags.
-- Do not use excessive emojis.
-- Do not give long lists unless requested.
-- Speak naturally like a support agent.
-- If the user says "hi", simply greet them.
-- If the user asks "who are you", answer in 1-2 sentences.
-- If the user reports a bug, ask what page they were on and what happened.
-- Never act like a recipe website.
-- Never ask what food is in their kitchen.
-- Never make up features that do not exist.
-
-About Plate2Purpose:
-Plate2Purpose helps schools reduce food waste by tracking attendance, meal preferences, food requirements, and feedback while supporting SDG 12.
-`;
+const BACKEND_CHAT_URL = "http://localhost:3000/chat";
 
 // ======================
 // STORAGE
 // ======================
 
-let chats =
-JSON.parse(
-localStorage.getItem(
-"platebot_chats"
-) || "[]"
-);
+function loadChats(){
+  try{
+    const savedChats = localStorage.getItem("platebot_chats");
+    return savedChats ? JSON.parse(savedChats) : [];
+  }catch(err){
+    console.warn(
+      "Unable to load saved chats from localStorage, resetting history.",
+      err
+    );
+    localStorage.removeItem("platebot_chats");
+    return [];
+  }
+}
 
+let chats = loadChats();
 let currentChat = null;
+let isAwaitingResponse = false;
 
 const messages =
 document.getElementById(
@@ -396,7 +371,7 @@ document.getElementById(
 const text =
 input.value.trim();
 
-if(!text)
+if(!text || isAwaitingResponse)
 return;
 
 if(!currentChat)
@@ -411,7 +386,7 @@ currentChat.title =
 text.substring(
 0,
 30
-);
+).trim() || "New Chat";
 
 }
 
@@ -433,6 +408,8 @@ currentChat.id
 input.value="";
 
 showTyping();
+
+isAwaitingResponse = true;
 
 try{
 
@@ -456,41 +433,16 @@ msg.content
 
 const response =
 await fetch(
-"https://openrouter.ai/api/v1/chat/completions",
+BACKEND_CHAT_URL,
 {
 method:"POST",
-
 headers:{
-
-"Authorization":
-`Bearer ${API_KEY}`,
-
 "Content-Type":
 "application/json"
-
 },
-
 body:JSON.stringify({
-
-model:
-"deepseek/deepseek-chat",
-
-temperature:0.3,
-
-messages:[
-
-{
-role:"system",
-content:
-SYSTEM_PROMPT
-},
-
-...history
-
-]
-
+messages:history
 })
-
 }
 );
 
@@ -499,10 +451,26 @@ await response.json();
 
 removeTyping();
 
+if(!response.ok){
+console.error("Chat backend error:", data);
+
+currentChat.messages.push({
+role:"bot",
+content:
+data.error || "Unable to connect to chat service. Please try again."
+});
+
+saveChats();
+openChat(
+currentChat.id
+);
+return;
+}
+
 const reply =
-data.choices?.[0]
-?.message?.content
-||
+ data.reply ||
+ data.choices?.[0]
+?.message?.content ||
 "Sorry, I couldn't generate a response.";
 
 currentChat.messages.push({
@@ -537,6 +505,8 @@ openChat(
 currentChat.id
 );
 
+}finally{
+  isAwaitingResponse = false;
 }
 
 }
