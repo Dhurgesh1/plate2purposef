@@ -983,7 +983,7 @@ img, .card-img-top, .preloader img, .preloader-img {
   <div class="sidebar">
     <a href="#" class="sidebar-link active" data-target="attendance"><i class="bi bi-people-fill"></i> Attendance</a>
     <a href="#" class="sidebar-link" data-target="calculator"><i class="bi bi-calculator"></i> Food Calculator</a>
-    <a href="#" class="sidebar-link" data-target="payments"><i class="bi bi-credit-card"></i> UPI Payments</a>
+    <a href="#" class="sidebar-link" data-target="payments"><i class="bi bi-credit-card"></i> Billings</a>
     <a href="#" class="sidebar-link" data-target="menu"><i class="bi bi-list"></i> Menu</a>
     <a href="#" class="sidebar-link" data-target="feedback"><i class="bi bi-chat-dots"></i> Feedback</a>
     <button class="switch-mode-btn" id="modeSwitchBtn" onclick="switchMode()">
@@ -1277,70 +1277,97 @@ function downloadTemplateforImport() {
     <div id="payments" class="section">
       <div class="bg-white">
         <h2>Billings</h2>
-        <div class="subscription-card">
-      
-          <h2>Subscription & Billing</h2>
-      
-          <div class="plan-box">
-              <span class="badge-free">FREE TRIAL</span>
-      
-              <div class="plan-details">
-                  <div>
-                      <h4>Days Remaining</h4>
-                      <p id="daysRemaining">Loading...</p>
-                  </div>
-      
-                  <div>
-                      <h4>Status</h4>
-                      <p id="planStatus">Active</p>
-                  </div>
-      
-                  <div>
-                      <h4>Started On</h4>
-                      <p id="trialStart">Loading...</p>
-                  </div>
-      
-                  <div>
-                      <h4>Expires On</h4>
-                      <p id="trialEnd">Loading...</p>
-                  </div>
-              </div>
-          </div>
-      
-          <div class="features-box">
-              <h3>Included Features</h3>
-      
-              <ul>
-                  <li>✅ Attendance Tracking</li>
-                  <li>✅ Food Waste Analytics</li>
-                  <li>✅ Reports & Exports</li>
-                  <li>✅ AI Assistant</li>
-                  <li>✅ Dashboard Access</li>
-              </ul>
-          </div>
-      
-          <div class="premium-box">
-              <h3>Lifetime Access</h3>
-      
-              <div class="price">
-                  ₹499
-              </div>
-      
-              <button id="buyBtn">
-                  Buy Lifetime Access
-              </button>
-          </div>
-      
-          <div class="billing-history">
-              <h3>Billing History</h3>
-      
-              <div id="billingList">
-                  No payments yet.
-              </div>
-          </div>
-      
-        </div>
+        <div class="row g-4">
 
+          <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+              <div class="card-body text-center">
+                <h6 class="text-muted">Current Plan</h6>
+                <h3 id="planName" class="fw-bold text-success">
+                  Loading...
+                </h3>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-md-4" id="daysCard">
+            <div class="card shadow-sm border-0 h-100">
+              <div class="card-body text-center">
+                <h6 class="text-muted">Days Remaining</h6>
+                <h3 id="daysRemaining" class="fw-bold text-primary">
+                  --
+                </h3>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-md-4" id="endCard">
+            <div class="card shadow-sm border-0 h-100">
+              <div class="card-body text-center">
+                <h6 class="text-muted">Trial Ends</h6>
+                <h5 id="trialEnd">
+                  --
+                </h5>
+              </div>
+            </div>
+          </div>
+        
+        </div>
+        
+        <div class="card mt-4 border-0 shadow-sm">
+          <div class="card-body">
+        
+            <h4 class="mb-3">
+              Subscription Details
+            </h4>
+        
+            <table class="table">
+              <tr>
+                <td>Status</td>
+                <td id="subStatus">Loading...</td>
+              </tr>
+        
+              <tr id="purchaseRow" style="display:none;">
+                <td>Purchased On</td>
+                <td id="purchaseDate"></td>
+              </tr>
+        
+              <tr>
+                <td>License Type</td>
+                <td id="licenseType"></td>
+              </tr>
+            </table>
+        
+          </div>
+        </div>
+        
+        <div id="upgradeSection" class="mt-4">
+        
+          <div class="card border-0 shadow-sm">
+            <div class="card-body text-center">
+        
+              <h3 class="mb-3">
+                Lifetime Access
+              </h3>
+        
+              <p class="text-muted">
+                Unlock all future features and updates.
+              </p>
+        
+              <h2 class="text-success mb-4">
+                ₹499
+              </h2>
+        
+              <button
+                class="btn btn-success btn-lg"
+                onclick="location.href='payments.html'">
+                Upgrade Now
+              </button>
+        
+            </div>
+          </div>
+
+</div>
       </div>
     </div>
 
@@ -2982,6 +3009,94 @@ async function loadUpiDetails() {
 
 // Load on page start
 document.addEventListener("DOMContentLoaded", loadUpiDetails);
+  <script>
+async function loadSubscription() {
+
+    const { data:{ user } } =
+    await client.auth.getUser();
+
+    if(!user) return;
+
+    const { data: sub, error } =
+    await client
+    .from("subscriptions")
+    .select("*")
+    .eq("user_id", user.id)
+    .single();
+
+    if(error || !sub) return;
+
+    if(sub.purchased){
+
+        document.getElementById("planName").innerText =
+        "LIFETIME";
+
+        document.getElementById("subStatus").innerText =
+        "Active";
+
+        document.getElementById("licenseType").innerText =
+        "Lifetime";
+
+        document.getElementById("upgradeSection").style.display =
+        "none";
+
+        document.getElementById("daysCard").style.display =
+        "none";
+
+        document.getElementById("endCard").style.display =
+        "none";
+
+        if(sub.purchase_date){
+
+            document.getElementById("purchaseRow").style.display =
+            "";
+
+            document.getElementById("purchaseDate").innerText =
+            new Date(
+                sub.purchase_date
+            ).toLocaleDateString();
+        }
+
+        return;
+    }
+
+    const start =
+    new Date(sub.trial_start);
+
+    const end =
+    new Date(start);
+
+    end.setDate(
+        end.getDate() + 30
+    );
+
+    const daysRemaining =
+    Math.max(
+        0,
+        Math.ceil(
+            (end - new Date()) /
+            (1000 * 60 * 60 * 24)
+        )
+    );
+
+    document.getElementById("planName").innerText =
+    "FREE TRIAL";
+
+    document.getElementById("daysRemaining").innerText =
+    daysRemaining + " Days";
+
+    document.getElementById("trialEnd").innerText =
+    end.toLocaleDateString();
+
+    document.getElementById("subStatus").innerText =
+    "Trial Active";
+
+    document.getElementById("licenseType").innerText =
+    "Trial";
+}
+
+loadSubscription();
+</script>
 </script>
 
 <div id="trialOverlay" style="
