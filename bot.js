@@ -2,7 +2,7 @@
 // CONFIG
 // ======================
 
-const BACKEND_CHAT_URL = "http://localhost:3000/chat";
+const BACKEND_CHAT_URL = "https://plate2purposef.onrender.com/chat";
 
 // ======================
 // STORAGE
