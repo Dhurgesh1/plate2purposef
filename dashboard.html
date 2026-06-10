@@ -12,6 +12,45 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
   <style>
+    @media (max-width: 991px){
+
+        .navbar-collapse{
+            background:white;
+            border-radius:15px;
+            margin-top:10px;
+            padding:15px;
+            box-shadow:0 10px 30px rgba(0,0,0,.08);
+        }
+    
+        .navbar-nav{
+            align-items:flex-start !important;
+        }
+    
+        #saveBtn{
+            width:100%;
+            margin-top:10px;
+        }
+    
+    }
+    @media (max-width: 991px){
+
+          .navbar{
+              height:auto;
+              min-height:70px;
+              padding:10px 0;
+          }
+      
+          .navbar .nav-link{
+              height:auto;
+              padding:12px 0;
+              margin:0;
+          }
+      
+          .navbar-brand{
+              font-size:26px !important;
+          }
+      
+      }
     .subscription-card{
         background:#fff;
         padding:30px;
@@ -948,11 +987,15 @@ img, .card-img-top, .preloader img, .preloader-img {
   <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
     <div class="container">
       <!-- Added: Bootstrap burger (navbar-toggler) to open/close collapsed menu on small screens -->
-      <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <!-- show bootstrap icon and fallback icon -->
-        <span class="navbar-toggler-icon" aria-hidden="true"></span>
-        <i class="bi bi-list" aria-hidden="true" style="font-size:1.1rem; margin-left:6px;"></i>
+      <button class="navbar-toggler me-2" type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+      
+          <span class="navbar-toggler-icon"></span>
+      
       </button>
 
       <a href="dashboard.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
