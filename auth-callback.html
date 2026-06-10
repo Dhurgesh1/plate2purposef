@@ -16,39 +16,66 @@
     <!-- ✅ ES Module version of Supabase -->
     <script type="module">
       import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-      const {
-        data: { session },
-        error,
-      } = await client.auth.getSession();
-
+    
+      const supabaseUrl = "https://pljmachiuahkrkiddehc.supabase.co";
+      const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsam1hY2hpdWFoa3JraWRkZWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMTAyNDEsImV4cCI6MjA2NjY4NjI0MX0.ke4EYw5lGX5DHrgu1GCDxRUbMYU-M6KzbLZVeesoVm8";
+    
+      const client = createClient(supabaseUrl, supabaseKey);
+    
+      const { data, error } = await client.auth.getSession();
+    
+      const session = data?.session;
+    
       if (!session || error) {
         alert("❌ Login failed or cancelled.");
         window.location.href = "login.html";
       } else {
         const user = session.user;
         const userId = user.id;
+    
         const name =
-          user.user_metadata?.full_name || user.user_metadata?.name || "User";
-
-        // ✅ Store name locally
+          user.user_metadata?.full_name ||
+          user.user_metadata?.name ||
+          "User";
+    
+        const email = user.email;
+    
         localStorage.setItem("username", name);
-
-        // ✅ Save to 'user_data' table in Supabase
-        const { error: upsertError } = await client.from("user_data").upsert({
-          id: userId, // match auth UID
+    
+        // 🔍 check if user already exists
+        const { data: existingUser } = await client
+          .from("user_data")
+          .select("id")
+          .eq("id", userId)
+          .maybeSingle();
+    
+        const isNewUser = !existingUser;
+    
+        // 💾 save/update user
+        await client.from("user_data").upsert({
+          id: userId,
           name: name,
+          email: email,
           updated_at: new Date().toISOString(),
         });
-
-        if (upsertError) {
-          console.error("❌ Failed to save user data:", upsertError.message);
+    
+        // 🎉 send welcome email ONLY for new users
+        if (isNewUser) {
+          await fetch("/api/send-welcome-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email,
+              name,
+            }),
+          });
         }
-
-        // ✅ Redirect to dashboard
+    
         window.location.href = "mode-select.html";
       }
-    </script> 
+    </script>
 
     <script src="https://unpkg.com/@supabase/supabase-js"></script>
 
