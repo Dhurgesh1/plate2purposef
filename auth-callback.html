@@ -14,6 +14,7 @@
   </head>
   <body>
     <!-- ✅ ES Module version of Supabase -->
+     
     <script type="module">
       import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
     
@@ -31,6 +32,7 @@
         window.location.href = "login.html";
       } else {
         const user = session.user;
+    
         const userId = user.id;
     
         const name =
@@ -42,7 +44,7 @@
     
         localStorage.setItem("username", name);
     
-        // 🔍 check if user already exists
+        // check if user exists
         const { data: existingUser } = await client
           .from("user_data")
           .select("id")
@@ -51,17 +53,17 @@
     
         const isNewUser = !existingUser;
     
-        // 💾 save/update user
+        // save/update user
         await client.from("user_data").upsert({
           id: userId,
-          name: name,
-          email: email,
+          name,
+          email,
           updated_at: new Date().toISOString(),
         });
     
-        // 🎉 send welcome email ONLY for new users
+        // send welcome email via EDGE FUNCTION (correct)
         if (isNewUser) {
-          await fetch("/api/send-welcome-email", {
+          await fetch("https://pljmachiuahkrkiddehc.supabase.co/functions/v1/send-welcome-email", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
