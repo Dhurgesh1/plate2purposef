@@ -2,7 +2,8 @@
 // CONFIG
 // ======================
 
-const BACKEND_CHAT_URL = "https://plate2purposef.onrender.com/chat";
+const BACKEND_CHAT_URL =
+"https://pljmachiuahkrkiddehc.supabase.co/functions/v1/platebot-chat";
 
 // ======================
 // STORAGE
