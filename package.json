@@ -2,56 +2,28 @@
   "name": "plate2purpose",
   "version": "1.0.0",
   "description": "A school food wastage reduction app aligned with SDG 12",
-  "main": "main.js",
   "author": "© Plate2Purpose",
   "license": "MIT",
+
   "scripts": {
-    "start": "electron .",
-    "build": "electron-builder",
-    "dist": "electron-builder --win nsis"
+    "build": "echo Static site deployment"
   },
-  "build": {
-    "appId": "com.plate2purpose.app",
-    "productName": "Plate2Purpose",
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-      "**/*"
-    ],
-    "asar": true,
-    "npmRebuild": false,
-    "win": {
-      "icon": "icon.ico",
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        }
-      ]
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "artifactName": "${productName} Setup ${version}.${ext}"
-    }
-  },
-  "devDependencies": {
-    "electron": "^27.3.11",
-    "electron-builder": "^24.13.3"
-  },
+
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Pixel-forge-studios-devolopers/Plate2purpose.git"
+    "url": "git+https://github.com/Dhurgesh1/plate2purposef.git"
   },
-  "keywords": [],
+
+  "keywords": [
+    "food-waste",
+    "sdg12",
+    "sustainability",
+    "education"
+  ],
+
   "bugs": {
-    "url": "https://github.com/Pixel-forge-studios-devolopers/Plate2purpose/issues"
+    "url": "https://github.com/Dhurgesh1/plate2purposef/issues"
   },
-  "homepage": "https://github.com/Pixel-forge-studios-devolopers/Plate2purpose#readme"
+
+  "homepage": "https://plate2purpose.com"
 }
