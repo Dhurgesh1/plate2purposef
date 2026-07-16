@@ -1,523 +1,84 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <link rel="manifest" href="/manifest.json" />
+
+    <link rel="canonical" href="https://www.plate2purpose.com/download" />
+    <meta name="description" content="Download Plate2Purpose for Windows, Linux and Android, or use it right in your browser. Attendance-driven meal planning and food waste analytics, everywhere your kitchen works." />
+    <meta name="keywords" content="Plate2Purpose download, food waste app, school sustainability, SDG 12" />
+    <meta name="author" content="Plate2Purpose" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Plate2Purpose - Download</title>
+    <title>Plate2Purpose | Download the App</title>
+
+    <link rel="icon" type="image/svg+xml" href="images/p2p-mark.svg" />
+    <link rel="icon" href="images/recycle-sign.png" type="image/png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+
+    <!-- CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-icons.css" rel="stylesheet" />
+    <link href="css/p2p.css" rel="stylesheet" />
+
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "Nunito", sans-serif;
-        background: linear-gradient(
-          135deg,
-          #ffdab9 0%,
-          #ffb6a0 50%,
-          #ffdab9 100%
-        );
-        min-height: 100vh;
-        color: #333;
-        overflow-x: hidden;
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-      }
-
-      /* Animated background elements */
-      .bg-decoration {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
+      /* Page-scoped styles for the download cards.
+         The classes .platform / .name / .download-loader are read by
+         handleDownload(), keep the class names intact. */
+      a.p2p-dl-card {
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
         height: 100%;
-        pointer-events: none;
-        z-index: 0;
       }
-
-      .floating-shape {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        animation: float 8s ease-in-out infinite;
-      }
-
-      .shape-1 {
-        width: 100px;
-        height: 100px;
-        top: 15%;
-        left: 8%;
-        animation-delay: 0s;
-      }
-      .shape-2 {
-        width: 150px;
-        height: 150px;
-        top: 70%;
-        right: 10%;
-        animation-delay: 3s;
-      }
-      .shape-3 {
-        width: 80px;
-        height: 80px;
-        top: 45%;
-        left: 85%;
-        animation-delay: 6s;
-      }
-      .shape-4 {
-        width: 60px;
-        height: 60px;
-        top: 85%;
-        left: 15%;
-        animation-delay: 2s;
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0px) translateX(0px) rotate(0deg);
-          opacity: 0.3;
-        }
-        50% {
-          transform: translateY(-30px) translateX(10px) rotate(180deg);
-          opacity: 0.6;
-        }
-      }
-
-      /* Header */
-      .header {
-        position: relative;
-        z-index: 10;
-        padding: 60px 0 40px;
-        text-align: center;
-      }
-
-      .app-logo {
-        width: 140px;
-        height: 140px;
-        margin: 0 auto;
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(20px);
-        border-radius: 35px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 60px;
-        border: 3px solid rgba(255, 255, 255, 0.5);
-        box-shadow: 0 20px 60px rgba(255, 182, 160, 0.3);
-        transition: all 0.3s ease;
-      }
-
-      .app-logo:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 30px 80px rgba(255, 182, 160, 0.4);
-      }
-
-      /* Hero Section */
-      .hero {
-        position: relative;
-        z-index: 10;
-        text-align: center;
-        padding: 40px 0 80px;
-      }
-      .hero h1 {
-        font-size: 4.5rem;
-        font-weight: 800;
-        margin-bottom: 25px;
-        color: #2c3e50;
-        text-shadow: 0 4px 20px rgba(255, 182, 160, 0.3);
-      }
-      .hero .tagline {
-        font-size: 1.6rem;
-        font-weight: 400;
-        margin-bottom: 50px;
-        color: #34495e;
-        opacity: 0.9;
-      }
-
-      .download-btn {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        border: 2px solid rgba(255, 182, 160, 0.3);
-        color: #e67e22;
-        padding: 22px 60px;
-        font-size: 1.4rem;
-        font-weight: 700;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: all 0.4s ease;
-        text-decoration: none;
-        display: inline-block;
-        margin: 20px 0;
-        box-shadow: 0 15px 40px rgba(255, 182, 160, 0.2);
-        position: relative;
-      }
-      .download-btn:hover {
-        background: rgba(255, 255, 255, 1);
-        transform: translateY(-8px);
-        box-shadow: 0 25px 60px rgba(255, 182, 160, 0.4);
-        border-color: #ffb6a0;
-      }
-
-      /* Description Section */
-      .description {
-        position: relative;
-        z-index: 10;
-        padding: 80px 0;
-      }
-      .description-card {
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(25px);
-        border-radius: 35px;
-        padding: 60px 50px;
-        border: 2px solid rgba(255, 255, 255, 0.4);
-        text-align: center;
-        box-shadow: 0 25px 80px rgba(255, 182, 160, 0.2);
-      }
-      .description h2 {
-        font-size: 2.8rem;
-        font-weight: 700;
-        margin-bottom: 35px;
-        color: #2c3e50;
-      }
-      .description p {
-        font-size: 1.3rem;
-        line-height: 1.9;
-        color: #34495e;
-        max-width: 900px;
-        margin: 0 auto;
-        font-weight: 400;
-      }
-
-      /* Download Section */
-      .downloads {
-        position: relative;
-        z-index: 10;
-        padding: 100px 0;
-        text-align: center;
-      }
-      .downloads h2 {
-        font-size: 2.8rem;
-        font-weight: 700;
-        margin-bottom: 60px;
-        color: #2c3e50;
-      }
-      .download-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 40px;
-        flex-wrap: wrap;
-      }
-
-      .os-button {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(25px);
-        border: 2px solid rgba(255, 182, 160, 0.3);
-        color: #e67e22;
-        padding: 30px 45px;
-        border-radius: 25px;
-        text-decoration: none;
-        transition: all 0.4s ease;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        font-weight: 600;
-        font-size: 1.2rem;
-        box-shadow: 0 15px 40px rgba(255, 182, 160, 0.15);
-        min-width: 200px;
-      }
-
-      .os-button:hover {
-        background: rgba(255, 255, 255, 1);
-        transform: translateY(-10px);
-        box-shadow: 0 30px 70px rgba(255, 182, 160, 0.35);
-        border-color: #ffb6a0;
-      }
-
-      .os-icon {
-        font-size: 2.5rem;
-      }
-      .os-text {
-        text-align: left;
-      }
-      .os-text .platform {
-        font-size: 0.9rem;
-        opacity: 0.7;
-        font-weight: 400;
-      }
-      .os-text .name {
-        font-size: 1.3rem;
-        font-weight: 700;
-      }
-
-      /* Footer */
-      .footer {
-        position: relative;
-        z-index: 10;
-        text-align: center;
-        padding: 80px 0 50px;
-        margin-top: 60px;
-      }
-      .footer-content {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(25px);
-        border-radius: 25px;
-        padding: 40px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 20px 60px rgba(255, 182, 160, 0.15);
-      }
-      .footer p {
-        font-size: 1.1rem;
-        color: #34495e;
+      .p2p-dl-card .os-text .platform {
+        font-size: 12.5px;
         font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--p2p-text-inverse-soft);
+        margin-bottom: 2px;
       }
-
-      /* Spinner / Loader */
-      .spinner-rotate img,
-      .download-loader {
-        animation: spin 1s linear infinite;
-      }
-      .download-loader {
-        display: none;
-        width: 24px;
-        height: 24px;
-        border: 3px solid #fff;
-        border-top: 3px solid #cb7575;
-        border-radius: 50%;
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-      }
-      @keyframes spin {
-        0% {
-          transform: translateY(-50%) rotate(0deg);
-        }
-        100% {
-          transform: translateY(-50%) rotate(360deg);
-        }
-      }
-
-      /* Side Semicircle */
-      .side-semicircle {
-        position: fixed;
-        bottom: 30px;
-        right: 0;
-        height: 60px;
-        background-color: #cb7575;
-        border-top-left-radius: 60px;
-        border-bottom-left-radius: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 0 15px 0 10px;
-        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
-        z-index: 10;
-        overflow: hidden;
-      }
-      .side-semicircle .semicircle-content {
-        display: flex;
-        align-items: center;
-        position: relative;
-        z-index: 2;
-      }
-      .rounded-button-link {
-        background-color: white;
-        border-radius: 50%;
-        width: 36px;
-        height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        color: #cb7575;
-        text-decoration: none;
-        margin-right: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease;
-      }
-      .rounded-button-link:hover {
-        transform: scale(1.1);
-      }
-      .semicircle-label {
-        font-family: "Amatic SC", cursive;
-        font-size: 22px;
-        color: white;
-        white-space: nowrap;
-      }
-
-      .star {
-        position: absolute;
-        width: 12px;
-        height: 12px;
-        background-image: url("data:image/svg+xml;utf8,<svg fill='white' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><polygon points='12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9'/></svg>");
-        background-size: contain;
-        background-repeat: no-repeat;
-        opacity: 0.8;
-        filter: drop-shadow(0 0 4px white);
-        animation: twinkle 2s infinite ease-in-out;
-        z-index: 1;
-      }
-      .star-1 {
-        top: 10px;
-        right: 10px;
-        animation-delay: 0s;
-      }
-      .star-2 {
-        top: 25px;
-        right: 30px;
-        animation-delay: 0.4s;
-      }
-      .star-3 {
-        top: 40px;
-        right: 15px;
-        animation-delay: 0.8s;
-      }
-
-      @keyframes twinkle {
-        0%,
-        100% {
-          opacity: 0.3;
-          transform: scale(1);
-        }
-        50% {
-          opacity: 1;
-          transform: scale(1.8);
-        }
-      }
-
-      /* Mobile / Small Screen Warning Overlay */
-      #desktop-warning {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: linear-gradient(135deg, #cb7575, #a94442);
-        color: white;
-        font-family: "Amatic SC", cursive;
-        z-index: 999999;
-        justify-content: center;
-        align-items: center;
-      }
-      .warning-box {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 30px 40px;
-        border-radius: 20px;
-        text-align: center;
-        max-width: 400px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        backdrop-filter: blur(8px);
-      }
-      .warning-logo {
-        width: 80px;
-        margin-bottom: 15px;
-      }
-      .warning-box h1 {
-        font-size: 36px;
-        margin-bottom: 10px;
-      }
-      .warning-box p {
-        font-size: 20px;
-        line-height: 1.4;
-        color: white;
-      }
-
-      .brand {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 5px;
-      }
-      .brand-part1,
-      .brand-part2 {
-        font-family: "Playfair Display", serif;
+      .p2p-dl-card .os-text .name {
+        font-family: var(--p2p-font-display);
+        font-size: 21px;
         font-weight: 700;
-        font-size: 48px;
-        color: #a94442;
+        letter-spacing: -0.02em;
+        color: #fff;
       }
-      .brand-icon {
-        font-family: "Amatic SC", cursive;
-        font-weight: 700;
-        font-size: 48px;
-        color: #cb7575;
+      .p2p-dl-card .file-meta {
+        font-size: 13px;
+        color: var(--p2p-text-inverse-soft);
+        margin: 12px 0 22px;
       }
-
-      .hero-logo img {
-        width: 300px;
-        height: 50px;
-        max-width: 80%;
-        display: block;
-        margin: 0 auto 20px;
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .hero h1 {
-          font-size: 3rem;
-        }
-        .hero .tagline {
-          font-size: 1.3rem;
-        }
-        .description-card {
-          padding: 40px 30px;
-        }
-        .download-buttons {
-          flex-direction: column;
-          align-items: center;
-          gap: 25px;
-        }
-        .os-button {
-          width: 280px;
-          justify-content: center;
-        }
-      }
-      @media (max-width: 480px) {
-        .hero h1 {
-          font-size: 2.5rem;
-        }
-        .download-btn {
-          padding: 18px 40px;
-          font-size: 1.2rem;
-        }
-        .description h2,
-        .downloads h2 {
-          font-size: 2.2rem;
-        }
-        .description p {
-          font-size: 1.1rem;
-        }
+      .p2p-dl-card .dl-cta { margin-top: auto; align-self: flex-start; }
+      .p2p-dl-card .download-loader {
+        display: none;
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(163, 230, 53, 0.18);
+        border-top-color: var(--p2p-lime);
+        border-radius: 50%;
+        animation: p2pSpin 0.9s linear infinite;
       }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap" rel="stylesheet" />
+</head>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Playfair+Display:wght@700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <!-- Preloader HTML -->
-
-    <div id="preloader">
-      <img src="images/recycle-sign.png" alt="Loading..." />
-    </div>
-
-    <div class="container">
-      <!-- Your main page content goes here -->
+  <body class="p2p">
+    <!-- Preloader (id kept: inline scripts below reference #preloader) -->
+    <div class="p2p-preloader" id="preloader">
+      <div class="ring"></div>
+      <div class="word">Plate2Purpose</div>
     </div>
 
     <script>
@@ -527,83 +88,6 @@
         preloader.style.display = "none";
       }, 9000); // 3000ms = 3 seconds
     </script>
-
-    <style>
-      /* Preloader Styles */
-      #preloader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: linear-gradient(135deg, #ffdab9, #ffb6a0);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 999999;
-      }
-
-      .spinner {
-        width: 60px;
-        height: 60px;
-        border: 6px solid rgba(255, 255, 255, 0.4);
-        border-top-color: #cb7575;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-      /* Body */
-      body {
-        font-family: "Nunito", sans-serif;
-        background: linear-gradient(
-          135deg,
-          #ffdab9 0%,
-          #ffb6a0 50%,
-          #ffdab9 100%
-        );
-        min-height: 100vh;
-        color: #333;
-        overflow-x: hidden;
-        position: relative;
-      }
-
-      /* Preloader */
-      #preloader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: linear-gradient(135deg, #ffdab9, #ffb6a0);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-      }
-
-      #preloader img {
-        width: 80px;
-        height: 80px;
-        animation: spin 1s linear infinite;
-      }
-
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-    </style>
 
     <script>
       // Hide preloader when page fully loads
@@ -615,186 +99,251 @@
       });
     </script>
 
-    <!-- Animated Background -->
-    <div class="bg-decoration">
-      <div class="floating-shape shape-1"></div>
-      <div class="floating-shape shape-2"></div>
-      <div class="floating-shape shape-3"></div>
-      <div class="floating-shape shape-4"></div>
-    </div>
-
-    <!-- Header with Logo -->
-
-    <!-- Hero Section -->
-    <section
-      class="hero"
-      style="
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        text-align: center;
-        padding: 60px 20px;
-        background: #ffdab9;
-      "
-    >
-      <div class="hero-logo">
-        <img src="images/plate2purposename.png" alt="Plate2Purpose Logo" />
-      </div>
-
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg p2p-nav">
       <div class="container">
-        <!-- Logo Image -->
+        <a href="index" class="navbar-brand">
+          <span class="p2p-logo-mark" style="background:none; box-shadow:none; width:40px; height:40px;">
+            <img src="images/p2p-mark.svg" width="40" height="40" alt="" style="display:block;" />
+          </span>
+          Plate2Purpose<sup style="font-size:10px; opacity:.5; margin-left:2px;">™</sup>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="index">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center" href="download">
+                Download
+                <span class="badge ms-2" style="font-size:9px; background:var(--p2p-grad-btn);">NEW</span>
+              </a>
+            </li>
+            <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+              <a href="login" class="p2p-btn p2p-btn--sm">Sign in <i class="bi bi-arrow-right"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-        <p
-          class="tagline"
-          style="font-size: 20px; color: #a94442; margin-bottom: 20px"
-        >
-          Transform Food Waste into Sustainable Action
+    <!-- Hero -->
+    <header class="p2p-section p2p-section--dark" style="padding:170px 0 90px; overflow:hidden;">
+      <div class="p2p-aurora"><span></span><span></span><span></span></div>
+      <div class="p2p-grid-overlay"></div>
+
+      <div class="container position-relative text-center">
+        <div class="p2p-hero-badge" data-reveal="down">
+          <span class="dot"></span> v1.0.0 · Windows, Linux &amp; Android
+        </div>
+        <h1 class="p2p-hero-title" data-split>
+          Take Plate2Purpose <span class="p2p-accent">everywhere.</span>
+        </h1>
+        <p class="p2p-hero-sub mx-auto" data-reveal="up" style="--reveal-delay:.5s;">
+          The same attendance-driven planning, waste analytics and AI assistant,
+          as a native desktop app, on your phone, or straight in the browser.
+          Transform food waste into sustainable action, wherever your kitchen works.
         </p>
-
-        <a
-          href="#downloads"
-          class="download-btn"
-          style="
-            display: inline-block;
-            padding: 14px 28px;
-            border-radius: 24px;
-            background: #a94442;
-            color: #fff;
-            font-weight: 600;
-            text-decoration: none;
-            font-family: &quot;Poppins&quot;, sans-serif;
-            transition: 0.2s;
-          "
-          >Download Now</a
-        >
+        <div class="d-flex justify-content-center flex-wrap gap-3" data-reveal="up" style="--reveal-delay:.7s;">
+          <a href="#downloads" class="p2p-btn p2p-btn--lg">Get the app <i class="bi bi-box-arrow-down"></i></a>
+          <a href="login" class="p2p-btn p2p-btn--ghost p2p-btn--lg">Use it in the browser</a>
+        </div>
       </div>
-    </section>
+    </header>
 
-    <!-- Description Section -->
-    <section class="description">
+    <!-- Download Section -->
+    <section class="p2p-section p2p-section--dark" id="downloads" style="padding-top:40px;">
       <div class="container">
-        <div class="description-card">
-          <h2>Reducing Food Waste in Schools</h2>
-          <p>
-            Plate2Purpose empowers educational institutions to tackle food waste
-            through innovative tracking and management solutions. Our
-            comprehensive app helps schools monitor consumption patterns, reduce
-            waste, and educate students about sustainable practices. Join the
-            movement towards responsible consumption and contribute to UN
-            Sustainable Development Goal 12 while creating a positive impact in
-            your school community.
+        <div class="text-center mb-5">
+          <span class="p2p-eyebrow" data-reveal="up">Downloads</span>
+          <h2 class="p2p-title" data-reveal="up">Available on all platforms</h2>
+          <p class="p2p-lead mx-auto" data-reveal="up">
+            Pick your platform, click download, and your kitchen is minutes away
+            from wasting less food.
           </p>
+        </div>
+
+        <div class="row g-4" data-reveal-stagger="0.1">
+          <!-- Windows 11 -->
+          <div class="col-md-6 col-lg-3" data-reveal="up">
+            <a href="https://github.com/Dhurgesh1/plate2purposef/releases/download/downloads/Plate2Purpose.Setup.1.0.0.exe" class="p2p-card p2p-card--glass p2p-card--spot p2p-dl-card" onclick="handleDownload('Windows 11')">
+              <span class="download-loader"></span>
+              <div class="p2p-icon-chip"><i class="bi bi-windows"></i></div>
+              <div class="os-text">
+                <div class="platform">Download for</div>
+                <div class="name">Windows 11</div>
+              </div>
+              <div class="file-meta">.exe installer · v1.0.0</div>
+              <span class="p2p-btn p2p-btn--sm dl-cta">Download <i class="bi bi-download"></i></span>
+            </a>
+          </div>
+
+          <!-- Mac -->
+          <div class="col-md-6 col-lg-3" data-reveal="up">
+            <a href="#" class="p2p-card p2p-card--glass p2p-card--spot p2p-dl-card" onclick="handleDownload('Mac')">
+              <span class="download-loader"></span>
+              <div class="p2p-icon-chip"><i class="bi bi-apple"></i></div>
+              <div class="os-text">
+                <div class="platform">Download for</div>
+                <div class="name">Mac</div>
+              </div>
+              <div class="file-meta">macOS build · coming soon</div>
+              <span class="p2p-btn p2p-btn--ghost p2p-btn--sm dl-cta">Notify me <i class="bi bi-bell"></i></span>
+            </a>
+          </div>
+
+          <!-- Linux -->
+          <div class="col-md-6 col-lg-3" data-reveal="up">
+            <a href="https://github.com/Dhurgesh1/plate2purposef/releases/download/downloads/Plate2Purpose-x86_64.AppImage" class="p2p-card p2p-card--glass p2p-card--spot p2p-dl-card" onclick="handleDownload('Linux')">
+              <span class="download-loader"></span>
+              <div class="p2p-icon-chip"><i class="bi bi-terminal"></i></div>
+              <div class="os-text">
+                <div class="platform">Download for</div>
+                <div class="name">Linux</div>
+              </div>
+              <div class="file-meta">x86_64 AppImage · v1.0.0</div>
+              <span class="p2p-btn p2p-btn--sm dl-cta">Download <i class="bi bi-download"></i></span>
+            </a>
+          </div>
+
+          <!-- Android -->
+          <div class="col-md-6 col-lg-3" data-reveal="up">
+            <a href="https://github.com/Dhurgesh1/plate2purposef/releases/download/downloads/plate2purpose.apk" class="p2p-card p2p-card--glass p2p-card--spot p2p-dl-card" onclick="handleDownload('Android')">
+              <span class="download-loader"></span>
+              <div class="p2p-icon-chip"><i class="bi bi-phone"></i></div>
+              <div class="os-text">
+                <div class="platform">Download for</div>
+                <div class="name">Android</div>
+              </div>
+              <div class="file-meta">.apk package · v1.0.0</div>
+              <span class="p2p-btn p2p-btn--sm dl-cta">Download <i class="bi bi-download"></i></span>
+            </a>
+          </div>
+
+          <!-- Web app -->
+          <div class="col-12" data-reveal="up">
+            <div class="p2p-card p2p-card--glass p2p-card--spot">
+              <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="p2p-icon-chip mb-0"><i class="bi bi-globe2"></i></div>
+                  <div>
+                    <h3 class="mb-1" style="color:#fff;">Prefer the browser?</h3>
+                    <p class="mb-0">No install needed, the full platform runs on the web, synced with every app.</p>
+                  </div>
+                </div>
+                <a href="login" class="p2p-btn p2p-btn--ghost p2p-btn--sm">Open the web app <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Download Section -->
-    <section class="downloads" id="downloads">
+    <!-- Description -->
+    <section class="p2p-section">
       <div class="container">
-        <h2>Available on All Platforms</h2>
-        <div class="download-buttons">
-          <!-- Windows 11 -->
-          <a href="https://github.com/Dhurgesh1/plate2purposef/releases/download/downloads/Plate2Purpose.Setup.1.0.0.exe" class="os-button" onclick="handleDownload('Windows 11')">
-            <span class="os-icon">
-              <svg
-                width="36"
-                height="36"
-                viewBox="0 0 48 48"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect x="2" y="2" width="20" height="20" fill="#0078D4" />
-                <rect x="26" y="2" width="20" height="20" fill="#0078D4" />
-                <rect x="2" y="26" width="20" height="20" fill="#0078D4" />
-                <rect x="26" y="26" width="20" height="20" fill="#0078D4" />
-              </svg>
-            </span>
+        <div class="row justify-content-center">
+          <div class="col-lg-9 text-center">
+            <span class="p2p-eyebrow" data-reveal="up">Why it matters</span>
+            <h2 class="p2p-title" data-reveal="up">Reducing food waste in schools</h2>
+            <p class="p2p-lead mx-auto" data-reveal="up">
+              Plate2Purpose empowers educational institutions to tackle food waste
+              through innovative tracking and management solutions. The app helps
+              schools monitor consumption patterns, reduce waste, and educate
+              students about sustainable practices, supporting UN Sustainable
+              Development Goal 12 while creating a positive impact in your school
+              community.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <div class="os-text">
-              <div class="platform">Download for</div>
-              <div class="name">Windows 11</div>
+    <!-- Install steps -->
+    <section class="p2p-section p2p-section--tight" style="padding-top:0;">
+      <div class="container">
+        <div class="text-center mb-4">
+          <span class="p2p-eyebrow" data-reveal="up">Setup</span>
+          <h2 class="p2p-title" data-reveal="up">Installed in three steps</h2>
+        </div>
+        <div class="row p2p-steps justify-content-center" data-reveal-stagger="0.15">
+          <div class="col-md-4">
+            <div class="p2p-step" data-reveal="up">
+              <div class="step-no">01</div>
+              <h4>Download</h4>
+              <p>Grab the installer for your platform above, Windows, Linux or Android.</p>
             </div>
-            <span class="download-loader"></span>
-          </a>
-
-          <style>
-            .os-button {
-              display: inline-flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              padding: 16px 24px;
-              border-radius: 16px;
-              background: #ffdab9; /* peach background */
-              box-shadow: 0 6px 20px rgba(203, 117, 117, 0.25);
-              transition:
-                transform 0.2s,
-                box-shadow 0.2s;
-            }
-            .os-button:hover {
-              transform: translateY(-3px);
-              box-shadow: 0 10px 25px rgba(203, 117, 117, 0.35);
-            }
-          </style>
-
-          <!-- Mac -->
-          <a href="#" class="os-button" onclick="handleDownload('Mac')">
-            <span
-              class="os-icon"
-              style="
-                display: inline-block;
-                width: 28px;
-                height: 28px;
-                background: url(&quot;https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg&quot;)
-                  no-repeat center/contain;
-              "
-            ></span>
-            <div class="os-text">
-              <div class="platform">Download for</div>
-              <div class="name">Mac</div>
+          </div>
+          <div class="col-md-4">
+            <div class="p2p-step" data-reveal="up">
+              <div class="step-no">02</div>
+              <h4>Install</h4>
+              <p>Run the setup and follow the prompts. It takes under a minute.</p>
             </div>
-            <span class="download-loader"></span>
-          </a>
-
-          <!-- Android -->
-          <a href="https://github.com/Dhurgesh1/plate2purposef/releases/download/downloads/Plate2Purpose-x86_64.AppImage" class="os-button" onclick="handleDownload('Linux')">
-            <span
-              class="os-icon"
-              style="
-                background: url(&quot;https://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg&quot;)
-                  no-repeat center/contain;
-                width: 28px;
-                height: 28px;
-              "
-            >
-            </span>
-            <div class="os-text">
-              <div class="platform">Download for</div>
-              <div class="name">Linux</div>
+          </div>
+          <div class="col-md-4">
+            <div class="p2p-step" data-reveal="up">
+              <div class="step-no">03</div>
+              <h4>Sign in</h4>
+              <p>Log in with your Plate2Purpose account and start planning waste-free meals.</p>
             </div>
-            <span class="download-loader"></span>
-          </a>
-          <!-- Android -->
-          <a href="https://github.com/Dhurgesh1/plate2purposef/releases/download/downloads/plate2purpose.apk" class="os-button" onclick="handleDownload('Android')">
-            <i class="fab fa-android os-icon" style="color: #3ddc84"></i>
-            <div class="os-text">
-              <div class="platform">Download for</div>
-              <div class="name">Android</div>
-            </div>
-            <span class="download-loader"></span>
-          </a>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-content">
-          <p>© 2026 Plate2Purpose<span style="font-family:Arial, sans-serif; font-size:0.5em; font-weight:300; vertical-align:super; color:#b8b8b8;">™</span> | All rights reserved</p>
+    <footer class="p2p-footer">
+      <div class="watermark">PLATE2PURPOSE</div>
+      <div class="container position-relative">
+        <div class="row g-4">
+          <div class="col-lg-5">
+            <div class="footer-brand mb-2">Plate2Purpose<sup style="font-size:10px; opacity:.5;">™</sup></div>
+            <p style="max-width:320px; font-size:14.5px;">
+              Reducing food waste, one plate at a time. A student-built platform
+              supporting SDG 12, Responsible Consumption and Production.
+            </p>
+          </div>
+          <div class="col-6 col-lg-2">
+            <div class="footer-heading">Product</div>
+            <ul>
+              <li><a href="index#features">Features</a></li>
+              <li><a href="index#pricing">Pricing</a></li>
+              <li><a href="download">Download</a></li>
+              <li><a href="quiz">Food waste quiz</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-2">
+            <div class="footer-heading">Company</div>
+            <ul>
+              <li><a href="about">About us</a></li>
+              <li><a href="contact">Contact</a></li>
+              <li><a href="chatbot">AI assistant</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="footer-heading">Legal</div>
+            <ul>
+              <li><a href="policy">Privacy policy</a></li>
+              <li><a href="terms">Terms of service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom d-flex flex-wrap justify-content-between gap-2">
+          <span>© 2026 Plate2Purpose™ · All rights reserved</span>
+          <span>Built by students. Measured in plates.</span>
         </div>
       </div>
     </footer>
+
+    <!-- Floating AI assistant -->
+    <a href="chatbot" class="p2p-ai-fab" aria-label="Open AI assistant">
+      <span class="orb"><i class="bi bi-chat-dots"></i></span>
+      Kitchen assistant
+    </a>
 
     <script>
       function handleDownload(platform) {
@@ -895,5 +444,9 @@
         }
       })();
     </script>
+
+    <!-- JS -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/p2p.js"></script>
   </body>
 </html>

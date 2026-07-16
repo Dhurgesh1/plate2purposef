@@ -2,11 +2,11 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Poppins,sans-serif;
+font-family:Inter,sans-serif;
 }
 
 body{
-background:#fff5f0;
+background:#f7f5ee;
 height:100vh;
 overflow:hidden;
 }
@@ -22,7 +22,7 @@ SIDEBAR
 
 .sidebar{
 width:300px;
-background:#E39191;
+background:linear-gradient(165deg,#0d1f12,#0b6b3a);
 color:white;
 display:flex;
 flex-direction:column;
@@ -58,7 +58,7 @@ transform:scale(1.03);
 
 .new-chat-btn{
 background:white;
-color:#cb7575;
+color:#0b6b3a;
 border:none;
 padding:14px;
 border-radius:14px;
@@ -103,7 +103,7 @@ background:rgba(255,255,255,.25);
 
 .active-chat{
 background:white !important;
-color:#cb7575;
+color:#0b6b3a;
 font-weight:600;
 }
 
@@ -150,7 +150,7 @@ background:white;
 
 .chat-header{
 height:90px;
-background:#E39191;
+background:linear-gradient(165deg,#0d1f12,#0b6b3a);
 display:flex;
 justify-content:space-between;
 align-items:center;
@@ -220,15 +220,15 @@ animation:fadeIn .25s ease;
 
 .user{
 align-self:flex-end;
-background:#cb7575;
+background:#0b6b3a;
 color:white;
 border-radius:22px 22px 0 22px;
-box-shadow:0 4px 15px rgba(203,117,117,.25);
+box-shadow:0 4px 15px rgba(11,107,58,.22);
 }
 
 .bot{
 align-self:flex-start;
-background:#fff0eb;
+background:#eef3e6;
 color:#333;
 border-radius:22px 22px 22px 0;
 box-shadow:0 4px 12px rgba(0,0,0,.05);
@@ -253,7 +253,7 @@ height:60px;
 border:none;
 outline:none;
 resize:none;
-background:#fff0eb;
+background:#eef3e6;
 padding:15px;
 border-radius:18px;
 font-size:15px;
@@ -267,7 +267,7 @@ display:none;
 width:60px;
 height:60px;
 border:none;
-background:#cb7575;
+background:#0b6b3a;
 color:white;
 border-radius:18px;
 font-size:22px;
@@ -277,7 +277,7 @@ transition:.25s;
 
 .send-btn:hover{
 transform:scale(1.05);
-box-shadow:0 6px 16px rgba(203,117,117,.3);
+box-shadow:0 6px 16px rgba(11,107,58,.28);
 }
 
 /* =========================
@@ -293,7 +293,7 @@ align-items:center;
 .typing span{
 width:8px;
 height:8px;
-background:#cb7575;
+background:#0b6b3a;
 border-radius:50%;
 animation:bounce 1s infinite;
 }
@@ -336,7 +336,7 @@ width:6px;
 }
 
 ::-webkit-scrollbar-thumb{
-background:#cb7575;
+background:#0b6b3a;
 border-radius:10px;
 }
 

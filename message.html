@@ -4,83 +4,143 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Plate2Purpose - OTP Verification</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/p2p-mark.svg" />
+    <link rel="icon" href="images/recycle-sign.png" type="image/png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Poppins:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+
+    <!-- CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-icons.css" rel="stylesheet" />
+    <link href="css/p2p.css" rel="stylesheet" />
+
+    <!-- EmailJS (required by the OTP logic below) -->
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
     <style>
-      body {
-        font-family: "Poppins", sans-serif;
-        background-color: #fff5f0;
+      .p2p-otp-hero {
+        position: relative;
+        min-height: 100vh;
+        min-height: 100svh;
         display: flex;
-        justify-content: center;
         align-items: center;
-        height: 100vh;
-        margin: 0;
+        background: var(--p2p-grad-dark);
+        color: var(--p2p-text-inverse);
+        overflow: hidden;
+        padding: 60px 0;
       }
-      .container {
-        background: white;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 400px;
+      .p2p-otp-card {
+        max-width: 440px;
+        margin: 0 auto;
+        padding: 44px 38px;
         text-align: center;
       }
-      h1 {
-        font-family: "Amatic SC", cursive;
-        color: #ff5500;
-        font-size: 2.5rem;
+      @media (max-width: 575px) {
+        .p2p-otp-card { padding: 34px 22px; }
       }
-      input {
+      .p2p-otp-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--p2p-font-display);
+        font-weight: 700;
+        font-size: 21px;
+        letter-spacing: -0.02em;
+        color: #fff;
+        margin-bottom: 22px;
+      }
+      .p2p-otp-card h1 {
+        font-size: 26px;
+        color: #fff;
+        margin-bottom: 8px;
+      }
+      .p2p-otp-card > p {
+        font-size: 14.5px;
+        color: var(--p2p-text-inverse-soft);
+        margin-bottom: 24px;
+      }
+      .p2p-otp-card input {
         width: 100%;
-        padding: 10px;
         margin: 8px 0;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 1rem;
       }
-      button {
-        background-color: #ff5500;
-        color: white;
-        border: none;
-        padding: 10px;
+      .p2p-otp-card .p2p-btn {
         width: 100%;
-        border-radius: 8px;
-        font-size: 1rem;
-        cursor: pointer;
         margin-top: 10px;
       }
-      button:hover {
-        background-color: #e94e00;
+      #otp-section {
+        margin-top: 18px;
+        padding-top: 18px;
+        border-top: 1px dashed var(--p2p-line-inverse);
       }
+      /* Status message states (showMessage() swaps these classes) */
       .message {
-        margin-top: 10px;
-        font-size: 0.9rem;
+        margin-top: 16px;
+        font-size: 14px;
+        font-weight: 500;
+        min-height: 21px;
       }
       .success {
-        color: green;
+        color: var(--p2p-lime);
       }
       .error {
-        color: red;
+        color: #fca5a5;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Plate2Purpose</h1>
-      <p>Enter your email to receive a one-time password</p>
-      <input type="email" id="email" placeholder="Your Email" required />
-      <button onclick="sendOTP()">Send OTP</button>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap" rel="stylesheet" />
+</head>
 
-      <div id="otp-section" style="display: none">
-        <input type="text" id="otp-input" placeholder="Enter OTP" />
-        <button onclick="verifyOTP()">Verify OTP</button>
-      </div>
-
-      <div id="message" class="message"></div>
+  <body class="p2p">
+    <!-- Preloader -->
+    <div class="p2p-preloader">
+      <div class="ring"></div>
+      <div class="word">Plate2Purpose</div>
     </div>
+
+    <!-- OTP verification -->
+    <main class="p2p-otp-hero">
+      <div class="p2p-aurora"><span></span><span></span><span></span></div>
+      <div class="p2p-grid-overlay"></div>
+
+      <div class="container position-relative">
+        <div class="p2p-card p2p-card--glass p2p-card--spot p2p-otp-card" data-reveal="zoom">
+          <a href="index" class="p2p-otp-brand">
+            <span class="p2p-logo-mark">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3a9 9 0 1 0 9 9" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                <path d="M21 5c-4 .5-6.5 2-8.5 5.5" stroke="#d9f99d" stroke-width="2" stroke-linecap="round"/>
+                <path d="M21 5c-.2 2.2-1 3.8-2.6 5" stroke="#d9f99d" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            Plate2Purpose<sup style="font-size:10px; opacity:.5;">™</sup>
+          </a>
+
+          <h1>Verify it's you</h1>
+          <p>Enter your email to receive a one-time password</p>
+
+          <input type="email" id="email" placeholder="Your Email" required />
+          <button onclick="sendOTP()" class="p2p-btn">
+            Send OTP <i class="bi bi-send"></i>
+          </button>
+
+          <div id="otp-section" style="display: none">
+            <input type="text" id="otp-input" placeholder="Enter OTP" />
+            <button onclick="verifyOTP()" class="p2p-btn">
+              Verify OTP <i class="bi bi-shield-check"></i>
+            </button>
+          </div>
+
+          <div id="message" class="message"></div>
+        </div>
+      </div>
+    </main>
 
     <script>
       emailjs.init("MFrJtquTCDd30fXGD");
@@ -133,5 +193,8 @@
         messageDiv.className = `message ${type}`;
       }
     </script>
+
+    <!-- JS -->
+    <script src="js/p2p.js"></script>
   </body>
 </html>

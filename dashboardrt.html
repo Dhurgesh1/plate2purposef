@@ -593,7 +593,7 @@
     const { data, error } = await client.auth.getUser();
 
     if (!data?.user) {
-      window.location.href = "login.html";
+      window.location.href = "login";
     } else {
       const name = data.user.user_metadata?.full_name || "User";
 
@@ -628,14 +628,14 @@
 
   <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
     <div class="container">
-      <a href="index.html" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
+      <a href="index" class="navbar-brand mx-auto mx-lg-0" style="font-family: 'Amatic SC', cursive; font-size: 32px; font-weight: 700;">
         <span style="color: #ff5500;">Plate </span><span class="brand-icon" style="color: #ff5500;">2♻️</span><span style="color: #ff5500;">Purpose</span>
       </a>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item"><a class="nav-link active" href="dashboard.html">DASHBOARD</a></li>
-          <li class="nav-item"><a class="nav-link" href="about2.html">ABOUT US</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact2.html">CONTACT US</a></li>
+          <li class="nav-item"><a class="nav-link active" href="dashboard">DASHBOARD</a></li>
+          <li class="nav-item"><a class="nav-link" href="about2">ABOUT US</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact2">CONTACT US</a></li>
           <button id="saveBtn" class="btn btn-outline-primary d-flex align-items-center gap-2">
             <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
             <span id="saveText">Save Changes</span>
@@ -1544,7 +1544,7 @@
     document.getElementById("logoutBtn")?.addEventListener("click", async () => {
       await saveDashboardData();
       await client.auth.signOut();
-      window.location.href = "login.html";
+      window.location.href = "login";
     });
 
     window.addEventListener("load", async () => {
@@ -1622,7 +1622,7 @@
       const btn = document.getElementById("modeSwitchBtn");
       const currentPage = window.location.pathname;
 
-      if (currentPage.includes("dashboard2.html")) {
+      if (currentPage.includes("dashboard2")) {
         btn.innerText = "Switch Mode";
       } else {
         btn.innerText = "Switch Mode";
@@ -1631,10 +1631,10 @@
 
     function switchMode() {
       const currentPage = window.location.pathname;
-      if (currentPage.includes("dashboard2.html")) {
-        window.location.href = "dashboard.html";
+      if (currentPage.includes("dashboard2")) {
+        window.location.href = "dashboard";
       } else {
-        window.location.href = "dashboard2.html";
+        window.location.href = "dashboard2";
       }
     }
   </script>

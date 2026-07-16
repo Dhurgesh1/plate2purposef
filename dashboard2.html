@@ -1,135 +1,175 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Under Construction | Plate2Purpose</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Under Construction | Plate2Purpose</title>
+    <meta name="description" content="Restaurant mode is being carefully built. Plate2Purpose, reducing food waste, one plate at a time." />
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/p2p-mark.svg" />
+    <link rel="icon" href="images/recycle-sign.png" type="image/png" />
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
 
-    body {
-      min-height: 100vh;
-      background-color: #fff5f0; /* Plate2Purpose background */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #333;
-      text-align: center;
-    }
+    <!-- CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-icons.css" rel="stylesheet" />
+    <link href="css/p2p.css" rel="stylesheet" />
 
-    .container {
-      max-width: 600px;
-      padding: 40px 30px;
-      background: #ffffff;
-      border-radius: 24px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-    }
+    <style>
+      /* Full-viewport dark aurora shell */
+      .p2p-build-hero {
+        position: relative;
+        min-height: 100vh;
+        min-height: 100svh;
+        display: flex;
+        align-items: center;
+        background: var(--p2p-grad-dark);
+        color: var(--p2p-text-inverse);
+        overflow: hidden;
+        padding: 120px 0 70px;
+      }
+      .p2p-build-card {
+        max-width: 620px;
+        margin: 0 auto;
+        padding: 52px 44px;
+        text-align: center;
+      }
+      @media (max-width: 575px) {
+        .p2p-build-card { padding: 38px 24px; }
+      }
+      .p2p-build-card .p2p-icon-chip {
+        width: 64px;
+        height: 64px;
+        font-size: 28px;
+      }
 
-    .logo {
-      font-size: 32px;
-      margin-bottom: 8px;
-      letter-spacing: 1px;
-      font-family: 'Amatic SC', cursive;
-      font-weight: 400;
-      color: #ff5500; /* brand accent */
-    }
-
-    .tagline {
-      font-size: 14px;
-      color: #717275;
-      margin-bottom: 28px;
-    }
-
-    .icon {
-      font-size: 56px;
-      margin-bottom: 18px;
-    }
-
-    h1 {
-      font-size: 26px;
-      margin-bottom: 14px;
-      color: #cb7575; /* primary theme */
-      
-      font-weight: 400; /* not bold */
-      letter-spacing: 1px;
-    }
-
-    p {
-      font-size: 15px;
-      line-height: 1.6;
-      color: #555;
-      margin-bottom: 28px;
-    }
-
-    .progress {
-      width: 100%;
-      height: 8px;
-      background: #f1dede;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 24px;
-    }
-
-    .progress-bar {
-      width: 65%; /* adjust progress here */
-      height: 100%;
-      background: linear-gradient(90deg, #cb7575, #ff9a9a);
-      border-radius: 10px;
-      animation: loading 2s ease-in-out infinite alternate;
-    }
-
-    @keyframes loading {
-      from { opacity: 0.6; }
-      to { opacity: 1; }
-    }
-
-    .footer {
-      font-size: 12px;
-      color: #888;
-    }
-
-    @media (max-width: 480px) {
-      h1 { font-size: 22px; }
-      .logo { font-size: 26px; }
-      .container { padding: 30px 20px; }
-    }
-  </style>
+      /* Animated build progress */
+      .p2p-build-track {
+        height: 10px;
+        border-radius: var(--p2p-radius-pill);
+        background: rgba(238, 245, 239, 0.08);
+        border: 1px solid var(--p2p-line-inverse);
+        overflow: hidden;
+        margin: 30px 0 10px;
+      }
+      .p2p-build-bar {
+        height: 100%;
+        width: 65%; /* adjust progress here */
+        border-radius: inherit;
+        background: var(--p2p-grad-brand);
+        background-size: 200% auto;
+        position: relative;
+        overflow: hidden;
+        animation:
+          p2pBuildGrow 1.6s var(--p2p-ease) 0.4s both,
+          p2pGradShift 4s ease infinite;
+      }
+      .p2p-build-bar::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
+        transform: translateX(-120%);
+        animation: p2pBuildSheen 2.4s var(--p2p-ease) 1.2s infinite;
+      }
+      @keyframes p2pBuildGrow {
+        from { width: 0; }
+      }
+      @keyframes p2pBuildSheen {
+        to { transform: translateX(120%); }
+      }
+      .p2p-build-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12.5px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--p2p-text-inverse-soft);
+        margin-bottom: 30px;
+      }
+      .p2p-build-meta strong { color: var(--p2p-lime); }
+      .p2p-build-foot {
+        margin-top: 28px;
+        font-size: 12.5px;
+        color: var(--p2p-text-inverse-soft);
+        opacity: 0.75;
+      }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap" rel="stylesheet" />
 </head>
-<body>
-  <div class="container">
-    <div class="logo">
-      <a href="dashboard.html" class="navbar-brand mx-auto mx-lg-0" style="display: inline-block;">
-        <img src="images/plate2purposename.png" alt="Plate2Purpose" style="max-width: 260px; width: 100%; height: auto;" />
-      </a>
-    </div>
-    <div class="tagline">Reducing food waste, one plate at a time</div>
 
-    <div class="icon">🚧</div>
-
-    <h1>We’re Under Construction</h1>
-    <p>
-      Plate2Purpose is being carefully improved to match our mission of
-      reducing food waste with accuracy and simplicity. We’ll be live very soon.
-    </p>
-
-    <div class="progress">
-      <div class="progress-bar"></div>
+  <body class="p2p">
+    <!-- Preloader -->
+    <div class="p2p-preloader">
+      <div class="ring"></div>
+      <div class="word">Plate2Purpose</div>
     </div>
 
-    <div class="footer">
-      © 2026 Plate2Purpose<span style="font-family:Arial, sans-serif; font-size:0.5em; font-weight:300; vertical-align:super; color:#b8b8b8;">™</span> • All rights reserved🌱
-    </div>
-  </div>
-</body>
+    <!-- Navbar (brand links back to dashboard, as before) -->
+    <nav class="navbar navbar-expand-lg p2p-nav">
+      <div class="container">
+        <a href="dashboard" class="navbar-brand">
+          <span class="p2p-logo-mark" style="background:none; box-shadow:none; width:40px; height:40px;">
+            <img src="images/p2p-mark.svg" width="40" height="40" alt="" style="display:block;" />
+          </span>
+          Plate2Purpose<sup style="font-size:10px; opacity:.5; margin-left:2px;">™</sup>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Under construction -->
+    <main class="p2p-build-hero">
+      <div class="p2p-aurora"><span></span><span></span><span></span></div>
+      <div class="p2p-grid-overlay"></div>
+
+      <div class="container position-relative">
+        <div class="p2p-card p2p-card--glass p2p-card--spot p2p-build-card" data-reveal="zoom">
+          <div class="p2p-icon-chip mx-auto"><i class="bi bi-cone-striped"></i></div>
+
+          <span class="p2p-eyebrow">Restaurant mode</span>
+          <h1 class="p2p-title" data-split>
+            Still in the <span class="p2p-accent">kitchen.</span>
+          </h1>
+          <p class="p2p-lead mx-auto">
+            Restaurant mode is being carefully plated to match our mission,
+            reducing food waste with accuracy and simplicity. It will be
+            served very soon.
+          </p>
+
+          <div class="p2p-build-track" role="progressbar" aria-label="Build progress" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+            <div class="p2p-build-bar"></div>
+          </div>
+          <div class="p2p-build-meta">
+            <span>Build progress</span>
+            <strong><span data-count="65" data-suffix="%"></span> complete</strong>
+          </div>
+
+          <a href="dashboard" class="p2p-btn">
+            <i class="bi bi-arrow-left"></i> Back to dashboard
+          </a>
+
+          <div class="p2p-build-foot">
+            © 2026 Plate2Purpose<sup style="font-size:9px; opacity:.6;">™</sup> · All rights reserved
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Floating AI assistant -->
+    <a href="chatbot" class="p2p-ai-fab" aria-label="Open AI assistant">
+      <span class="orb"><i class="bi bi-chat-dots"></i></span>
+      Kitchen assistant
+    </a>
+
+    <!-- JS -->
+    <script src="js/p2p.js"></script>
+  </body>
 </html>

@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Redirecting...</title>
+    <link rel="icon" type="image/svg+xml" href="images/p2p-mark.svg" />
     <link rel="icon" href="images/recycle-sign.png" type="image/png" />
 
     <style>
@@ -11,7 +12,9 @@
         padding-top: 100px;
       }
     </style>
-  </head>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap" rel="stylesheet" />
+  <link href="css/p2p.css" rel="stylesheet" />
+</head>
   <body>
     <!-- ✅ ES Module version of Supabase -->
      
@@ -29,7 +32,7 @@
     
       if (!session || error) {
         alert("❌ Login failed or cancelled.");
-        window.location.href = "login.html";
+        window.location.href = "login";
       } else {
         const user = session.user;
     
@@ -75,7 +78,7 @@
           });
         }
     
-        window.location.href = "mode-select.html";
+        window.location.href = "mode-select";
       }
     </script>
 

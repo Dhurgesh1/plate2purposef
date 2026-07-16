@@ -291,11 +291,42 @@ role==="user"
 : "bot"
 }`;
 
-div.innerHTML =
-text.replace(
+
+// Markdown formatting
+let formatted = text
+.replace(
+/\*\*(.*?)\*\*/g,
+"<strong>$1</strong>"
+) // **bold**
+
+.replace(
+/### (.*?)/g,
+"<h3>$1</h3>"
+) // ### heading
+
+.replace(
+/## (.*?)/g,
+"<h2>$1</h2>"
+) // ## heading
+
+.replace(
+/# (.*?)/g,
+"<h1>$1</h1>"
+) // # heading
+
+.replace(
+/^- (.*?)/gm,
+"• $1"
+) // bullet points
+
+.replace(
 /\n/g,
 "<br>"
 );
+
+
+div.innerHTML = formatted;
+
 
 return div;
 

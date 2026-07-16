@@ -16,7 +16,7 @@ function createWindow() {
   });
 
   // load your login page first
-  win.loadFile(path.join(__dirname, "index.html"));
+  win.loadFile(path.join(__dirname, "index"));
 
   // ✅ remove default menu bar
   Menu.setApplicationMenu(null);

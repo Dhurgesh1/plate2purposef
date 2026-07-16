@@ -1,10 +1,10 @@
-# Remove .html extension from URLs
+# Remove  extension from URLs
 RewriteEngine On
 
-# Redirect /about.html → /about
-RewriteCond %{THE_REQUEST} \s/([^.]+)\.html
-RewriteRule ^([^.]+)\.html$ /$1 [R=301,L]
+# Redirect /about → /about
+RewriteCond %{THE_REQUEST} \s/([^.]+)\
+RewriteRule ^([^.]+)\$ /$1 [R=301,L]
 
-# Serve pages without .html
-RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^([^.]+)$ $1.html [L]
+# Serve pages without 
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^([^.]+)$ $1 [L]

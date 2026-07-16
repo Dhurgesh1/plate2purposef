@@ -1,71 +1,32 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/manifest.json" />
 
-    <link rel="canonical" href="https://www.plate2purpose.com/">
-    <meta name="description" content="Plate2Purpose is a platform to reduce food waste in schools.">
-    <meta name="keywords" content="Plate2Purpose, food waste, school sustainability, SDG 12, zero waste">
-    <meta name="author" content="Plate2Purpose">
+    <link rel="canonical" href="https://www.plate2purpose.com/" />
+    <meta name="description" content="Plate2Purpose is a smart platform that helps school cafeterias and restaurants cut food waste with attendance-driven meal planning, live analytics and an AI assistant." />
+    <meta name="keywords" content="Plate2Purpose, food waste, school sustainability, SDG 12, zero waste" />
+    <meta name="author" content="Plate2Purpose" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Plate2Purpose | Smart Food Waste Reduction Platform</title>
-    
+
+    <link rel="icon" type="image/svg+xml" href="images/p2p-mark.svg" />
     <link rel="icon" href="images/recycle-sign.png" type="image/png" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Playfair+Display&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap"
       rel="stylesheet"
     />
 
-    <!-- CSS Files -->
+    <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/bootstrap-icons.css" rel="stylesheet" />
-    <link href="css/magnific-popup.css" rel="stylesheet" />
-    <link href="css/tooplate-wedding-lite.css" rel="stylesheet" />
-    <link href="css/theme-base.css" rel="stylesheet" />
+    <link href="css/p2p.css" rel="stylesheet" />
 
-    <style>
-      .custom-btn {
-        background-color: #cb7575;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-      }
-
-      .premium-card {
-        border-radius: 20px;
-        transition: 0.3s;
-        border: none;
-      }
-      .premium-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      }
-      .premium-title {
-        font-family: "Amatic SC", cursive;
-        font-size: 32px;
-        font-weight: 700;
-      }
-      .premium-price {
-        font-size: 38px;
-        font-weight: 700;
-      }
-      .nav-link .badge {
-        border-radius: 8px;
-        padding: 3px 6px;
-        font-weight: 500;
-      }
-
-    </style>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -75,7 +36,7 @@
       "url": "https://www.plate2purpose.com"
     }
     </script>
-    
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -85,12 +46,9 @@
       "logo": "https://www.plate2purpose.com/images/recycle-sign.png"
     }
     </script>
-
   </head>
 
-  <body>
-    <h1 style="display:none;">Plate2Purpose</h1>
-
+  <body class="p2p">
     <script>
       (function () {
         if (window.location.hash) {
@@ -105,152 +63,465 @@
     </script>
 
     <!-- Preloader -->
-    <section class="preloader" id="preloader">
-      <div class="spinner">
-        <span class="spinner-rotate">
-          <img src="images/recycle-sign.png" alt="Loading..." style="width: 60px; height: 60px" />
-        </span>
-      </div>
-    </section>
+    <div class="p2p-preloader">
+      <img src="images/p2p-mark.svg" alt="" style="width:60px; height:60px; animation: p2pSpin 1.6s cubic-bezier(0.45,0,0.55,1) infinite;" />
+      <div class="word">Plate2Purpose</div>
+    </div>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg p2p-nav p2p-nav--light">
       <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <a href="index" class="navbar-brand">
+          <span class="p2p-logo-mark" style="background:none; box-shadow:none; width:40px; height:40px;">
+            <img src="images/p2p-mark.svg" width="40" height="40" alt="" style="display:block;" />
+          </span>
+          Plate2Purpose<sup style="font-size:10px; opacity:.5; margin-left:2px;">™</sup>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a href="index.html" class="navbar-brand mx-auto mx-lg-0">
-          <span>Plate2</span>
-          <span class="brand-icon">♻️</span>
-          <span>Purpose</span><span style="font-family:Arial, sans-serif; font-size:0.5em; font-weight:300; vertical-align:super; color:#b8b8b8;">™</span>
-        </a>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="index">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
             <li class="nav-item">
-              <a class="nav-link click-scroll" href="#section_1">Homepage</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="about.html">About Us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact Us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center" href="download.html">
+              <a class="nav-link d-flex align-items-center" href="download">
                 Download
-                <span class="badge bg-danger ms-2" style="font-size: 10px;">NEW</span>
+                <span class="badge ms-2" style="font-size:9px; background:var(--p2p-grad-btn);">NEW</span>
               </a>
             </li>
-
-            <a
-              href="login.html"
-              class="btn ms-3 custom-btn"
-              style="border-radius: 30px; background-color: #fff; color: #000; font-family: 'Amatic SC'; font-size: 24px; border: 2px solid #000;"
-              >Sign In</a
-            >
+            <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+              <a href="login" class="p2p-btn p2p-btn--sm">Sign in <i class="bi bi-arrow-right"></i></a>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero-section d-flex" id="section_1">
-      <div class="hero-container container d-flex flex-column justify-content-end">
-        <div class="row h-100">
-          <div class="col-lg-6 col-12 my-auto">
-            <h2>♻️ From Waste to Worth</h2>
-            <h1 class="text-white hero-title mb-4">Let's Clean, Create, and Conserve!</h1>
-            <a href="about.html" class="custom-btn btn mt-4">Discover More</a>
+    <!-- Hero -->
+    <header class="p2p-hero p2p-hero--paper p2p-grain" id="section_1">
+      <div class="container position-relative">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-7">
+            <a href="about" class="p2p-hero-badge p2p-underline" data-reveal="down" style="text-decoration:none;">
+              <span class="dot"></span> Built for SDG 12 · Responsible Consumption <i class="bi bi-arrow-right" style="font-size:12px;"></i>
+            </a>
+            <h1 class="p2p-hero-title" data-split>
+              Every plate has a <em class="p2p-accent">purpose.</em>
+            </h1>
+            <p class="p2p-hero-sub" data-reveal="up" style="--reveal-delay:.5s;">
+              Plate2Purpose helps school cafeterias and restaurants prepare exactly
+              what's needed: attendance-driven meal planning, live waste analytics,
+              and an AI assistant that turns leftovers into lessons.
+            </p>
+            <div class="d-flex flex-wrap align-items-center gap-3" data-reveal="up" style="--reveal-delay:.7s;">
+              <a href="login" class="p2p-btn p2p-btn--lg">Start free trial <i class="bi bi-arrow-right"></i></a>
+              <a href="#how" class="p2p-btn p2p-btn--ghost-dark p2p-btn--lg">See how it works</a>
+            </div>
+          </div>
+
+          <div class="col-lg-5 d-none d-lg-block position-relative">
+            <a href="login" class="p2p-ticket-link" aria-label="Open your kitchen dashboard"><div class="p2p-ticket" data-reveal="up" style="--reveal-delay:.4s; max-width:400px; margin-inline:auto;">
+              <div class="tk-head">
+                <span>TODAY'S KITCHEN PLAN</span>
+                <span class="tk-live">● LIVE</span>
+              </div>
+              <div class="tk-row"><span class="k">Students present</span><span class="v"><span data-count="412"></span></span></div>
+              <div class="tk-row"><span class="k">Meals to prepare</span><span class="v"><span data-count="398"></span></span></div>
+              <div class="tk-row"><span class="k">Projected surplus</span><span class="v" style="color:var(--p2p-green-deep);">−<span data-count="86" data-suffix="%"></span></span></div>
+              <div class="tk-row"><span class="k">Waste this week</span><span class="v"><span data-count="4.2" data-decimals="1" data-suffix=" kg"></span></span></div>
+              <div class="tk-foot">cooked for people, not for bins</div>
+            </div></a>
+            <a href="quiz" class="p2p-stamp-link" aria-label="Take the food waste quiz"><div class="p2p-stamp position-absolute p2p-float" data-reveal="zoom" style="--reveal-delay:.9s; right:-14px; top:-104px;">
+              <svg viewBox="0 0 118 118">
+                <defs><path id="stampCircle" d="M 59,59 m -44,0 a 44,44 0 1,1 88,0 a 44,44 0 1,1 -88,0"/></defs>
+                <text class="ring-text"><textPath href="#stampCircle">PLATE2PURPOSE · ZERO WASTE · SDG 12 ·&#160;</textPath></text>
+              </svg>
+              <span class="core"><i class="bi bi-recycle"></i></span>
+            </div></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="p2p-scroll-hint d-none d-md-flex">
+        <div class="mouse"></div>
+        Scroll
+      </div>
+    </header>
+
+    <!-- Marquee -->
+    <div style="background:var(--p2p-paper);">
+      <div class="p2p-marquee p2p-marquee--light">
+        <div class="track">
+          <span class="item">Reduce food waste</span>
+          <span class="item">SDG 12</span>
+          <span class="item">Attendance-driven planning</span>
+          <span class="item">AI assistant</span>
+          <span class="item">Live analytics</span>
+          <span class="item">Cafeterias &amp; restaurants</span>
+          <!-- duplicate for seamless loop -->
+          <span class="item">Reduce food waste</span>
+          <span class="item">SDG 12</span>
+          <span class="item">Attendance-driven planning</span>
+          <span class="item">AI assistant</span>
+          <span class="item">Live analytics</span>
+          <span class="item">Cafeterias &amp; restaurants</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Impact stats -->
+    <section class="p2p-section p2p-section--tight" style="background:var(--p2p-paper); border-bottom:1px solid var(--p2p-line);">
+      <div class="container">
+        <div class="row" data-reveal-stagger="0.12">
+          <div class="col-6 col-lg-3">
+            <div class="p2p-stat p2p-stat--light" data-reveal="up">
+              <div class="num"><span data-count="40" data-suffix="%"></span></div>
+              <div class="label">less food waste*</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="p2p-stat p2p-stat--light" data-reveal="up">
+              <div class="num"><span data-count="18000" data-suffix="+"></span></div>
+              <div class="label">meals planned / year*</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="p2p-stat p2p-stat--light" data-reveal="up">
+              <div class="num">₹<span data-count="120000"></span></div>
+              <div class="label">kitchen savings / year*</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="p2p-stat p2p-stat--light" data-reveal="up">
+              <div class="num"><span data-count="2400" data-suffix=" kg"></span></div>
+              <div class="label">CO₂e avoided / year*</div>
+            </div>
+          </div>
+        </div>
+        <p class="text-center mt-3 mb-0" style="font-size:12.5px; color:var(--p2p-text-soft); opacity:.8;">
+          *Estimated annual impact for one mid-size school cafeteria running Plate2Purpose daily.
+        </p>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="p2p-section" id="features">
+      <div class="container">
+        <div class="text-center mb-5">
+          <span class="p2p-eyebrow" data-reveal="up">The platform</span>
+          <h2 class="p2p-title" data-reveal="up">Everything a zero-waste<br />kitchen needs</h2>
+          <p class="p2p-lead mx-auto" data-reveal="up">
+            One dashboard connects attendance, meal planning, payments and feedback,
+            so food is cooked for the people who are actually there.
+          </p>
+        </div>
+
+        <div class="row g-4" data-reveal-stagger="0.08">
+          <div class="col-lg-7">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100" data-reveal="up">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="p2p-icon-chip"><i class="bi bi-people"></i></div>
+              <h3><a href="login" class="stretched-link">Attendance-based planning</a></h3>
+              <p>Live attendance feeds the kitchen a precise headcount, so every meal is planned for a real person, not a guess.</p>
+              <div class="d-flex gap-4 mt-4 pt-3" style="border-top:1px dashed var(--p2p-line);">
+                <div><div style="font-family:var(--p2p-font-display); font-size:26px; font-weight:700;"><span data-count="412"></span></div><div style="font-size:12px; color:var(--p2p-text-soft); letter-spacing:.06em; text-transform:uppercase;">checked in</div></div>
+                <div><div style="font-family:var(--p2p-font-display); font-size:26px; font-weight:700; color:var(--p2p-green);"><span data-count="398"></span></div><div style="font-size:12px; color:var(--p2p-text-soft); letter-spacing:.06em; text-transform:uppercase;">meals planned</div></div>
+                <div><div style="font-family:var(--p2p-font-display); font-size:26px; font-weight:700; color:var(--p2p-green-deep);"><span data-count="14"></span></div><div style="font-size:12px; color:var(--p2p-text-soft); letter-spacing:.06em; text-transform:uppercase;">opt-outs today</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100" data-reveal="up">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="p2p-icon-chip"><i class="bi bi-calculator"></i></div>
+              <h3><a href="login" class="stretched-link">Smart quantity calculator</a></h3>
+              <p>Converts headcount and menu into exact ingredient quantities, rice in kilograms, not in guesses, cutting over-preparation before the stove is even lit.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100" data-reveal="up">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="p2p-icon-chip"><i class="bi bi-graph-up-arrow"></i></div>
+              <h3><a href="login" class="stretched-link">Waste tracking &amp; analytics</a></h3>
+              <p>Log what comes back, see trends by day and dish, and watch the waste curve bend week after week.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100" data-reveal="up">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="p2p-icon-chip"><i class="bi bi-chat-square-text"></i></div>
+              <h3><a href="chatbot" class="stretched-link">Built-in AI assistant</a></h3>
+              <p>Ask why Tuesday's dal always comes back, and what to change next week. It reads your waste data, not tea leaves.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100" data-reveal="up">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="p2p-icon-chip"><i class="bi bi-clipboard-heart"></i></div>
+              <h3><a href="quiz" class="stretched-link">Student preferences</a></h3>
+              <p>Feedback and preference data shape menus students actually finish, the tastiest way to cut waste.</p>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="p2p-card p2p-card--spot p2p-card--link" data-reveal="up">
+              <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="p2p-icon-chip mb-0"><i class="bi bi-file-earmark-spreadsheet"></i></div>
+                  <div>
+                    <h3 class="mb-1"><a href="login" class="stretched-link">Reports &amp; Excel export</a></h3>
+                    <p>Automated daily reports and one-click Excel exports keep management and auditors happy.</p>
+                  </div>
+                </div>
+                <a href="login" class="p2p-btn p2p-btn--ghost-dark p2p-btn--sm">See a sample report</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- PREMIUM PLANS SECTION -->
-    <section class="container my-5">
-      <h2 class="text-center mb-4" style="font-family:'Amatic SC'; font-size:45px;">🌟 Premium Membership Plans</h2>
+    <!-- Pull quote -->
+    <section class="p2p-section p2p-section--tight" style="background:var(--p2p-paper);">
+      <div class="container">
+        <figure class="p2p-pullquote" data-reveal="wipe">
+          <blockquote>
+            "One-third of all food produced on Earth is wasted.
+            Our cafeteria decided to <strong>stop guessing.</strong>"
+          </blockquote>
+          <figcaption>The idea behind Plate2Purpose</figcaption>
+        </figure>
+      </div>
+    </section>
 
-      <div class="row g-4 justify-content-center">
-
-       
-
-        <!-- ULTRA PLAN -->
-        <div class="col-md-6">
-          <div class="card premium-card p-4 shadow-sm text-center" style="background:#fff7f2;">
-            <h3 class="premium-title">FREE TRIAL</h3>
-            <p class="premium-price">30<span style="font-size:16px;">days</span></p>
-            <hr />
-            <ul class="text-start">
-              <li>✔ Experience it yourself now</li>
-              <li>✔ Attendance-Based Meal Planning</li>
-              <li>✔ Smart Food Quantity Calculator</li>
-              <li>✔ Food Waste Tracking & Analytics</li>
-              <li>✔ AI-Powered Plate2Purpose Assistant</li>
-              <li>✔ Student Preference Management</li>
-              <li>✔ Menu & Meal Management</li>
-              <li>✔ Automated Daily Reports</li>
-              <li>✔ Export Data to Excel</li>
-              <li>✔ SDG 12 Sustainability Insights</li>
-            </ul>
-            <a href="login.html" class="btn btn-primary mt-3 rounded-pill px-4">Try it now!</a>
-          </div>
+    <!-- How it works -->
+    <section class="p2p-section p2p-section--dark p2p-grain" id="how">
+      <div class="container">
+        <div class="text-center mb-5">
+          <span class="p2p-eyebrow" data-reveal="up">How it works</span>
+          <h2 class="p2p-title" data-reveal="up">From headcount to<br /><em class="p2p-accent">zero-waste kitchen</em></h2>
         </div>
 
-        <!-- EPIC PLAN -->
-        <div class="col-md-6">
-          <div class="card premium-card p-4 shadow-sm text-center" style="background:#f2fff2;">
-            <h3 class="premium-title">LIFETIME ACCESS</h3>
-            <p class="premium-price">&#8377;499<span style="font-size:16px;">one-time payment</span></p>
-            <hr />
-            <ul class="text-start">
-              <li>✔ Unlimited Plate2Purpose Access</li>
-              <li>✔ Attendance-Based Meal Planning</li>
-              <li>✔ Smart Food Quantity Calculator</li>
-              <li>✔ Food Waste Analytics Dashboard</li>
-              <li>✔ Plate2Purpose AI Assistant</li>
-              <li>✔ Student Preference Management</li>
-              <li>✔ Menu & Cafeteria Management</li>
-              <li>✔ Excel Report Exports</li>
-              <li>✔ Future Feature Updates Included</li>
-              <li>✔ No Monthly Fees Ever</li>
-            </ul>
-            <a href="login.html" class="btn btn-success mt-3 rounded-pill px-4">Buy Lifetime Access</a>
+        <div class="row p2p-steps" data-reveal-stagger="0.15">
+          <div class="col-md-6 col-lg-3">
+            <div class="p2p-step" data-reveal="up">
+              <div class="step-no">01</div>
+              <h4>Count</h4>
+              <p>Attendance is captured as students check in, the kitchen sees a live headcount.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="p2p-step" data-reveal="up">
+              <div class="step-no">02</div>
+              <h4>Calculate</h4>
+              <p>The quantity engine turns headcount + menu into exact prep amounts.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="p2p-step" data-reveal="up">
+              <div class="step-no">03</div>
+              <h4>Cook</h4>
+              <p>Staff prepare precisely what's needed. No mountain of extras, no shortages.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="p2p-step" data-reveal="up">
+              <div class="step-no">04</div>
+              <h4>Learn</h4>
+              <p>Returns are logged, analytics find the patterns, and tomorrow's plan gets smarter.</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Savings calculator -->
+    <section class="p2p-section" id="calculator" style="background:var(--p2p-paper); border-top:1px solid var(--p2p-line);">
+      <div class="container">
+        <div class="text-center mb-5">
+          <span class="p2p-eyebrow" data-reveal="up">Try it yourself</span>
+          <h2 class="p2p-title" data-reveal="up">What would <em class="p2p-accent">your kitchen</em> save?</h2>
+          <p class="p2p-lead mx-auto" data-reveal="up">Drag the sliders. The math updates live.</p>
+        </div>
 
+        <div class="row g-5 justify-content-center align-items-center">
+          <div class="col-lg-5" data-reveal="left">
+            <div class="p2p-card" style="padding:38px;">
+              <label for="calcStudents" class="d-flex justify-content-between"><span>Students served daily</span><strong id="calcStudentsVal">400</strong></label>
+              <input type="range" class="form-range mb-4" id="calcStudents" min="50" max="2000" step="10" value="400" />
 
-    <!-- JS Files -->
-    <script src="js/jquery.min.js"></script>
+              <label for="calcCost" class="d-flex justify-content-between"><span>Average plate cost (₹)</span><strong id="calcCostVal">₹35</strong></label>
+              <input type="range" class="form-range mb-4" id="calcCost" min="10" max="80" step="1" value="35" />
+
+              <label for="calcWaste" class="d-flex justify-content-between"><span>Plates wasted today (%)</span><strong id="calcWasteVal">20%</strong></label>
+              <input type="range" class="form-range" id="calcWaste" min="5" max="40" step="1" value="20" />
+            </div>
+          </div>
+
+          <div class="col-lg-5" data-reveal="right">
+            <div class="row text-center g-3">
+              <div class="col-12">
+                <div class="p2p-stat p2p-stat--light">
+                  <div class="num" id="calcMoney">₹5,60,000</div>
+                  <div class="label">saved every year</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p2p-stat p2p-stat--light">
+                  <div class="num" style="font-size:clamp(26px,3vw,38px);" id="calcKg">1,152 kg</div>
+                  <div class="label">food waste avoided</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p2p-stat p2p-stat--light">
+                  <div class="num" style="font-size:clamp(26px,3vw,38px);" id="calcCo2">2,880 kg</div>
+                  <div class="label">CO₂e avoided</div>
+                </div>
+              </div>
+            </div>
+            <p class="text-center mt-3 mb-0" style="font-size:12px; color:var(--p2p-text-soft);">
+              Assumes 200 school days, ~180 g per wasted plate, a 40% waste cut (our pilot target), and 2.5 kg CO₂e per kg of food waste.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      (function () {
+        var $ = function (id) { return document.getElementById(id); };
+        var fmtIN = function (n) { return Math.round(n).toLocaleString("en-IN"); };
+        function calc() {
+          var students = +$("calcStudents").value, cost = +$("calcCost").value, waste = +$("calcWaste").value / 100;
+          $("calcStudentsVal").textContent = students;
+          $("calcCostVal").textContent = "₹" + cost;
+          $("calcWasteVal").textContent = Math.round(waste * 100) + "%";
+          var wastedPlates = students * 200 * waste;
+          var savedPlates = wastedPlates * 0.4;
+          var kg = savedPlates * 0.18;
+          $("calcMoney").textContent = "₹" + fmtIN(savedPlates * cost);
+          $("calcKg").textContent = fmtIN(kg) + " kg";
+          $("calcCo2").textContent = fmtIN(kg * 2.5) + " kg";
+        }
+        ["calcStudents", "calcCost", "calcWaste"].forEach(function (id) { $(id).addEventListener("input", calc); });
+        calc();
+      })();
+    </script>
+
+    <!-- Pricing -->
+    <section class="p2p-section" id="pricing">
+      <div class="container">
+        <div class="text-center mb-5">
+          <span class="p2p-eyebrow" data-reveal="up">Pricing</span>
+          <h2 class="p2p-title" data-reveal="up">Costs less than one day<br />of wasted food</h2>
+          <p class="p2p-lead mx-auto" data-reveal="up">Try everything free for 30 days. Keep it forever for ₹499, once.</p>
+        </div>
+
+        <div class="row g-4 justify-content-center" data-reveal-stagger="0.15">
+          <div class="col-md-6 col-lg-5" data-reveal="up">
+            <div class="p2p-price-card">
+              <div class="plan-name">Free trial</div>
+              <div class="plan-price">30 <small>days · full access</small></div>
+              <ul>
+                <li>Attendance-based meal planning</li>
+                <li>Smart food quantity calculator</li>
+                <li>Food waste tracking &amp; analytics</li>
+                <li>AI-powered Plate2Purpose assistant</li>
+                <li>Student preference management</li>
+                <li>Menu &amp; meal management</li>
+                <li>Automated daily reports + Excel export</li>
+                <li>SDG 12 sustainability insights</li>
+              </ul>
+              <a href="login" class="p2p-btn p2p-btn--ghost-dark w-100">Try it free</a>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-5" data-reveal="up">
+            <div class="p2p-price-card is-featured">
+              <div class="plan-flag">Best value</div>
+              <div class="plan-name">Lifetime access</div>
+              <div class="plan-price">₹499 <small>one-time · forever</small></div>
+              <ul>
+                <li>Everything in the free trial</li>
+                <li>Unlimited Plate2Purpose access</li>
+                <li>Food waste analytics dashboard</li>
+                <li>Menu &amp; cafeteria management</li>
+                <li>All future feature updates included</li>
+                <li>No monthly fees, ever</li>
+              </ul>
+              <a href="login" class="p2p-btn w-100">Get lifetime access <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA band -->
+    <section class="p2p-section p2p-band p2p-grain text-center">
+      <div class="container">
+        <h2 class="p2p-title mb-3" data-reveal="wipe">Ready to give every plate a <em class="p2p-accent" style="color:var(--p2p-lime);">purpose?</em></h2>
+        <p class="p2p-lead mx-auto mb-4" data-reveal="up">Set up takes minutes. Your kitchen could waste less food tomorrow.</p>
+        <div class="d-flex justify-content-center flex-wrap gap-3" data-reveal="up" style="--reveal-delay:.2s;">
+          <a href="login" class="p2p-btn p2p-btn--lg" style="background:#fff; color:var(--p2p-green-deep) !important; box-shadow:0 14px 40px rgba(0,0,0,.25);">Start free trial</a>
+          <a href="contact" class="p2p-btn p2p-btn--ghost p2p-btn--lg">Talk to the team</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="p2p-footer">
+      <div class="watermark">PLATE2PURPOSE</div>
+      <div class="container position-relative">
+        <div class="row g-4">
+          <div class="col-lg-5">
+            <div class="footer-brand mb-2">Plate2Purpose<sup style="font-size:10px; opacity:.5;">™</sup></div>
+            <p style="max-width:320px; font-size:14.5px;">
+              Reducing food waste, one plate at a time. A student-built platform
+              supporting SDG 12: Responsible Consumption and Production.
+            </p>
+          </div>
+          <div class="col-6 col-lg-2">
+            <div class="footer-heading">Product</div>
+            <ul>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+              <li><a href="download">Download</a></li>
+              <li><a href="quiz">Food waste quiz</a></li>
+              <li><a href="impact">Impact receipt</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-2">
+            <div class="footer-heading">Company</div>
+            <ul>
+              <li><a href="about">About us</a></li>
+              <li><a href="contact">Contact</a></li>
+              <li><a href="chatbot">AI assistant</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="footer-heading">Legal</div>
+            <ul>
+              <li><a href="policy">Privacy policy</a></li>
+              <li><a href="terms">Terms of service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom d-flex flex-wrap justify-content-between gap-2">
+          <span>© 2026 Plate2Purpose™ · All rights reserved</span>
+          <span>Built by students. Measured in plates.</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating AI assistant -->
+    <a href="chatbot" class="p2p-ai-fab" aria-label="Open AI assistant">
+      <span class="orb"><i class="bi bi-chat-dots"></i></span>
+      Kitchen assistant
+    </a>
+
+    <!-- JS -->
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.sticky.js"></script>
-    <script src="js/click-scroll.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/magnific-popup-options.js"></script>
-    <script src="js/custom.js"></script>
-    <script src="js/theme-manager-template.js"></script>
-
+    <script src="js/p2p.js"></script>
   </body>
-  <footer style="
-    text-align:center;
-    padding:20px;
-    background:white;
-    margin-top:40px;
-    font-family:'Poppins',sans-serif;
-    box-shadow:0 -2px 10px rgba(0,0,0,0.05);
-  ">
-    <a href="https://www.plate2purpose.com/policy.html"
-       style="color:#cb7575; text-decoration:none; margin:0 10px;">
-       Privacy Policy
-    </a>
-  
-    |
-  
-    <a href="https://www.plate2purpose.com/terms.html"
-       style="color:#cb7575; text-decoration:none; margin:0 10px;">
-       Terms of Service
-    </a>
-  </footer>
 </html>

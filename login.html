@@ -1,618 +1,661 @@
-<!-- N1.html - Our Story Page with Preloader and Transitions -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="manifest" href="/manifest.json" />
+
     <title>Plate2Purpose - Login</title>
+    <link rel="icon" type="image/svg+xml" href="images/p2p-mark.svg" />
     <link rel="icon" href="images/recycle-sign.png" type="image/png" />
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Sign in or create your Plate2Purpose account, attendance-driven meal planning, live waste analytics and an AI kitchen assistant." />
 
-    <!-- Google Fonts -->
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Playfair+Display&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
 
-    <!-- CSS FILES -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/bootstrap-icons.css" />
-    <link rel="stylesheet" href="css/magnific-popup.css" />
-    <link rel="stylesheet" href="css/tooplate-wedding-lite.css" />
+    <!-- CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-icons.css" rel="stylesheet" />
+    <link href="css/p2p.css" rel="stylesheet" />
+    <!-- Font Awesome kept: password visibility toggle icons (fa-eye / fa-eye-slash) are switched by page JS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
     <style>
-      .spinner-rotate img {
-        animation: spin 2s linear infinite;
-      }
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-      .side-semicircle {
-        position: fixed;
-        bottom: 30px;
-        right: 0;
-        height: 60px;
-        background-color: #cb7575;
-        border-top-left-radius: 60px;
-        border-bottom-left-radius: 60px;
+      /* ---------- Auth split layout (page-specific) ---------- */
+      .p2p-auth {
         display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 0 15px 0 10px;
-        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
-        z-index: 10;
+        min-height: 100vh;
+        min-height: 100svh;
+      }
+
+      /* Left brand panel (desktop only) */
+      .p2p-auth-side {
+        position: relative;
+        flex: 0 0 47%;
+        max-width: 47%;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 40px;
+        padding: clamp(36px, 4.5vw, 64px);
+        background: var(--p2p-grad-dark);
+        color: var(--p2p-text-inverse);
         overflow: hidden;
       }
+      .p2p-auth-side > * { position: relative; z-index: 2; }
 
-      /* Inner Content Layer (Above Stars) */
-      .side-semicircle .semicircle-content {
-        display: flex;
+      .p2p-auth-brand {
+        font-family: var(--p2p-font-display);
+        font-weight: 700;
+        font-size: 22px;
+        letter-spacing: -0.02em;
+        color: #fff;
+        display: inline-flex;
         align-items: center;
-        position: relative;
-        z-index: 2;
+        gap: 10px;
+        text-decoration: none;
+        align-self: flex-start;
+      }
+      .p2p-auth-brand:hover { color: #fff; }
+      .p2p-auth-brand:hover .p2p-logo-mark { transform: rotate(-8deg) scale(1.08); }
+      .p2p-auth-brand--ink { color: var(--p2p-text); font-size: 19px; }
+      .p2p-auth-brand--ink:hover { color: var(--p2p-text); }
+
+      .p2p-auth-headline {
+        font-size: clamp(34px, 3.2vw, 52px);
+        line-height: 1.06;
+        letter-spacing: -0.03em;
+        color: #fff;
+        margin-bottom: 18px;
+      }
+      .p2p-auth-sub {
+        font-size: 16px;
+        line-height: 1.7;
+        color: var(--p2p-text-inverse-soft);
+        max-width: 430px;
+        margin-bottom: 34px;
       }
 
-      /* Circular AI Button */
-      .rounded-button-link {
-        background-color: white;
-        border-radius: 50%;
-        width: 36px;
-        height: 36px;
+      /* Mini stat rows */
+      .p2p-auth-stats { display: flex; flex-direction: column; gap: 14px; max-width: 430px; }
+      .p2p-auth-stats .stat-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 15px 18px;
+        border-radius: 18px;
+        background: rgba(238, 245, 239, 0.05);
+        border: 1px solid var(--p2p-line-inverse);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+      }
+      .p2p-auth-stats .p2p-icon-chip {
+        margin-bottom: 0;
+        flex: 0 0 46px;
+        width: 46px; height: 46px;
+        font-size: 20px;
+        background: rgba(163, 230, 53, 0.1);
+        border-color: rgba(163, 230, 53, 0.25);
+        color: var(--p2p-lime);
+      }
+      .p2p-auth-stats .v {
+        font-family: var(--p2p-font-display);
+        font-weight: 700;
+        font-size: 23px;
+        line-height: 1.1;
+        color: #fff;
+      }
+      .p2p-auth-stats .l {
+        font-size: 13px;
+        color: var(--p2p-text-inverse-soft);
+      }
+
+      .p2p-auth-foot { font-size: 13px; color: var(--p2p-text-inverse-soft); opacity: 0.75; }
+
+      /* Right form panel */
+      .p2p-auth-main {
+        flex: 1 1 auto;
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 18px;
-        color: #cb7575;
-        text-decoration: none;
-        margin-right: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease;
+        padding: 100px 20px 120px;
       }
-
-      .rounded-button-link:hover {
-        transform: scale(1.1);
-      }
-
-      /* AI Label */
-      .semicircle-label {
-        font-family: "Amatic SC", cursive;
-        font-size: 22px;
-        color: white;
-        white-space: nowrap;
-      }
-
-      /* Twinkling Stars Behind Button & Text */
-      .star {
+      .p2p-auth-topbar {
         position: absolute;
-        width: 12px;
-        height: 12px;
-        background-image: url("data:image/svg+xml;utf8,<svg fill='white' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><polygon points='12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9'/></svg>");
-        background-size: contain;
-        background-repeat: no-repeat;
-        opacity: 0.8;
-        filter: drop-shadow(0 0 4px white);
-        animation: twinkle 2s infinite ease-in-out;
-        z-index: 1;
+        top: 0; left: 0; right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 20px 24px;
+      }
+      .p2p-auth-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-left: auto;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--p2p-text-soft);
+        text-decoration: none;
+        padding: 8px 16px;
+        border: 1px solid var(--p2p-line);
+        border-radius: var(--p2p-radius-pill);
+        background: rgba(255, 255, 255, 0.6);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        transition: color 0.25s, border-color 0.25s, box-shadow 0.25s;
+      }
+      .p2p-auth-back:hover {
+        color: var(--p2p-green-deep);
+        border-color: rgba(22, 163, 74, 0.35);
+        box-shadow: var(--p2p-shadow-sm);
       }
 
-      /* Individual Star Positions */
-      .star-1 {
-        top: 10px;
-        right: 10px;
-        animation-delay: 0s;
-      }
-      .star-2 {
-        top: 25px;
-        right: 30px;
-        animation-delay: 0.4s;
-      }
-      .star-3 {
-        top: 40px;
-        right: 15px;
-        animation-delay: 0.8s;
+      .p2p-auth-card { width: 100%; max-width: 480px; }
+      .p2p-auth-card h2 { font-size: 26px; margin-bottom: 6px; }
+      .p2p-auth-card .sub {
+        color: var(--p2p-text-soft);
+        font-size: 14.5px;
+        margin-bottom: 24px;
       }
 
-      /* Star Twinkle Animation */
-      @keyframes twinkle {
-        0%,
-        100% {
-          opacity: 0.3;
-          transform: scale(1);
-        }
-        50% {
-          opacity: 1;
-          transform: scale(1.8);
-        }
+      /* Segmented Sign In / Sign Up toggle (Bootstrap tabs restyled) */
+      .p2p-auth-tabs {
+        display: flex;
+        gap: 6px;
+        background: rgba(22, 36, 27, 0.06);
+        border: 1px solid var(--p2p-line);
+        border-radius: var(--p2p-radius-pill);
+        padding: 5px;
+        margin-bottom: 28px;
       }
+      .p2p-auth-tabs .nav-link {
+        flex: 1;
+        border: 0;
+        border-radius: var(--p2p-radius-pill);
+        padding: 10px 16px;
+        font-family: var(--p2p-font-display);
+        font-weight: 600;
+        font-size: 15px;
+        letter-spacing: -0.01em;
+        color: var(--p2p-text-soft);
+        background: transparent;
+        transition: color 0.25s, background 0.25s, box-shadow 0.25s;
+      }
+      .p2p-auth-tabs .nav-link:hover { color: var(--p2p-green-deep); }
+      .p2p-auth-tabs .nav-link.active {
+        background: var(--p2p-grad-btn);
+        color: #fff;
+        box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+      }
+
+      /* Password field + eye toggle */
+      .p2p-auth-card .input-group { position: relative; }
+      .p2p .input-group > .form-control:not(:last-child) { border-radius: 14px; }
+      .p2p-auth-card .input-group .form-control { padding-right: 48px; }
+      .toggle-password {
+        position: absolute;
+        top: 50%; right: 14px;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--p2p-text-soft);
+        font-size: 16px;
+        padding: 4px;
+        z-index: 5;
+        transition: color 0.25s;
+      }
+      .toggle-password:hover { color: var(--p2p-green); }
+
+      .p2p-auth-link {
+        color: var(--p2p-green-deep);
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+      }
+      .p2p-auth-link:hover { color: var(--p2p-green); text-decoration: underline; }
+
+      .p2p-auth-divider {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 4px 0 18px;
+        color: var(--p2p-text-soft);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .p2p-auth-divider::before,
+      .p2p-auth-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--p2p-line);
+      }
+
+      /* Google button (restyled, same class + onclick hook) */
       .google-btn-custom {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
-        background-color: white;
-        color: #444;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        font-weight: 500;
-        padding: 8px 14px;
-        transition: all 0.3s ease;
-        font-family: "Poppins", sans-serif;
-        height: 42px;
-        width: 260px; /* 🎯 Reduced width */
+        width: 100%;
+        background: #fff;
+        color: var(--p2p-text);
+        border: 1.5px solid var(--p2p-line);
+        border-radius: var(--p2p-radius-pill);
+        font-family: var(--p2p-font-body);
+        font-weight: 600;
+        font-size: 14.5px;
+        padding: 12px 18px;
+        transition: border-color 0.25s, color 0.25s, box-shadow 0.25s, transform 0.25s;
       }
-
-      .google-btn-custom img {
-        height: 18px;
-        width: 18px;
-      }
-
+      .google-btn-custom img { height: 18px; width: 18px; }
       .google-btn-custom:hover {
-        border-color: #cb7575;
-        box-shadow: 0 4px 10px rgba(203, 117, 117, 0.15);
-        transform: scale(1.015);
-        color: #cb7575;
-      }
-      .nav-link .badge {
-          border-radius: 8px;
-          padding: 3px 6px;
-          font-weight: 500;
+        border-color: var(--p2p-green);
+        color: var(--p2p-green-deep);
+        box-shadow: 0 8px 24px rgba(22, 163, 74, 0.12);
+        transform: translateY(-1px);
       }
 
+      @media (max-width: 991px) {
+        .p2p-auth-main { padding: 92px 16px 130px; }
+      }
+      @media (max-width: 576px) {
+        .p2p-form-card.p2p-auth-card { padding: 32px 22px; }
+      }
     </style>
-  </head>
-  <body>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap" rel="stylesheet" />
+</head>
+
+  <body class="p2p">
     <!-- Preloader -->
-    <section class="preloader">
-      <div class="spinner">
-        <span class="spinner-rotate">
-          <img
-            src="images/recycle-sign.png"
-            alt="Loading..."
-            style="width: 60px; height: 60px"
-          />
-        </span>
-      </div>
-    </section>
-
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg">
-      <div class="container">
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <a href="index.html" class="navbar-brand mx-auto mx-lg-0">
-          <span>Plate2</span>
-          <span class="brand-icon">♻️</span>
-          <span>Purpose</span><span style="font-family:Arial, sans-serif; font-size:0.5em; font-weight:300; vertical-align:super; color:#b8b8b8;">™</span>
-        </a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link click-scroll" href="index.html"
-                >Homepage</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="about.html">About Us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact Us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center" href="download.html">
-                Download
-                <span class="badge bg-danger ms-2" style="font-size: 10px;">NEW</span>
-              </a>
-            </li>
-
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Our Story Section -->
-    <section class="people-section section-padding" id="section_4">
-      <style>
-        .auth-form {
-          background-color: #ffffff;
-          padding: 30px;
-          border-radius: 16px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-        .auth-form h2 {
-          font-family: "Amatic SC", cursive;
-          font-size: 36px;
-        }
-        .auth-form label {
-          font-weight: 600;
-          color: #374151;
-        }
-        .auth-form .input-group {
-          position: relative;
-        }
-        .auth-form .form-control {
-          border-radius: 8px;
-          padding-right: 40px;
-        }
-        .toggle-password {
-          position: absolute;
-          top: 50%;
-          right: 10px;
-          transform: translateY(-50%);
-          background: none;
-          border: none;
-          cursor: pointer;
-          color: #6b7280;
-          font-size: 16px;
-        }
-      </style>
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      />
-
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12 col-12">
-            <div class="section-title-wrap mb-5">
-              <h2 class="section-title">Sign In & Sign Up</h2>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-5 col-12 me-auto">
-            <nav>
-              <div
-                class="nav nav-tabs flex-lg-column align-items-baseline"
-                id="nav-tab"
-                role="tablist"
-              >
-                <button
-                  class="nav-link active"
-                  id="nav-signin-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#nav-signin"
-                  type="button"
-                  role="tab"
-                  aria-controls="nav-signin"
-                  aria-selected="true"
-                >
-                  <h3 style="font-family: 'Amatic SC', cursive">Sign In</h3>
-                </button>
-
-                <button
-                  class="nav-link"
-                  id="nav-signup-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#nav-signup"
-                  type="button"
-                  role="tab"
-                  aria-controls="nav-signup"
-                  aria-selected="false"
-                >
-                  <h3 style="font-family: 'Amatic SC', cursive">Sign Up</h3>
-                </button>
-              </div>
-            </nav>
-          </div>
-
-          <div class="col-lg-8 col-md-6 col-12">
-            <div class="tab-content" id="nav-tabContent">
-              <!-- Sign In Tab -->
-              <div
-                class="tab-pane fade show active auth-form"
-                id="nav-signin"
-                role="tabpanel"
-                aria-labelledby="nav-signin-tab"
-              >
-                <h2 class="text-center mb-4">Welcome Back!</h2>
-                <form id="signin-form">
-                  <div class="mb-3">
-                    <label for="signin-email" class="form-label"
-                      >Email address</label
-                    >
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="signin-email"
-                      placeholder="Enter your email"
-                      required
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <label for="signin-password" class="form-label"
-                      >Password</label
-                    >
-                    <div class="input-group">
-                      <input
-                        type="password"
-                        class="form-control"
-                        id="signin-password"
-                        placeholder="Enter your password"
-                        required
-                      />
-                      <button
-                        type="button"
-                        class="toggle-password"
-                        onclick="togglePassword('signin-password', this)"
-                      >
-                        <i class="fa-regular fa-eye"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <button
-                    type="submit"
-                    class="btn btn-primary rounded-pill px-4 py-2 w-100 mb-4"
-                  >
-                    Sign In
-                  </button>
-                  <p class="text-center mb-3">
-                    <a
-                      href="forgot.html"
-                      style="
-                        color: #000;
-                        font-size: 14px;
-                        text-decoration: none;
-                        font-weight: 400;
-                      "
-                    >
-                      Forgot Password?
-                    </a>
-                  </p>
-                </form>
-                <div class="row text-center justify-content-center">
-                  <!-- Google -->
-                  
-                    <button
-                      onclick="loginWithGoogle()"
-                      class="google-btn-custom mb-4 mx-auto d-block"
-                    >
-                      <img
-                        src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-                        alt="Google logo"
-                      />
-                      <span>Sign In with Google</span>
-                    </button>
-                
-
-                  <!-- Microsoft -->
-
-                  <!-- Phone -->
-                </div>
-              </div>
-
-              <!-- Sign Up Tab -->
-              <div
-                class="tab-pane fade auth-form"
-                id="nav-signup"
-                role="tabpanel"
-                aria-labelledby="nav-signup-tab"
-              >
-                <h2 class="text-center mb-4">Create Account</h2>
-                <form id="signup-form">
-                  <div class="mb-3">
-                    <label for="signup-name" class="form-label"
-                      >Full Name</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="signup-name"
-                      placeholder="Enter your name"
-                      required
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <label for="signup-email" class="form-label"
-                      >Email address</label
-                    >
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="signup-email"
-                      placeholder="Enter your email"
-                      required
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <label for="signup-password" class="form-label"
-                      >Password</label
-                    >
-                    <div class="input-group">
-                      <input
-                        type="password"
-                        class="form-control"
-                        id="signup-password"
-                        placeholder="Create a password"
-                        required
-                      />
-                      <button
-                        type="button"
-                        class="toggle-password"
-                        onclick="togglePassword('signup-password', this)"
-                      >
-                        <i class="fa-regular fa-eye"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <button
-                    type="submit"
-                    class="btn btn-primary rounded-pill px-4 py-2 w-100 mb-4"
-                  >
-                    Sign Up
-                  </button>
-                </form>
-
-                <button
-                  onclick="loginWithGoogle()"
-                  class="google-btn-custom mb-4 mx-auto d-block"
-                >
-                  <img
-                    src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-                    alt="Google logo"
-                  />
-                  <span>Sign up with Google</span>
-                </button>
-
-                <!-- Phone Auth -->
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <script src="https://unpkg.com/@supabase/supabase-js"></script>
-
-      <script src="credentials.js"></script>
-
-      <!-- ✅ Supabase Auth Integration -->
-      <!-- ✅ Supabase Auth Integration -->
-      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-      <script>
-        // ✅ Initialize Supabase Client
-        const client = supabase.createClient(
-          "https://pljmachiuahkrkiddehc.supabase.co",
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsam1hY2hpdWFoa3JraWRkZWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMTAyNDEsImV4cCI6MjA2NjY4NjI0MX0.ke4EYw5lGX5DHrgu1GCDxRUbMYU-M6KzbLZVeesoVm8"
-        );
-
-        // 👁️ Toggle password visibility
-        function togglePassword(id, btn) {
-          const input = document.getElementById(id);
-          const icon = btn.querySelector("i");
-          if (input.type === "password") {
-            input.type = "text";
-            icon.classList.remove("fa-eye");
-            icon.classList.add("fa-eye-slash");
-          } else {
-            input.type = "password";
-            icon.classList.remove("fa-eye-slash");
-            icon.classList.add("fa-eye");
-          }
-        }
-
-        // ✅ SIGN IN
-        document
-          .querySelector("#signin-form")
-          .addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const email = document.getElementById("signin-email").value.trim();
-            const password = document
-              .getElementById("signin-password")
-              .value.trim();
-
-            const { data, error } = await client.auth.signInWithPassword({
-              email,
-              password,
-            });
-
-            if (error) {
-              alert("❌ " + error.message);
-              console.error("Sign In Error:", error);
-            } else {
-              console.log("Sign In Success:", data);
-              window.location.href = "mode-select.html"; // redirect
-            }
-          });
-
-        // ✅ SIGN UP
-        document
-          .querySelector("#signup-form")
-          .addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const name = document.getElementById("signup-name").value.trim();
-            const email = document.getElementById("signup-email").value.trim();
-            const password = document
-              .getElementById("signup-password")
-              .value.trim();
-
-            const { data, error } = await client.auth.signUp({
-              email,
-              password,
-              options: {
-                data: { full_name: name },
-                emailRedirectTo:
-                  "https://plate2purpose.com/logcon", // must match Supabase settings
-              },
-            });
-
-            if (error) {
-              alert("❌ " + error.message);
-              console.error("Sign Up Error:", error);
-            } else {
-              console.log("Sign Up Success:", data);
-              localStorage.setItem("username", name);
-
-              // If email confirmation is OFF → direct login
-              if (data.session) {
-                alert("✅ Signup successful! You are now logged in.");
-                window.location.href = "mode-select.html";
-              } else {
-                // If confirmation is ON
-                alert(
-                  "✅ Signup successful! Please check your email to confirm."
-                );
-              }
-            }
-          });
-      </script>
-      <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-      <script>
-        (function () {
-          emailjs.init("MFrJtquTCDd30fXGD"); // from EmailJS Dashboard
-        })();
-
-        function sendConfirmationEmail(userEmail, userName) {
-          emailjs
-            .send("service_fuudr8t", "template_13rkc9z", {
-              user_email: userEmail,
-              user_name: userName,
-              confirmation_link: "https://plate2purpose.com/dashboard",
-            })
-            .then((res) => {
-              alert("Confirmation email sent!");
-            })
-            .catch((err) => {
-              console.error(err);
-            });
-        }
-      </script>
-    </section>
-
-    <div class="side-semicircle">
-      <!-- Stars container moved below for layering -->
-      <div class="star star-1"></div>
-      <div class="star star-2"></div>
-      <div class="star star-3"></div>
-
-      <div class="semicircle-content">
-        <a
-          href="https://www.plate2purpose.com/chatbot.html"
-          class="rounded-button-link"
-        >
-          <i class="bi bi-cpu"></i>
-        </a>
-        <span class="semicircle-label">AI</span>
-      </div>
+    <div class="p2p-preloader">
+      <div class="ring"></div>
+      <div class="word">Plate2Purpose</div>
     </div>
 
-    <!-- JavaScript Files for Smooth Preloader and Transitions -->
-    <script src="js/jquery.min.js"></script>
+    <!-- Auth split layout -->
+    <section class="p2p-auth" id="section_4">
+      <!-- Left: brand panel -->
+      <aside class="p2p-auth-side d-none d-lg-flex">
+        <div class="p2p-aurora"><span></span><span></span><span></span></div>
+        <div class="p2p-grid-overlay"></div>
+
+        <a href="index" class="p2p-auth-brand">
+          <span class="p2p-logo-mark" style="background:none; box-shadow:none; width:40px; height:40px;">
+            <img src="images/p2p-mark.svg" width="40" height="40" alt="" style="display:block;" />
+          </span>
+          Plate2Purpose<sup style="font-size:10px; opacity:.5; margin-left:2px;">™</sup>
+        </a>
+
+        <div>
+          <div class="p2p-hero-badge" data-reveal="down">
+            <span class="dot"></span> Built for SDG 12 · Responsible Consumption
+          </div>
+          <h1 class="p2p-auth-headline" data-split>
+            Cook for the people who <span class="p2p-accent">actually show up.</span>
+          </h1>
+          <p class="p2p-auth-sub" data-reveal="up" style="--reveal-delay:.4s;">
+            One login connects attendance, meal planning and waste analytics,
+            so tomorrow's menu wastes less than today's.
+          </p>
+
+          <div class="p2p-auth-stats" data-reveal-stagger="0.12">
+            <div class="stat-row" data-reveal="left">
+              <span class="p2p-icon-chip"><i class="bi bi-graph-down-arrow"></i></span>
+              <div>
+                <div class="v"><span data-count="40" data-suffix="%"></span></div>
+                <div class="l">less food waste per kitchen*</div>
+              </div>
+            </div>
+            <div class="stat-row" data-reveal="left">
+              <span class="p2p-icon-chip"><i class="bi bi-basket"></i></span>
+              <div>
+                <div class="v"><span data-count="18000" data-suffix="+"></span></div>
+                <div class="l">meals planned every year*</div>
+              </div>
+            </div>
+            <div class="stat-row" data-reveal="left">
+              <span class="p2p-icon-chip"><i class="bi bi-piggy-bank"></i></span>
+              <div>
+                <div class="v"><span data-count="120000" data-prefix="₹"></span></div>
+                <div class="l">kitchen savings per year*</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p2p-auth-foot">© 2026 Plate2Purpose™ · Built by students. Measured in plates.</div>
+      </aside>
+
+      <!-- Right: form panel -->
+      <main class="p2p-auth-main">
+        <div class="p2p-auth-topbar">
+          <a href="index" class="p2p-auth-brand p2p-auth-brand--ink d-lg-none">
+            <span class="p2p-logo-mark" style="background:none; box-shadow:none; width:40px; height:40px;">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3a9 9 0 1 0 9 9" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                <path d="M21 5c-4 .5-6.5 2-8.5 5.5" stroke="#d9f99d" stroke-width="2" stroke-linecap="round"/>
+                <path d="M21 5c-.2 2.2-1 3.8-2.6 5" stroke="#d9f99d" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            Plate2Purpose
+          </a>
+          <a href="index" class="p2p-auth-back"><i class="bi bi-arrow-left"></i> Back to home</a>
+        </div>
+
+        <div class="p2p-form-card p2p-auth-card" data-reveal="up">
+          <!-- Sign In / Sign Up toggle -->
+          <nav>
+            <div class="nav p2p-auth-tabs" id="nav-tab" role="tablist">
+              <button
+                class="nav-link active"
+                id="nav-signin-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#nav-signin"
+                type="button"
+                role="tab"
+                aria-controls="nav-signin"
+                aria-selected="true"
+              >
+                Sign In
+              </button>
+
+              <button
+                class="nav-link"
+                id="nav-signup-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#nav-signup"
+                type="button"
+                role="tab"
+                aria-controls="nav-signup"
+                aria-selected="false"
+              >
+                Sign Up
+              </button>
+            </div>
+          </nav>
+
+          <div class="tab-content" id="nav-tabContent">
+            <!-- Sign In Tab -->
+            <div
+              class="tab-pane fade show active"
+              id="nav-signin"
+              role="tabpanel"
+              aria-labelledby="nav-signin-tab"
+            >
+              <h2>Welcome Back!</h2>
+              <p class="sub">Sign in to your kitchen dashboard.</p>
+              <form id="signin-form">
+                <div class="mb-3">
+                  <label for="signin-email" class="form-label">Email address</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="signin-email"
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="signin-password" class="form-label">Password</label>
+                  <div class="input-group">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="signin-password"
+                      placeholder="Enter your password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      class="toggle-password"
+                      onclick="togglePassword('signin-password', this)"
+                    >
+                      <i class="fa-regular fa-eye"></i>
+                    </button>
+                  </div>
+                </div>
+                <button type="submit" class="p2p-btn w-100 mb-3">
+                  Sign In <i class="bi bi-arrow-right"></i>
+                </button>
+                <p class="text-center mb-3">
+                  <a href="forgot" class="p2p-auth-link">Forgot Password?</a>
+                </p>
+              </form>
+
+              <div class="p2p-auth-divider"><span>or continue with</span></div>
+
+              <!-- Google -->
+              <button
+                onclick="loginWithGoogle()"
+                class="google-btn-custom mb-2"
+              >
+                <img
+                  src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                  alt="Google logo"
+                />
+                <span>Sign In with Google</span>
+              </button>
+
+              <!-- Microsoft -->
+
+              <!-- Phone -->
+            </div>
+
+            <!-- Sign Up Tab -->
+            <div
+              class="tab-pane fade"
+              id="nav-signup"
+              role="tabpanel"
+              aria-labelledby="nav-signup-tab"
+            >
+              <h2>Create Account</h2>
+              <p class="sub">Start your 30-day free trial, every plate counts.</p>
+              <form id="signup-form">
+                <div class="mb-3">
+                  <label for="signup-name" class="form-label">Full Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="signup-name"
+                    placeholder="Enter your name"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="signup-email" class="form-label">Email address</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="signup-email"
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="signup-password" class="form-label">Password</label>
+                  <div class="input-group">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="signup-password"
+                      placeholder="Create a password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      class="toggle-password"
+                      onclick="togglePassword('signup-password', this)"
+                    >
+                      <i class="fa-regular fa-eye"></i>
+                    </button>
+                  </div>
+                </div>
+                <button type="submit" class="p2p-btn w-100 mb-3">
+                  Sign Up <i class="bi bi-arrow-right"></i>
+                </button>
+              </form>
+
+              <div class="p2p-auth-divider"><span>or continue with</span></div>
+
+              <button
+                onclick="loginWithGoogle()"
+                class="google-btn-custom mb-2"
+              >
+                <img
+                  src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                  alt="Google logo"
+                />
+                <span>Sign up with Google</span>
+              </button>
+
+              <!-- Phone Auth -->
+            </div>
+          </div>
+        </div>
+      </main>
+    </section>
+
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
+
+    <script src="credentials.js"></script>
+
+    <!-- ✅ Supabase Auth Integration -->
+    <!-- ✅ Supabase Auth Integration -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+      // ✅ Initialize Supabase Client
+      const client = supabase.createClient(
+        "https://pljmachiuahkrkiddehc.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsam1hY2hpdWFoa3JraWRkZWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMTAyNDEsImV4cCI6MjA2NjY4NjI0MX0.ke4EYw5lGX5DHrgu1GCDxRUbMYU-M6KzbLZVeesoVm8"
+      );
+
+      // 👁️ Toggle password visibility
+      function togglePassword(id, btn) {
+        const input = document.getElementById(id);
+        const icon = btn.querySelector("i");
+        if (input.type === "password") {
+          input.type = "text";
+          icon.classList.remove("fa-eye");
+          icon.classList.add("fa-eye-slash");
+        } else {
+          input.type = "password";
+          icon.classList.remove("fa-eye-slash");
+          icon.classList.add("fa-eye");
+        }
+      }
+
+      // ✅ SIGN IN
+      document
+        .querySelector("#signin-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const email = document.getElementById("signin-email").value.trim();
+          const password = document
+            .getElementById("signin-password")
+            .value.trim();
+
+          const { data, error } = await client.auth.signInWithPassword({
+            email,
+            password,
+          });
+
+          if (error) {
+            alert("❌ " + error.message);
+            console.error("Sign In Error:", error);
+          } else {
+            console.log("Sign In Success:", data);
+            window.location.href = "mode-select"; // redirect
+          }
+        });
+
+      // ✅ SIGN UP
+      document
+        .querySelector("#signup-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const name = document.getElementById("signup-name").value.trim();
+          const email = document.getElementById("signup-email").value.trim();
+          const password = document
+            .getElementById("signup-password")
+            .value.trim();
+
+          const { data, error } = await client.auth.signUp({
+            email,
+            password,
+            options: {
+              data: { full_name: name },
+              emailRedirectTo:
+                "https://plate2purpose.com/logcon", // must match Supabase settings
+            },
+          });
+
+          if (error) {
+            alert("❌ " + error.message);
+            console.error("Sign Up Error:", error);
+          } else {
+            console.log("Sign Up Success:", data);
+            localStorage.setItem("username", name);
+
+            // If email confirmation is OFF → direct login
+            if (data.session) {
+              alert("✅ Signup successful! You are now logged in.");
+              window.location.href = "mode-select";
+            } else {
+              // If confirmation is ON
+              alert(
+                "✅ Signup successful! Please check your email to confirm."
+              );
+            }
+          }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+      (function () {
+        emailjs.init("MFrJtquTCDd30fXGD"); // from EmailJS Dashboard
+      })();
+
+      function sendConfirmationEmail(userEmail, userName) {
+        emailjs
+          .send("service_fuudr8t", "template_13rkc9z", {
+            user_email: userEmail,
+            user_name: userName,
+            confirmation_link: "https://plate2purpose.com/dashboard",
+          })
+          .then((res) => {
+            alert("Confirmation email sent!");
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    </script>
+
+    <!-- Floating AI assistant -->
+    <a href="https://www.plate2purpose.com/chatbot" class="p2p-ai-fab" aria-label="Open AI assistant">
+      <span class="orb"><i class="bi bi-chat-dots"></i></span>
+      Kitchen assistant
+    </a>
+
+    <!-- JS -->
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.sticky.js"></script>
-    <script src="js/click-scroll.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/magnific-popup-options.js"></script>
-    <script src="js/custom.js"></script>
 
     <!-- Optional: Auto-highlight active nav link -->
     <script>
@@ -633,7 +676,7 @@
         client.auth.signInWithOAuth({
           provider: "google",
           options: {
-            redirectTo: "https://plate2purpose.com/auth-callback", // ✅ must match
+            redirectTo: window.location.origin + "/auth-callback",
             queryParams: { prompt: "select_account" },
           },
         });
@@ -645,7 +688,7 @@
         client.auth.signInWithOAuth({
           provider: "azure",
           options: {
-            redirectTo: "http://plate2purpose.com/auth-callback.html", // ✅ must match
+            redirectTo: window.location.origin + "/auth-callback",
             queryParams: { prompt: "select_account" },
           },
         });
@@ -686,7 +729,7 @@
         } else {
           alert("✅ Phone verified!");
           localStorage.setItem("username", phone); // or fetch name later
-          window.location.href = "mode-select.html";
+          window.location.href = "mode-select";
         }
       }
     </script>
@@ -711,5 +754,6 @@
         }
       }
     </script>
+    <script src="js/p2p.js"></script>
   </body>
 </html>
