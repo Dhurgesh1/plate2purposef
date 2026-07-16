@@ -1,217 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Select Mode | Plate2Purpose</title>
+    <meta name="description" content="Choose your Plate2Purpose workspace, cafeteria mode for schools or restaurant mode for service kitchens." />
 
     <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/p2p-mark.svg" />
     <link rel="icon" href="images/recycle-sign.png" type="image/png" />
 
-    <!-- Fonts & Bootstrap -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Playfair+Display&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+
+    <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/bootstrap-icons.css" rel="stylesheet" />
-    <link href="css/tooplate-wedding-lite.css" rel="stylesheet" />
+    <link href="css/p2p.css" rel="stylesheet" />
 
     <style>
-      body {
-        background-color: #fdfaf6;
-        font-family: "Playfair Display", serif;
-        margin: 0;
-        padding: 0;
-      }
-
-      /* Navbar */
-      .navbar-brand {
-        font-family: "Amatic SC", cursive;
-        font-size: 32px;
-        font-weight: 700;
-      }
-
-      .brand-icon {
-        color: #2979ff;
-        font-size: 28px;
-        margin: 0 5px;
-      }
-
-      .mode-section {
-        min-height: 90vh;
+      /* Page shell: full-viewport dark aurora moment */
+      .p2p-mode-hero {
+        position: relative;
+        min-height: 100vh;
+        min-height: 100svh;
         display: flex;
         align-items: center;
-        justify-content: center;
+        background: var(--p2p-grad-dark);
+        color: var(--p2p-text-inverse);
+        overflow: hidden;
+        padding: 130px 0 90px;
       }
 
-      .mode-card {
-        background: #fff;
-        border-radius: 16px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        padding: 40px 30px;
-        max-width: 420px;
-        width: 100%;
-        text-align: center;
-      }
-
-      .mode-card h2 {
-        font-family: "Amatic SC", cursive;
-        font-size: 36px;
-        font-weight: 700;
-        color: #333;
-        margin-bottom: 30px;
-      }
-
-      .mode-btn {
-        width: 100%;
-        font-size: 20px;
-        font-family: "Playfair Display", serif;
-        font-weight: 600;
-        padding: 12px;
-        margin-bottom: 20px;
-        border-radius: 10px;
-        border: 2px solid;
-        transition: all 0.3s ease;
-        background-color: transparent;
-      }
-
-      .btn-cafe {
-        border-color: #2979ff;
-        color: #2979ff;
-      }
-
-      .btn-cafe:hover {
-        background-color: #2979ff;
-        color: #fff;
-      }
-
-      .btn-restaurant {
-        border-color: #ffc107;
-        color: #ffc107;
-      }
-
-      .btn-restaurant:hover {
-        background-color: #ffc107;
-        color: #fff;
-      }
-
-      .footer-note {
-        font-size: 14px;
-        color: #888;
-        margin-top: 10px;
-      }
-
-      /* ✅ Preloader Styles */
-      .preloader {
-        position: fixed;
+      /* Selectable glass cards (buttons, so selectMode() onclick stays intact) */
+      button.p2p-mode-card {
         width: 100%;
         height: 100%;
-        background-color: #fdfaf6;
-        top: 0;
-        left: 0;
-        z-index: 9999;
-        display: flex;
-        justify-content: center;
+        text-align: left;
+        appearance: none;
+        -webkit-appearance: none;
+        cursor: pointer;
+        padding: 40px 36px;
+        color: var(--p2p-text-inverse);
+      }
+      button.p2p-mode-card:focus-visible {
+        outline: 3px solid var(--p2p-lime);
+        outline-offset: 4px;
+      }
+      .p2p-mode-card h3 {
+        font-size: 25px;
+        color: #fff;
+      }
+      .p2p-mode-card .mode-go {
+        display: inline-flex;
         align-items: center;
-        opacity: 1;
-        transition: opacity 0.6s ease; /* ✅ Smooth transition */
-        pointer-events: none;
+        gap: 9px;
+        margin-top: 24px;
+        font-family: var(--p2p-font-display);
+        font-weight: 600;
+        font-size: 13.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--p2p-lime);
       }
-
-      .preloader.fade-out {
-        opacity: 0;
+      .p2p-mode-card .mode-go .bi {
+        transition: transform 0.35s var(--p2p-ease);
       }
-
-      .spinner-rotate img {
-        animation: spin 2s linear infinite;
+      .p2p-mode-card:hover .mode-go .bi {
+        transform: translateX(6px);
       }
-
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
+      .p2p-mode-note {
+        margin-top: 34px;
+        font-size: 13.5px;
+        color: var(--p2p-text-inverse-soft);
+      }
+      .p2p-mode-note .bi {
+        color: var(--p2p-lime);
+        margin-right: 6px;
       }
     </style>
-  </head>
-  <body>
-    <!-- ✅ Navbar -->
-    <nav class="navbar navbar-expand-lg">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap" rel="stylesheet" />
+</head>
+
+  <body class="p2p">
+    <!-- Preloader -->
+    <div class="p2p-preloader">
+      <div class="ring"></div>
+      <div class="word">Plate2Purpose</div>
+    </div>
+
+    <!-- Navbar (brand only, post-login moment) -->
+    <nav class="navbar navbar-expand-lg p2p-nav">
       <div class="container">
-        <a href="index.html" class="navbar-brand mx-auto mx-lg-0">
-          <span>Plate2♻️Purpose</span><span style="font-family:Arial, sans-serif; font-size:0.5em; font-weight:300; vertical-align:super; color:#b8b8b8;">™</span>
+        <a href="index" class="navbar-brand">
+          <span class="p2p-logo-mark" style="background:none; box-shadow:none; width:40px; height:40px;">
+            <img src="images/p2p-mark.svg" width="40" height="40" alt="" style="display:block;" />
+          </span>
+          Plate2Purpose<sup style="font-size:10px; opacity:.5; margin-left:2px;">™</sup>
         </a>
       </div>
     </nav>
 
-    <!-- ✅ Mode Selection Card -->
-    <section class="mode-section">
-      <div class="mode-card">
-        <h2>Select Mode</h2>
+    <!-- Mode selection -->
+    <main class="p2p-mode-hero">
+      <div class="p2p-aurora"><span></span><span></span><span></span></div>
+      <div class="p2p-grid-overlay"></div>
 
-        <button onclick="selectMode('cafeteria')" class="mode-btn btn-cafe">
-          Cafeteria Mode
-        </button>
+      <div class="container position-relative">
+        <div class="text-center mb-5">
+          <span class="p2p-eyebrow" data-reveal="down">Welcome back · Pick a workspace</span>
+          <h1 class="p2p-hero-title" data-split>
+            Choose your <span class="p2p-accent">kitchen.</span>
+          </h1>
+          <p class="p2p-lead mx-auto" data-reveal="up" style="--reveal-delay:.5s;">
+            Two kitchens, one mission, cook exactly what gets eaten.
+            Pick the mode that matches yours.
+          </p>
+        </div>
 
-        <button
-          onclick="selectMode('restaurant')"
-          class="mode-btn btn-restaurant"
-        >
-          Restaurant Mode
-        </button>
+        <div class="row g-4 justify-content-center" data-reveal-stagger="0.15">
+          <div class="col-md-6 col-lg-5" data-reveal="up" style="--reveal-delay:.6s;">
+            <button onclick="selectMode('cafeteria')" type="button"
+                    class="p2p-card p2p-card--glass p2p-card--spot p2p-mode-card"
+                    data-tilt="6">
+              <div class="p2p-icon-chip"><i class="bi bi-mortarboard"></i></div>
+              <h3>Cafeteria Mode</h3>
+              <p>
+                Built for schools. Live attendance feeds the kitchen a real
+                headcount, so every meal is planned for a student who is
+                actually there.
+              </p>
+              <span class="mode-go">Enter cafeteria <i class="bi bi-arrow-right"></i></span>
+            </button>
+          </div>
 
-        <div class="footer-note">
-          You can switch mode later from the dashboard.
+          <div class="col-md-6 col-lg-5" data-reveal="up" style="--reveal-delay:.75s;">
+            <button onclick="selectMode('restaurant')" type="button"
+                    class="p2p-card p2p-card--glass p2p-card--spot p2p-mode-card"
+                    data-tilt="6">
+              <div class="p2p-icon-chip"><i class="bi bi-shop"></i></div>
+              <h3>Restaurant Mode</h3>
+              <p>
+                Built for service. Cover forecasts and menu data turn expected
+                demand into exact prep quantities, no mountain of extras at
+                close.
+              </p>
+              <span class="mode-go">Enter restaurant <i class="bi bi-arrow-right"></i></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="text-center p2p-mode-note" data-reveal="up" style="--reveal-delay:.9s;">
+          <i class="bi bi-arrow-repeat"></i>You can switch mode later from the dashboard.
         </div>
       </div>
-    </section>
+    </main>
 
-    <!-- ✅ Script -->
+    <!-- Mode selection logic -->
     <script>
       function selectMode(mode) {
         localStorage.setItem("app_mode", mode);
 
         if (mode === "cafeteria") {
-          window.location.href = "dashboard.html";
+          window.location.href = "dashboard";
         } else if (mode === "restaurant") {
-          window.location.href = "dashboard2.html";
+          window.location.href = "dashboard2";
         }
       }
     </script>
 
-    <!-- ✅ Preloader -->
-    <section class="preloader">
-      <div class="spinner">
-        <span class="spinner-rotate">
-          <img
-            src="images/recycle-sign.png"
-            alt="Loading..."
-            style="width: 60px; height: 60px"
-          />
-        </span>
-      </div>
-    </section>
+    <!-- Floating AI assistant -->
+    <a href="chatbot" class="p2p-ai-fab" aria-label="Open AI assistant">
+      <span class="orb"><i class="bi bi-chat-dots"></i></span>
+      Kitchen assistant
+    </a>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const preloader = document.querySelector(".preloader");
-
-        setTimeout(() => {
-          if (preloader) {
-            preloader.classList.add("fade-out");
-
-            // Hide after fade-out is complete (after 0.6s)
-            setTimeout(() => {
-              preloader.style.display = "none";
-            }, 600);
-          }
-        }, 1000); // ⏱️ Wait for 3 seconds before fading
-      });
-    </script>
+    <!-- JS -->
+    <script src="js/p2p.js"></script>
   </body>
 </html>

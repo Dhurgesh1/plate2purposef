@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Impact Receipt | Plate2Purpose</title>
+    <meta name="description" content="Turn your kitchen's week into a printable impact receipt: food saved, money saved, CO2e avoided." />
+    <link rel="icon" type="image/svg+xml" href="images/p2p-mark.svg" />
+    <link rel="icon" href="images/recycle-sign.png" type="image/png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-icons.css" rel="stylesheet" />
+    <link href="css/p2p.css" rel="stylesheet" />
+
+    <style>
+      .impact-shell { min-height: 100vh; background: var(--p2p-paper); padding: 120px 0 80px; }
+      #receiptWrap { max-width: 420px; margin-inline: auto; position: relative; }
+      @media print {
+        body * { visibility: hidden !important; }
+        #receiptWrap, #receiptWrap * { visibility: visible !important; }
+        #receiptWrap { position: absolute; inset: 0 auto auto 50%; transform: translateX(-50%); margin-top: 30px; }
+        .p2p-progress, .p2p-nav { display: none !important; }
+      }
+    </style>
+  </head>
+
+  <body class="p2p">
+    <nav class="navbar navbar-expand-lg p2p-nav p2p-nav--light">
+      <div class="container">
+        <a href="dashboard" class="navbar-brand">
+          <span class="p2p-logo-mark" style="background:none; box-shadow:none; width:40px; height:40px;">
+            <img src="images/p2p-mark.svg" width="40" height="40" alt="" style="display:block;" />
+          </span>
+          Plate2Purpose<sup style="font-size:10px; opacity:.5; margin-left:2px;">™</sup>
+        </a>
+        <a href="dashboard" class="p2p-btn p2p-btn--sm p2p-btn--ghost-dark"><i class="bi bi-arrow-left"></i> Dashboard</a>
+      </div>
+    </nav>
+
+    <main class="impact-shell p2p-grain">
+      <div class="container">
+        <div class="text-center mb-5">
+          <span class="p2p-eyebrow" data-reveal="up">New · Impact Receipt Studio</span>
+          <h1 class="p2p-title" data-reveal="up">Print what you <em class="p2p-accent">didn't waste.</em></h1>
+          <p class="p2p-lead mx-auto" data-reveal="up">
+            Type in your kitchen's week. Get a receipt worth pinning on the notice board.
+          </p>
+        </div>
+
+        <div class="row g-5 justify-content-center">
+          <!-- Inputs -->
+          <div class="col-lg-5" data-reveal="left">
+            <div class="p2p-form-card">
+              <label for="weekLabel">Week</label>
+              <input type="text" id="weekLabel" class="form-control mb-3" value="This week" />
+
+              <label for="mealsServed">Meals served</label>
+              <input type="number" id="mealsServed" class="form-control mb-3" value="1990" min="0" />
+
+              <label for="wasteNow">Food waste this week (kg)</label>
+              <input type="number" id="wasteNow" class="form-control mb-3" value="4.2" min="0" step="0.1" />
+
+              <label for="wasteBefore">Weekly waste before Plate2Purpose (kg)</label>
+              <input type="number" id="wasteBefore" class="form-control mb-3" value="29" min="0" step="0.1" />
+
+              <label for="costPerKg">Average food cost per kg (₹)</label>
+              <input type="number" id="costPerKg" class="form-control mb-4" value="150" min="0" />
+
+              <div class="d-flex flex-wrap gap-2">
+                <button class="p2p-btn" onclick="window.print()"><i class="bi bi-printer"></i> Print receipt</button>
+                <button class="p2p-btn p2p-btn--ghost-dark" id="copyBtn"><i class="bi bi-clipboard"></i> Copy summary</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live receipt -->
+          <div class="col-lg-5" data-reveal="right">
+            <div id="receiptWrap">
+              <div class="p2p-ticket">
+                <div class="tk-head">
+                  <span>IMPACT RECEIPT</span>
+                  <span class="tk-live" id="rWeek">THIS WEEK</span>
+                </div>
+                <div class="tk-row"><span class="k">Meals served</span><span class="v" id="rMeals">1,990</span></div>
+                <div class="tk-row"><span class="k">Food waste avoided</span><span class="v" style="color:var(--p2p-green-deep);" id="rAvoided">24.8 kg</span></div>
+                <div class="tk-row"><span class="k">Money saved</span><span class="v" id="rMoney">₹3,720</span></div>
+                <div class="tk-row"><span class="k">CO₂e avoided</span><span class="v" id="rCo2">62 kg</span></div>
+                <div class="tk-row"><span class="k">Waste per plate</span><span class="v" id="rPerPlate">2.1 g</span></div>
+                <div class="tk-foot">cooked for people, not for bins · plate2purpose.com</div>
+              </div>
+              <div class="p2p-stamp position-absolute" style="right:-34px; top:-92px;">
+                <svg viewBox="0 0 118 118">
+                  <defs><path id="stampCircle2" d="M 59,59 m -44,0 a 44,44 0 1,1 88,0 a 44,44 0 1,1 -88,0"/></defs>
+                  <text class="ring-text"><textPath href="#stampCircle2">PLATE2PURPOSE · ZERO WASTE · SDG 12 ·&#160;</textPath></text>
+                </svg>
+                <span class="core"><img src="images/p2p-mark.svg" width="26" height="26" alt="" style="filter:brightness(0) invert(1);" /></span>
+              </div>
+            </div>
+            <p class="text-center mt-4" style="font-size:12px; color:var(--p2p-text-soft);">
+              CO₂e estimate uses ≈2.5 kg CO₂e per kg of food waste (FAO food-wastage footprint).
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        var $ = function (id) { return document.getElementById(id); };
+        var fmt = function (n, d) { return n.toLocaleString("en-IN", { maximumFractionDigits: d === undefined ? 0 : d, minimumFractionDigits: 0 }); };
+
+        function update() {
+          var meals = parseFloat($("mealsServed").value) || 0;
+          var now = parseFloat($("wasteNow").value) || 0;
+          var before = parseFloat($("wasteBefore").value) || 0;
+          var cost = parseFloat($("costPerKg").value) || 0;
+          var avoided = Math.max(0, before - now);
+
+          $("rWeek").textContent = ($("weekLabel").value || "This week").toUpperCase();
+          $("rMeals").textContent = fmt(meals);
+          $("rAvoided").textContent = fmt(avoided, 1) + " kg";
+          $("rMoney").textContent = "₹" + fmt(Math.round(avoided * cost));
+          $("rCo2").textContent = fmt(Math.round(avoided * 2.5)) + " kg";
+          $("rPerPlate").textContent = meals > 0 ? fmt((now * 1000) / meals, 1) + " g" : "–";
+        }
+
+        ["weekLabel", "mealsServed", "wasteNow", "wasteBefore", "costPerKg"].forEach(function (id) {
+          $(id).addEventListener("input", update);
+        });
+        update();
+
+        $("copyBtn").addEventListener("click", function () {
+          var t = $("rWeek").textContent + " at our kitchen with Plate2Purpose: " +
+            $("rAvoided").textContent + " of food waste avoided, " +
+            $("rMoney").textContent + " saved, " +
+            $("rCo2").textContent + " CO2e avoided. Cooked for people, not for bins. plate2purpose.com";
+          navigator.clipboard.writeText(t).then(function () {
+            $("copyBtn").innerHTML = '<i class="bi bi-check2"></i> Copied!';
+            setTimeout(function () { $("copyBtn").innerHTML = '<i class="bi bi-clipboard"></i> Copy summary'; }, 1600);
+          });
+        });
+      })();
+    </script>
+    <script src="js/p2p.js"></script>
+  </body>
+</html>

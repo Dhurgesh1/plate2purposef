@@ -4,11 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Plate2Purpose - Admin Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="images/p2p-mark.svg" />
     <link rel="icon" href="images/recycle-sign.png" type="image/png" />
 
     <!-- Fonts & CSS -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Poppins:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Inter:wght@400;600&display=swap"
       rel="stylesheet"
     />
     <link
@@ -18,8 +19,8 @@
 
     <style>
       body {
-        font-family: "Poppins", sans-serif;
-        background-color: #fff5f0;
+        font-family: "Inter", sans-serif;
+        background-color: #f7f5ee;
         margin: 0;
       }
 
@@ -36,18 +37,18 @@
         z-index: 1000;
       }
       .navbar-brand {
-        font-family: "Amatic SC", cursive;
+        font-family: "Space Grotesk", cursive;
         font-size: 36px; /* Larger brand text */
         font-weight: 700;
-        color: #ff5500; /* White for contrast */
+        color: #0b6b3a; /* White for contrast */
       }
       .navbar-brand span {
-        color: #ff5500; /* Soft peach accent in logo */
+        color: #0b6b3a; /* Soft peach accent in logo */
       }
       .logout-btn {
         background-color: white;
         border: none;
-        color: #cb7575;
+        color: #0b6b3a;
         padding: 12px 20px;
         border-radius: 10px;
         font-weight: 600;
@@ -65,7 +66,7 @@
         padding: 50px 20px 30px;
       }
       .hero h2 {
-        color: #cb7575;
+        color: #0b6b3a;
         font-size: 2rem;
         margin-bottom: 10px;
       }
@@ -99,7 +100,7 @@
       }
       .dashboard-card i {
         font-size: 2.5rem;
-        color: #cb7575;
+        color: #0b6b3a;
         margin-bottom: 12px;
       }
       .dashboard-card h4 {
@@ -117,8 +118,8 @@
 
     <style>
       body {
-        font-family: "Poppins", sans-serif;
-        background-color: #fff5f0;
+        font-family: "Inter", sans-serif;
+        background-color: #f7f5ee;
         margin: 0;
         padding-top: 110px; /* Space for fixed navbar */
       }
@@ -140,19 +141,19 @@
       }
 
       .navbar-brand {
-        font-family: "Amatic SC", cursive;
+        font-family: "Space Grotesk", cursive;
         font-size: 36px;
         font-weight: 700;
-        color: #ff5500;
+        color: #0b6b3a;
       }
       .navbar-brand span {
-        color: #ff5500;
+        color: #0b6b3a;
       }
 
       .logout-btn {
         background-color: white;
         border: none;
-        color: #cb7575;
+        color: #0b6b3a;
         padding: 12px 20px;
         border-radius: 10px;
         font-weight: 600;
@@ -169,7 +170,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #fff5f0; /* same bg as your dashboard */
+        background-color: #f7f5ee; /* same bg as your dashboard */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -193,8 +194,11 @@
         }
       }
     </style>
-  </head>
-  <body>
+    <link rel="stylesheet" href="css/p2p-skin.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap" rel="stylesheet" />
+  <link href="css/p2p.css" rel="stylesheet" />
+</head>
+  <body class="p2p">
     <section class="preloader" id="preloader">
       <div class="spinner-rotate">
         <img

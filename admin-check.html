@@ -12,7 +12,7 @@
     const { data: { user } } = await client.auth.getUser();
 
     if (!user) {
-      window.location.href = "admin login.html";
+      window.location.href = "admin login";
       return;
     }
 
@@ -25,11 +25,11 @@
       .maybeSingle();
 
     if (data) {
-      window.location.href = "admin dashboard.html";
+      window.location.href = "admin dashboard";
     } else {
       alert("Access denied. You are not an admin.");
       await client.auth.signOut();
-      window.location.href = "admin login.html";
+      window.location.href = "admin login";
     }
   }
 
