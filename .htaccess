@@ -1,0 +1,10 @@
+# Remove  extension from URLs
+RewriteEngine On
+
+# Redirect /about → /about
+RewriteCond %{THE_REQUEST} \s/([^.]+)\
+RewriteRule ^([^.]+)\$ /$1 [R=301,L]
+
+# Serve pages without 
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^([^.]+)$ $1 [L]

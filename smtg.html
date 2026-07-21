@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance Dashboard</title>
+
+    <!-- Bootstrap for styling -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <!-- Chart.js + DataLabels plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+  </head>
+  <body class="bg-light">
+    <div class="container py-5">
+      <h2 class="mb-4 text-center">Attendance Tracking</h2>
+
+      <!-- Add Guest -->
+      <div class="mb-3">
+        <input
+          type="text"
+          id="studentName"
+          placeholder="Enter guest name"
+          class="form-control mb-2"
+        />
+        <button class="btn btn-primary w-100" onclick="addStudent()">
+          Add Guest
+        </button>
+      </div>
+
+      <!-- Student List -->
+      <ul id="studentList" class="list-group mb-4"></ul>
+
+      <!-- Attendance Pie Chart -->
+      <div class="card shadow p-3">
+        <canvas id="attendanceChart" height="300"></canvas>
+      </div>
+    </div>
+
+    <script>
+      let students = [];
+      let attendanceChart = null;
+
+      function addStudent() {
+        const nameInput = document.getElementById("studentName");
+        const name = nameInput.value.trim();
+        if (name) {
+          students.push({ name: name, present: false });
+          nameInput.value = "";
+          renderStudents();
+        }
+      }
+
+      function toggleAttendance(index) {
+        students[index].present = !students[index].present;
+        renderStudents();
+      }
+
+      function deleteStudent(index) {
+        students.splice(index, 1);
+        renderStudents();
+      }
+
+      function renderStudents() {
+        const list = document.getElementById("studentList");
+        list.innerHTML = "";
+        students.forEach((student, i) => {
+          const li = document.createElement("li");
+          li.className =
+            "list-group-item d-flex justify-content-between align-items-center";
+          li.innerHTML = `
+          <span>${student.name}</span>
+          <div>
+            <button class="btn btn-sm ${
+              student.present ? "btn-success" : "btn-outline-danger"
+            }" 
+              onclick="toggleAttendance(${i})">
+              ${student.present ? "Present" : "Absent"}
+            </button>
+            <button class="btn btn-sm btn-outline-danger ms-2" onclick="deleteStudent(${i})">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>`;
+          list.appendChild(li);
+        });
+
+        updateAttendanceChart();
+      }
+
+      function updateAttendanceChart() {
+        const presentCount = students.filter((s) => s.present).length;
+        const absentCount = students.length - presentCount;
+
+        const ctx = document.getElementById("attendanceChart").getContext("2d");
+
+        if (attendanceChart) {
+          attendanceChart.destroy();
+        }
+
+        attendanceChart = new Chart(ctx, {
+          type: "pie",
+          data: {
+            labels: ["Present", "Absent"],
+            datasets: [
+              {
+                data: [presentCount, absentCount],
+                backgroundColor: ["#28a745", "#dc3545"], // green, red
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  usePointStyle: true,
+                  pointStyle: "circle",
+                  font: { size: 14, weight: "bold" },
+                },
+              },
+              title: {
+                display: true,
+                text: "Attendance Overview",
+              },
+              datalabels: {
+                formatter: (value, ctx) => {
+                  let sum = ctx.chart.data.datasets[0].data.reduce(
+                    (a, b) => a + b,
+                    0
+                  );
+                  if (sum === 0) return "0%";
+                  let percentage = ((value / sum) * 100).toFixed(1) + "%";
+                  return percentage;
+                },
+                color: "#fff",
+                font: { weight: "bold", size: 14 },
+              },
+            },
+          },
+          plugins: [ChartDataLabels],
+        });
+      }
+    </script>
+  </body>
+</html>

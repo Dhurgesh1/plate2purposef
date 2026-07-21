@@ -1,0 +1,99 @@
+/* ============================================================
+   P2P LEGACY SKIN — re-themes older pages (dashboard, quiz,
+   payments, web, chatbot, legal) to the kitchen-editorial look
+   WITHOUT touching their markup or scripts. Load AFTER the
+   page's own styles. Heavy on !important by design.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap');
+
+body.p2p {
+  background-color: #f7f5ee !important;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif !important;
+  color: #16241b;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.p2p h1, body.p2p h2, body.p2p h3, body.p2p h4, body.p2p h5 {
+  font-family: "Space Grotesk", "Segoe UI", system-ui, sans-serif !important;
+  letter-spacing: -0.02em;
+}
+
+/* Buttons — green pill language, whatever markup they use */
+body.p2p button:not(.navbar-toggler):not(.btn-close),
+body.p2p .btn-primary,
+body.p2p .btn-success,
+body.p2p input[type="submit"] {
+  border-radius: 999px !important;
+  font-family: "Inter", sans-serif !important;
+  font-weight: 600 !important;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s !important;
+}
+body.p2p .btn-primary, body.p2p input[type="submit"] {
+  background: linear-gradient(135deg, #10b981, #16a34a 60%, #0b6b3a) !important;
+  border: none !important;
+}
+body.p2p button:not(.navbar-toggler):hover,
+body.p2p .btn-primary:hover,
+body.p2p input[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(16, 185, 129, 0.3) !important;
+}
+
+/* Inputs */
+body.p2p input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
+body.p2p select, body.p2p textarea {
+  border: 1.5px solid rgba(22, 36, 27, 0.14) !important;
+  border-radius: 14px !important;
+  background: #fffdf8 !important;
+  font-family: "Inter", sans-serif !important;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+body.p2p input:focus, body.p2p select:focus, body.p2p textarea:focus {
+  outline: none !important;
+  border-color: #16a34a !important;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.12) !important;
+}
+
+/* Card-ish blocks: common legacy containers get the editorial card look */
+body.p2p .card,
+body.p2p .subscription-card,
+body.p2p .plan-box,
+body.p2p .features-box,
+body.p2p .premium-box,
+body.p2p .billing-history {
+  border-radius: 20px !important;
+  border: 1px solid rgba(22, 36, 27, 0.09) !important;
+  box-shadow: 0 2px 10px rgba(8, 18, 9, 0.05) !important;
+  background-color: #ffffff !important;
+}
+
+/* Tables */
+body.p2p table { font-variant-numeric: tabular-nums; }
+body.p2p th {
+  font-family: "Space Grotesk", sans-serif !important;
+  letter-spacing: 0.04em;
+}
+
+/* Navbar-ish bars → light paper glass */
+body.p2p .navbar {
+  background: rgba(247, 245, 238, 0.88) !important;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(22, 36, 27, 0.08);
+}
+
+/* Scrollbar */
+body.p2p ::-webkit-scrollbar { width: 10px; }
+body.p2p ::-webkit-scrollbar-thumb {
+  background: linear-gradient(#10b981, #0b6b3a);
+  border-radius: 999px;
+}
+
+body.p2p ::selection { background: #a3e635; color: #081209; }
+
+@media (prefers-reduced-motion: reduce) {
+  body.p2p *, body.p2p *::before, body.p2p *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

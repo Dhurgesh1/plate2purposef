@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plate2Purpose - Cafeteria Dashboard</title>
+    <link rel="icon" href="images/recycle-sign.png" type="image/png" />
+
+    <!-- Fonts & Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: #fff5f0;
+        padding-top: 120px;
+      }
+      /* Navbar */
+      .navbar {
+        height: 100px;
+        background-color: #ffe0d0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+      .navbar-brand {
+        font-family: "Amatic SC", cursive;
+        font-size: 32px;
+        font-weight: 700;
+        color: #ff5500;
+      }
+      .navbar-heading {
+        font-size: 20px;
+        font-weight: 600;
+        color: #cb7575;
+      }
+      .nav-buttons {
+        display: flex;
+        gap: 10px;
+      }
+      .nav-buttons button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: #cb7575;
+        color: white;
+        font-weight: 600;
+      }
+      .nav-buttons button:hover {
+        background: #a94d4d;
+      }
+      /* Sections */
+      .section {
+        display: none;
+      }
+      .active {
+        display: block;
+      }
+      /* Table */
+      .container {
+        max-width: 1200px;
+        margin: auto;
+        margin-bottom: 50px;
+      }
+      h2 {
+        color: #cb7575;
+        text-align: center;
+        margin: 30px 0 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      th {
+        background: #ffe0d0;
+        color: #cb7575;
+        padding: 12px;
+      }
+      td {
+        padding: 12px;
+        text-align: center;
+        border-top: 1px solid #f3d5d5;
+      }
+      input,
+      select {
+        width: 95%;
+        padding: 4px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+      }
+      /* Buttons */
+      .btn {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        margin: 2px;
+      }
+      .btn-update {
+        background: #4caf50;
+        color: white;
+      }
+      .btn-update:hover {
+        background: #388e3c;
+      }
+      .btn-delete {
+        background: #ff5c5c;
+        color: white;
+      }
+      .btn-delete:hover {
+        background: #d63b3b;
+      }
+      .navbar-brand {
+        text-decoration: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="navbar">
+      <a
+        href="admin dashboard.html"
+        class="navbar-brand mx-auto mx-lg-0"
+        style="
+          font-family: 'Amatic SC', cursive;
+          font-size: 32px;
+          font-weight: 700;
+        "
+      >
+        <span style="color: #ff5500">Plate </span
+        ><span class="brand-icon" style="color: #ff5500">2♻️</span
+        ><span style="color: #ff5500">Purpose</span>
+      </a>
+
+      <div class="nav-buttons">
+        <button onclick="showSection('studentsSection')">Students</button>
+        <button onclick="showSection('recipesSection')">Recipes</button>
+      </div>
+      <div class="navbar-heading">Manage Cafeteria Database</div>
+    </div>
+
+    <!-- Students -->
+    <div id="studentsSection" class="section active">
+      <div class="container">
+        <h2>Students Data</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>User Name</th>
+              <th>Email</th>
+              <th>Student Name</th>
+              <th>Attendance</th>
+              <th>Preferences</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="studentsTable">
+            <tr>
+              <td colspan="7">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Recipes -->
+    <div id="recipesSection" class="section">
+      <div class="container">
+        <h2>Recipes Data</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Recipe Name</th>
+              <th>Ingredients</th>
+              <th>Quantity</th>
+              <th>Meal Type</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="recipesTable">
+            <tr>
+              <td colspan="7">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Supabase -->
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
+    <script type="module">
+      import client from "./credentials.js";
+
+      // Section toggle
+      window.showSection = function (id) {
+        document
+          .querySelectorAll(".section")
+          .forEach((s) => s.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+      };
+
+      // --- Students ---
+      async function loadStudents() {
+        const { data, error } = await client.from("data").select("*");
+        const tbody = document.getElementById("studentsTable");
+        tbody.innerHTML = "";
+
+        if (error) {
+          tbody.innerHTML =
+            '<tr><td colspan="7" style="color:red;">Error loading students</td></tr>';
+          console.error(error);
+          return;
+        }
+
+        data.forEach((s) => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${s.id}</td>
+              <td><input value="${s.user_name}" data-field="user_name"></td>
+              <td><input value="${s.user_email}" data-field="user_email"></td>
+              <td><input value="${
+                s.students_name
+              }" data-field="students_name"></td>
+              <td>
+                <select data-field="attendence">
+                  <option value="true" ${
+                    s.attendence ? "selected" : ""
+                  }>Present</option>
+                  <option value="false" ${
+                    !s.attendence ? "selected" : ""
+                  }>Absent</option>
+                </select>
+              </td>
+              <td><input value='${JSON.stringify(
+                s.student_preferences
+              )}' data-field="student_preferences"></td>
+              <td>
+                <button class="btn btn-update" onclick="updateStudent('${
+                  s.id
+                }', this)">Update</button>
+                <button class="btn btn-delete" onclick="deleteStudent('${
+                  s.id
+                }')">Delete</button>
+              </td>
+            </tr>
+          `;
+        });
+      }
+
+      async function updateStudent(id, btn) {
+        const row = btn.closest("tr");
+        const inputs = row.querySelectorAll("input, select");
+        const updated = {};
+        inputs.forEach((el) => {
+          if (el.dataset.field === "attendence") {
+            updated[el.dataset.field] = el.value === "true";
+          } else if (el.dataset.field === "student_preferences") {
+            try {
+              updated[el.dataset.field] = JSON.parse(el.value);
+            } catch {
+              updated[el.dataset.field] = {};
+            }
+          } else {
+            updated[el.dataset.field] = el.value;
+          }
+        });
+        const { error } = await client
+          .from("data")
+          .update(updated)
+          .eq("id", id);
+        if (error) alert("Error: " + error.message);
+        else alert("Student updated!");
+        loadStudents();
+      }
+
+      async function deleteStudent(id) {
+        if (!confirm("Delete this student?")) return;
+        const { error } = await client.from("data").delete().eq("id", id);
+        if (error) alert("Error: " + error.message);
+        else alert("Student deleted!");
+        loadStudents();
+      }
+
+      // --- Recipes ---
+      async function loadRecipes() {
+        const { data, error } = await client.from("recipes").select("*");
+        const tbody = document.getElementById("recipesTable");
+        tbody.innerHTML = "";
+
+        if (error) {
+          tbody.innerHTML =
+            '<tr><td colspan="7" style="color:red;">Error loading recipes</td></tr>';
+          console.error(error);
+          return;
+        }
+
+        data.forEach((r) => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${r.id}</td>
+              <td><input value="${
+                r.recipe_name || ""
+              }" data-field="recipe_name"></td>
+              <td><input value='${JSON.stringify(
+                r.ingredient
+              )}' data-field="ingredient"></td>
+              <td><input value='${JSON.stringify(
+                r.quantity
+              )}' data-field="quantity"></td>
+              <td><input value='${JSON.stringify(
+                r.meal_type
+              )}' data-field="meal_type"></td>
+              <td><input value="${
+                r.user_email || ""
+              }" data-field="user_email"></td>
+              <td>
+                <button class="btn btn-update" onclick="updateRecipe('${
+                  r.id
+                }', this)">Update</button>
+                <button class="btn btn-delete" onclick="deleteRecipe('${
+                  r.id
+                }')">Delete</button>
+              </td>
+            </tr>
+          `;
+        });
+      }
+
+      async function updateRecipe(id, btn) {
+        const row = btn.closest("tr");
+        const inputs = row.querySelectorAll("input");
+        const updated = {};
+        inputs.forEach((el) => {
+          if (
+            ["ingredient", "quantity", "meal_type"].includes(el.dataset.field)
+          ) {
+            try {
+              updated[el.dataset.field] = JSON.parse(el.value);
+            } catch {
+              updated[el.dataset.field] = {};
+            }
+          } else {
+            updated[el.dataset.field] = el.value;
+          }
+        });
+        const { error } = await client
+          .from("recipes")
+          .update(updated)
+          .eq("id", id);
+        if (error) alert("Error: " + error.message);
+        else alert("Recipe updated!");
+        loadRecipes();
+      }
+
+      async function deleteRecipe(id) {
+        if (!confirm("Delete this recipe?")) return;
+        const { error } = await client.from("recipes").delete().eq("id", id);
+        if (error) alert("Error: " + error.message);
+        else alert("Recipe deleted!");
+        loadRecipes();
+      }
+
+      // Init
+      window.updateStudent = updateStudent;
+      window.deleteStudent = deleteStudent;
+      window.updateRecipe = updateRecipe;
+      window.deleteRecipe = deleteRecipe;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadStudents();
+        loadRecipes();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+p1=input("Enter the coordinates of point 1(x,y): ").split(",")
+p2=input("Enter the coordinates of point 2(x,y): ").split(",")
+m=((int(p2[1])-int(p1[1]))/(int(p2[0])-int(p1[0])))
+c=int(p1[1])-(int(p1[0])*m)
+print(f"y = {m}x + {c}")

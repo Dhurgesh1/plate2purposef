@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="manifest" href="/manifest.json" />
+
+    <link rel="canonical" href="https://www.plate2purpose.com/about" />
+    <meta name="description" content="Meet the six students behind Plate2Purpose, the team building a smart food-waste reduction platform for school cafeterias in support of SDG 12." />
+    <meta name="author" content="Plate2Purpose" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plate2Purpose | About the Team</title>
+
+    <link rel="icon" type="image/svg+xml" href="images/recycle-sign.png" />
+    <link rel="icon" href="images/recycle-sign.png" type="image/png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-icons.css" rel="stylesheet" />
+    <link href="css/p2p.css" rel="stylesheet" />
+
+    <!-- Page-scoped styles: team cards -->
+    <style>
+      .team-photo-wrap {
+        position: relative;
+        overflow: hidden;
+      }
+      .team-photo {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        object-position: center 28%;
+        display: block;
+        transition: transform 0.7s var(--p2p-ease);
+      }
+      .p2p-card:hover .team-photo { transform: scale(1.05); }
+      .team-photo-wrap::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 68%, rgba(8, 18, 9, 0.35) 100%);
+        pointer-events: none;
+      }
+      .team-role {
+        font-size: 11.5px;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--p2p-green-deep);
+        margin-bottom: 12px;
+      }
+      .team-body {
+        padding: 24px 26px 30px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+      }
+      .tm-sup {
+        font-family: Arial, sans-serif;
+        font-size: 0.5em;
+        font-weight: 300;
+        vertical-align: super;
+        opacity: 0.5;
+      }
+      @media (max-width: 767px) {
+        .team-photo { height: 280px; }
+      }
+    </style>
+  </head>
+
+  <body class="p2p">
+    <!-- Preloader -->
+    <div class="p2p-preloader">
+      <div class="ring"></div>
+      <div class="word">Plate2Purpose</div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg p2p-nav p2p-nav--light">
+      <div class="container">
+        <a href="index" class="navbar-brand">
+          <span class="p2p-logo-mark" style="background:none; box-shadow:none; width: 230px; height:40px;">
+            <img src="images/plate2purposename.png" width="200" height="40" alt="" style="display:block;" />
+          </span>
+          
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="dashboard">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="about2">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact2">Contact</a></li>
+            
+           
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page hero, paper band -->
+    <header class="p2p-section p2p-hero--paper p2p-grain" id="section_1" style="padding:170px 0 96px; overflow:hidden;">
+      <div class="container position-relative">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-8">
+            <span class="p2p-eyebrow" data-reveal="down">Our story</span>
+            <h1 class="p2p-title" data-split style="font-size:clamp(38px, 6vw, 74px); max-width:880px;">
+              Six students. One goal: <em class="p2p-accent">zero</em> food waste.
+            </h1>
+            <p class="p2p-lead" data-reveal="up" style="--reveal-delay:.5s;">
+              Plate2Purpose started in a school cafeteria, watching perfectly good food
+              hit the bin, every single day. We decided to build the tool that stops it.
+            </p>
+            <div class="d-flex flex-wrap gap-3 mt-4" data-reveal="up" style="--reveal-delay:.7s;">
+              <a href="#section_3" class="p2p-btn">Meet the team <i class="bi bi-arrow-down"></i></a>
+              <a href="contact" class="p2p-btn p2p-btn--ghost-dark">Talk to us</a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 d-none d-lg-flex justify-content-center">
+            <a href="quiz" class="p2p-stamp-link" aria-label="Take the food waste quiz">
+              <div class="p2p-stamp p2p-float" data-reveal="zoom" style="--reveal-delay:.9s;">
+                <svg viewBox="0 0 118 118">
+                  <defs><path id="stampCircle" d="M 59,59 m -44,0 a 44,44 0 1,1 88,0 a 44,44 0 1,1 -88,0"/></defs>
+                  <text class="ring-text"><textPath href="#stampCircle">SIX STUDENTS · ONE MISSION · SDG 12 ·&#160;</textPath></text>
+                </svg>
+                <span class="core"><i class="bi bi-people"></i></span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- What / why / problem / solution -->
+    <section class="p2p-section" id="section_2">
+      <div class="container">
+        <div class="text-center mb-5">
+          <span class="p2p-eyebrow" data-reveal="up">The mission</span>
+          <h2 class="p2p-title" data-reveal="up">What we're building,<br />and why it <em class="p2p-accent">matters</em></h2>
+          <p class="p2p-lead mx-auto" data-reveal="up">
+            One platform, one mission: make sure kitchens cook for the people who
+            are actually there, nothing more, nothing wasted.
+          </p>
+        </div>
+
+        <div class="row g-4" data-reveal-stagger="0.1">
+          <div class="col-md-6 col-lg-3">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100" data-reveal="up">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="p2p-icon-chip"><i class="bi bi-window-stack"></i></div>
+              <h3><a href="index#features" class="stretched-link">What is Plate2Purpose<sup class="tm-sup">™</sup></a></h3>
+              <p>
+                A smart web platform that reduces food waste in schools by tracking
+                attendance, planning meals, collecting feedback and aligning kitchen
+                preparation with real demand.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100" data-reveal="up">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="p2p-icon-chip"><i class="bi bi-bullseye"></i></div>
+              <h3><a href="quiz" class="stretched-link">Why we exist</a></h3>
+              <p>
+                Built to support Sustainable Development Goal 12, Responsible
+                Consumption and Production. Our mission is to turn every meal into a
+                meaningful action by minimising waste and maximising awareness.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100" data-reveal="up">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="p2p-icon-chip"><i class="bi bi-exclamation-triangle"></i></div>
+              <h3><a href="chatbot" class="stretched-link">The problem</a></h3>
+              <p>
+                Every day, schools waste food through over-preparation, poor planning
+                and broken communication. That burns food, time, money and effort,
+                all of it avoidable with smart technology.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100" data-reveal="up">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="p2p-icon-chip"><i class="bi bi-lightbulb"></i></div>
+              <h3><a href="login" class="stretched-link">How it helps</a></h3>
+              <p>
+                Real-time attendance, dynamic meal calculation, UPI-based payment
+                logging and a daily menu system help staff prepare exactly what's
+                needed. Better meals, less waste, the planet wins.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section class="p2p-section" id="section_3" style="background:var(--p2p-paper); border-top:1px solid var(--p2p-line); border-bottom:1px solid var(--p2p-line);">
+      <div class="container">
+        <div class="text-center mb-5">
+          <span class="p2p-eyebrow" data-reveal="up">The team</span>
+          <h2 class="p2p-title" data-reveal="up">The people behind<br /><em class="p2p-accent">the plates</em></h2>
+          <p class="p2p-lead mx-auto" data-reveal="up">
+            Students who build, design, research and present Plate2Purpose<sup class="tm-sup">™</sup>
+            and its supporting system, Optimeal.
+          </p>
+        </div>
+
+        <div class="row g-4" data-reveal-stagger="0.1">
+          <div class="col-md-6 col-lg-4">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100 d-flex flex-column" data-reveal="up" style="padding:0;">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="team-photo-wrap">
+                <img loading="lazy" src="images/ritvik.jpg" class="team-photo" alt="Ritvik Modani, team lead of Plate2Purpose" />
+              </div>
+              <div class="team-body">
+                <h3 class="mb-1"><a href="contact" class="stretched-link">Ritvik Modani</a></h3>
+                <div class="team-role">Team lead · Coordination &amp; research</div>
+                <p>
+                  Leads the Plate2Purpose™ and Optimeal team, managing team efforts,
+                  aligning goals and keeping the project's vision locked on reducing
+                  food waste. Turns ideas into impactful solutions.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100 d-flex flex-column" data-reveal="up" style="padding:0;">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="team-photo-wrap">
+                <img loading="lazy" src="images/kavish.jpg" class="team-photo" alt="Kavish Agarwal, co-lead of Plate2Purpose" />
+              </div>
+              <div class="team-body">
+                <h3 class="mb-1"><a href="contact" class="stretched-link">Kavish Agarwal</a></h3>
+                <div class="team-role">Co-lead · Development &amp; research</div>
+                <p>
+                  Guides development and research, oversees project planning and
+                  coordinates collaboration, keeping every part of the team pointed
+                  at meaningful, real-world impact.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100 d-flex flex-column" data-reveal="up" style="padding:0;">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="team-photo-wrap">
+                <img loading="lazy" src="images/dhurgesh.jpg" class="team-photo" alt="Dhurgesh Maloth, developer of Plate2Purpose" />
+              </div>
+              <div class="team-body">
+                <h3 class="mb-1"><a href="contact" class="stretched-link">Dhurgesh Maloth</a></h3>
+                <div class="team-role">Developer</div>
+                <p>
+                  Builds Plate2Purpose™, design and functionality alike. Combines a
+                  passion for coding with a drive to solve problems like food waste,
+                  bringing creativity and purpose to every line of code.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100 d-flex flex-column" data-reveal="up" style="padding:0;">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="team-photo-wrap">
+                <img loading="lazy" src="images/ayansh.jpg" class="team-photo" alt="Ayansh Singh, designer of Plate2Purpose" />
+              </div>
+              <div class="team-body">
+                <h3 class="mb-1"><a href="contact" class="stretched-link">Ayansh Singh</a></h3>
+                <div class="team-role">Designer · Research</div>
+                <p>
+                  Designs the Plate2Purpose™ experience and contributes to the
+                  research behind its mission, blending design skill with a focus on
+                  solutions for real-world issues like food waste.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100 d-flex flex-column" data-reveal="up" style="padding:0;">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="team-photo-wrap">
+                <img loading="lazy" src="images/sam.jpg" class="team-photo" alt="Sam Rajveer, research and presentation lead" />
+              </div>
+              <div class="team-body">
+                <h3 class="mb-1"><a href="contact" class="stretched-link">Sam Rajveer</a></h3>
+                <div class="team-role">Research &amp; presentation lead</div>
+                <p>
+                  Leads research and presentation for Plate2Purpose™ and Optimeal,
+                  gathering insights, structuring data and communicating the mission
+                  so it lands well-researched and impactful.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4">
+            <div class="p2p-card p2p-card--spot p2p-card--link h-100 d-flex flex-column" data-reveal="up" style="padding:0;">
+              <span class="go"><i class="bi bi-arrow-up-right"></i></span>
+              <div class="team-photo-wrap">
+                <img loading="lazy" src="images/tejas.jpg" class="team-photo" alt="Tejas, research and presentation" />
+              </div>
+              <div class="team-body">
+                <h3 class="mb-1"><a href="contact" class="stretched-link">Tejas</a></h3>
+                <div class="team-role">Research &amp; presentation</div>
+                <p>
+                  Organises information, analyses ideas and shapes how the project's
+                  vision is presented, keeping the initiative data-driven and
+                  well-communicated at every step.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA band -->
+    <section class="p2p-section p2p-band p2p-grain text-center">
+      <div class="container">
+        <h2 class="p2p-title mb-3" data-reveal="wipe">Want to waste <em class="p2p-accent" style="color:var(--p2p-lime);">less</em> food tomorrow?</h2>
+        <p class="p2p-lead mx-auto mb-4" data-reveal="up">Set up takes minutes. Your kitchen could be part of the mission this week.</p>
+        <div class="d-flex justify-content-center flex-wrap gap-3" data-reveal="up" style="--reveal-delay:.2s;">
+          <a href="login" class="p2p-btn p2p-btn--lg" style="background:#fff; color:var(--p2p-green-deep) !important; box-shadow:0 14px 40px rgba(0,0,0,.25);">Start free trial</a>
+          <a href="contact" class="p2p-btn p2p-btn--ghost p2p-btn--lg">Talk to the team</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="p2p-footer">
+      <div class="watermark">PLATE2PURPOSE</div>
+      <div class="container position-relative">
+        <div class="row g-4">
+          <div class="col-lg-5">
+            <div class="footer-brand mb-2">Plate2Purpose<sup style="font-size:10px; opacity:.5;">™</sup></div>
+            <p style="max-width:320px; font-size:14.5px;">
+              Reducing food waste, one plate at a time. A student-built platform
+              supporting SDG 12: Responsible Consumption and Production.
+            </p>
+          </div>
+          <div class="col-6 col-lg-2">
+            <div class="footer-heading">Product</div>
+            <ul>
+              <li><a href="index#features">Features</a></li>
+              <li><a href="index#pricing">Pricing</a></li>
+              <li><a href="download">Download</a></li>
+              <li><a href="quiz">Food waste quiz</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-2">
+            <div class="footer-heading">Company</div>
+            <ul>
+              <li><a href="about2">About us</a></li>
+              <li><a href="contact2">Contact</a></li>
+              <li><a href="chatbot">AI assistant</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="footer-heading">Legal</div>
+            <ul>
+              <li><a href="policy">Privacy policy</a></li>
+              <li><a href="terms">Terms of service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom d-flex flex-wrap justify-content-between gap-2">
+          <span>© 2026 Plate2Purpose™ · All rights reserved</span>
+          <span>Built by students. Measured in plates.</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating AI assistant -->
+    <a href="chatbot" class="p2p-ai-fab" aria-label="Open AI assistant">
+      <span class="orb"><i class="bi bi-chat-dots"></i></span>
+      Kitchen assistant
+    </a>
+
+    <!-- JS -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/p2p.js"></script>
+
+    <!-- Optional: Auto-highlight active nav link -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const currentPage = location.pathname.split("/").pop();
+        document.querySelectorAll(".navbar-nav .nav-link").forEach((link) => {
+          if (link.getAttribute("href") === currentPage) {
+            link.classList.add("active");
+          } else {
+            link.classList.remove("active");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

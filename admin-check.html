@@ -1,0 +1,39 @@
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+  const client = supabase.createClient(
+    "https://wckmybwpastxcxieatcp.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indja215YndwYXN0eGN4aWVhdGNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MTgyNzAsImV4cCI6MjA5MzE5NDI3MH0.G95zAydPQH3WQxMHlDRjUTIMHbeu7bRODAJQN2mMNCk"
+  );
+
+  async function checkAdmin() {
+    // ✅ Load session from URL (important)
+    await client.auth.getSession();
+
+    const { data: { user } } = await client.auth.getUser();
+
+    if (!user) {
+      window.location.href = "admin login";
+      return;
+    }
+
+    const email = user.email;
+
+    const { data } = await client
+      .from("admins")
+      .select("*")
+      .eq("email", email)
+      .maybeSingle();
+
+    if (data) {
+      window.location.href = "admin dashboard";
+    } else {
+      alert("Access denied. You are not an admin.");
+      await client.auth.signOut();
+      window.location.href = "admin login";
+    }
+  }
+
+  checkAdmin();
+  const email = user.email;
+  console.log("Logged in email:", email);
+</script>

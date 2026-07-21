@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Plate2Purpose | QUIZ</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Nunito";
+}
+
+
+body{
+
+min-height:100vh;
+
+background:
+linear-gradient(135deg,#ffdab9,#ffb6a0,#ffd6c7);
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+overflow-x:hidden;
+overflow-y:auto;
+
+color:#2c3e50;
+
+}
+
+
+
+/* floating bubbles */
+
+.circle{
+
+position:absolute;
+background:white;
+opacity:.2;
+border-radius:50%;
+animation:move 8s infinite;
+
+}
+
+
+.c1{
+width:150px;
+height:150px;
+top:10%;
+left:5%;
+}
+
+.c2{
+width:220px;
+height:220px;
+right:5%;
+bottom:5%;
+animation-delay:2s;
+}
+
+
+@keyframes move{
+
+50%{
+
+transform:translateY(-60px);
+
+}
+
+}
+
+
+
+
+.app{
+
+
+width:850px;
+
+background:rgba(255,255,255,.75);
+
+backdrop-filter:blur(25px);
+
+border-radius:40px;
+
+padding:40px;
+
+box-shadow:
+0 30px 80px rgba(203,117,117,.35);
+
+
+}
+
+
+
+
+.logo{
+
+text-align:center;
+
+font-size:70px;
+
+font-weight:900;
+
+color:#a94442;
+
+}
+
+
+
+.tag{
+
+text-align:center;
+
+margin-bottom:30px;
+
+font-size:20px;
+
+}
+
+
+
+
+.top{
+
+
+display:flex;
+
+justify-content:space-between;
+
+font-weight:bold;
+
+margin-bottom:20px;
+
+}
+
+
+
+
+.progress{
+
+height:15px;
+
+background:#eee;
+
+border-radius:20px;
+
+overflow:hidden;
+
+}
+
+
+
+.progress div{
+
+height:100%;
+
+width:0%;
+
+background:#cb7575;
+
+transition:.4s;
+
+}
+
+.logo img{
+    width:250px;
+    height:auto;
+    display:block;
+    margin:auto;
+}
+
+
+
+
+.question{
+
+
+font-size:28px;
+
+font-weight:900;
+
+margin:35px 0;
+
+
+}
+
+
+
+
+.option{
+
+
+padding:18px;
+
+background:#ffdab9;
+
+border-radius:22px;
+
+margin:12px 0;
+
+cursor:pointer;
+
+font-size:18px;
+
+transition:.3s;
+
+
+}
+
+
+
+.option:hover{
+
+transform:scale(1.03);
+
+background:white;
+
+}
+
+
+
+
+.correct{
+
+background:#9ff5ae!important;
+
+}
+
+
+.wrong{
+
+background:#ff9b9b!important;
+
+}
+
+
+
+
+button{
+
+
+margin-top:25px;
+
+padding:15px 45px;
+
+border:none;
+
+border-radius:30px;
+
+background:#a94442;
+
+color:white;
+
+font-size:18px;
+
+cursor:pointer;
+
+
+}
+
+
+
+button:hover{
+
+transform:scale(1.08);
+
+}
+
+
+
+
+.result{
+
+
+text-align:center;
+
+font-size:30px;
+
+font-weight:900;
+
+display:none;
+
+
+}
+
+
+
+.timer{
+
+color:#a94442;
+
+}
+
+
+
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+<div class="circle c1"></div>
+
+<div class="circle c2"></div>
+
+
+
+<div class="app">
+
+
+<div class="logo">
+    <img src="images/plate2purposename.png" alt="Logo">
+</div>
+
+
+<div class="tag">
+
+Data Compression Master Challenge 🚀
+
+</div>
+
+
+
+
+<div id="game">
+
+
+<div class="top">
+
+<div>
+Question <span id="number"></span>/10
+</div>
+
+<div class="timer">
+⏳ <span id="time">15</span>s
+</div>
+
+<div>
+🔥 Streak: <span id="streak">0</span>
+</div>
+
+</div>
+
+
+
+<div class="progress">
+
+<div id="bar"></div>
+
+</div>
+
+
+
+<div class="question" id="question"></div>
+
+
+
+<div id="options"></div>
+
+
+
+<button onclick="next()">
+
+Next ➜
+
+</button>
+
+
+</div>
+
+
+
+
+<div class="result" id="result"></div>
+
+
+
+</div>
+
+
+
+
+
+
+<script>
+
+
+
+let questions=[
+
+
+{
+q:"Why is data compression important?",
+o:["Makes files larger","Saves storage and transfer time","Deletes data","Creates viruses"],
+a:1
+},
+
+
+{
+q:"A hospital stores patient records. Which compression is better?",
+o:["Lossy","Lossless","JPEG","MP3"],
+a:1
+},
+
+
+{
+q:"Which example uses Lossy compression?",
+o:["ZIP file","PNG image","MP3 song","Text document"],
+a:2
+},
+
+
+{
+q:"AAAAAAABBBBCC becomes what using RLE?",
+o:["A7B4C2","ABC","7A4B2C","AAAA"],
+a:0
+},
+
+
+{
+q:"Why does JPEG reduce image size?",
+o:["Adds more pixels","Removes less noticeable details","Duplicates images","Encrypts files"],
+a:1
+},
+
+
+{
+q:"Which statement about Lossless compression is correct?",
+o:["Original data can be restored","Quality is always reduced","Only used for videos","Deletes information"],
+a:0
+},
+
+
+{
+q:"A video becomes 5GB to 1GB after compression. What happened?",
+o:["File size decreased","Internet became faster automatically","New data added","Hardware changed"],
+a:0
+},
+
+
+{
+q:"Compression algorithms mainly search for:",
+o:["Patterns and repeated information","Random numbers","Computer errors","Passwords"],
+a:0
+},
+
+
+{
+q:"Which file is usually compressed using ZIP?",
+o:["Folder of documents","Keyboard","Monitor","CPU"],
+a:0
+},
+
+
+{
+q:"Which is a disadvantage of Lossy compression?",
+o:["Smaller size","Possible quality loss","Faster sharing","Less storage"],
+a:1
+}
+
+
+
+];
+
+
+
+let current=0;
+
+let score=0;
+
+let streak=0;
+
+let timer;
+
+let seconds=15;
+
+
+
+function load(){
+
+
+clearInterval(timer);
+
+seconds=15;
+
+document.getElementById("time").innerHTML=seconds;
+
+
+timer=setInterval(()=>{
+
+
+seconds--;
+
+document.getElementById("time").innerHTML=seconds;
+
+
+if(seconds==0){
+
+next();
+
+}
+
+
+},1000);
+
+
+
+
+let q=questions[current];
+
+
+document.getElementById("number").innerHTML=current+1;
+
+
+document.getElementById("question").innerHTML=q.q;
+
+
+let html="";
+
+
+q.o.forEach((x,i)=>{
+
+
+html+=`
+
+<div class="option" onclick="answer(${i},this)">
+
+${x}
+
+</div>
+
+
+`;
+
+});
+
+
+document.getElementById("options").innerHTML=html;
+
+
+document.getElementById("bar").style.width=
+(current/questions.length)*100+"%";
+
+
+}
+
+
+
+
+
+function answer(i,el){
+
+
+clearInterval(timer);
+
+
+let correct=questions[current].a;
+
+
+document.querySelectorAll(".option")
+.forEach(x=>x.style.pointerEvents="none");
+
+
+
+if(i==correct){
+
+
+el.classList.add("correct");
+
+score++;
+
+streak++;
+
+}
+
+
+else{
+
+
+el.classList.add("wrong");
+
+document.querySelectorAll(".option")[correct]
+.classList.add("correct");
+
+streak=0;
+
+
+}
+
+
+
+document.getElementById("streak").innerHTML=streak;
+
+
+
+}
+
+
+
+
+
+function next(){
+
+
+current++;
+
+
+if(current<questions.length)
+
+load();
+
+
+else finish();
+
+
+}
+
+
+
+
+
+function finish(){
+
+
+document.getElementById("game").style.display="none";
+
+
+let rank;
+
+
+if(score==10)
+rank="🏆 Compression Genius";
+
+else if(score>=7)
+rank="🔥 Data Expert";
+
+else
+rank="📚 Keep Learning";
+
+
+document.getElementById("result").style.display="block";
+
+
+document.getElementById("result").innerHTML=
+
+`
+🎉 Quiz Finished!
+
+<br><br>
+
+Score: ${score}/10
+
+<br><br>
+
+${rank}
+
+`;
+
+}
+
+
+
+load();
+
+
+</script>
+
+
+</body>
+</html>

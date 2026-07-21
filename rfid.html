@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+<title>Plate2Purpose RFID Attendance</title>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+
+body{
+
+font-family:"Nunito",sans-serif;
+
+background:
+linear-gradient(135deg,#ffdab9,#ffb6a0);
+
+min-height:100vh;
+
+padding:40px;
+
+color:#333;
+
+}
+
+
+
+.container{
+
+max-width:1200px;
+
+margin:auto;
+
+}
+
+
+
+.header{
+
+text-align:center;
+
+margin-bottom:40px;
+
+}
+
+
+.logo{
+
+font-size:48px;
+
+font-weight:800;
+
+color:#a94442;
+
+}
+
+
+
+.subtitle{
+
+color:#6d4c41;
+
+font-size:18px;
+
+}
+
+
+
+.grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(330px,1fr));
+
+gap:25px;
+
+}
+
+
+
+.card{
+
+background:
+rgba(255,255,255,.75);
+
+backdrop-filter:blur(20px);
+
+border-radius:30px;
+
+padding:30px;
+
+box-shadow:
+0 20px 50px rgba(0,0,0,.12);
+
+}
+
+
+
+h2{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+color:#a94442;
+
+margin-bottom:20px;
+
+}
+
+
+
+svg{
+
+width:22px;
+
+height:22px;
+
+}
+
+
+
+.status{
+
+background:#fff4ed;
+
+padding:15px;
+
+border-radius:18px;
+
+font-weight:700;
+
+margin-bottom:15px;
+
+}
+
+
+
+input{
+
+width:100%;
+
+padding:15px;
+
+border:none;
+
+outline:none;
+
+border-radius:15px;
+
+background:#fff7f1;
+
+font-size:16px;
+
+margin-bottom:15px;
+
+}
+
+
+
+.rfid{
+
+background:#ffe4d2;
+
+padding:15px;
+
+border-radius:15px;
+
+font-weight:800;
+
+color:#a94442;
+
+}
+
+
+
+button{
+
+border:none;
+
+padding:13px 22px;
+
+border-radius:30px;
+
+background:#a94442;
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+display:inline-flex;
+
+align-items:center;
+
+gap:8px;
+
+margin:5px;
+
+transition:.3s;
+
+}
+
+
+
+button:hover{
+
+transform:translateY(-3px);
+
+}
+
+
+
+.secondary{
+
+background:#cb7575;
+
+}
+
+
+
+.danger{
+
+background:#8b3a3a;
+
+}
+
+
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+margin-top:15px;
+
+}
+
+
+
+th{
+
+background:#a94442;
+
+color:white;
+
+padding:14px;
+
+}
+
+
+
+td{
+
+background:#fff;
+
+padding:14px;
+
+text-align:center;
+
+}
+
+
+
+tr:nth-child(even) td{
+
+background:#fff0e6;
+
+}
+
+
+
+.badge{
+
+background:#ffd6c7;
+
+padding:6px 12px;
+
+border-radius:20px;
+
+font-weight:700;
+
+color:#a94442;
+
+}
+
+
+
+#notification{
+
+position:fixed;
+
+right:30px;
+
+bottom:30px;
+
+background:#a94442;
+
+color:white;
+
+padding:18px 25px;
+
+border-radius:20px;
+
+display:none;
+
+font-weight:700;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,.2);
+
+}
+
+
+.footer{
+
+text-align:center;
+
+margin-top:40px;
+
+color:#6d4c41;
+
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#connection svg {
+  width: 18px;
+  height: 18px;
+  color: #ef4444;
+}
+
+.logo img {
+  height: 45px;
+  width: auto;
+  object-fit: contain;
+}
+
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+
+<div class="container">
+
+
+
+<div class="header">
+
+
+<div class="logo">
+  <img src="images/plate2purposename.png" alt="Plate2Purpose Logo">
+</div>
+
+
+<div class="subtitle">
+RFID Smart Attendance System
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="grid">
+
+
+
+<!-- Arduino -->
+
+<div class="card">
+
+
+<h2>
+<i data-lucide="usb"></i>
+Arduino
+</h2>
+
+
+<div id="connection" class="status">
+  <i data-lucide="circle-alert"></i>
+  Not Connected
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
+
+
+<button onclick="connectArduino()">
+
+<i data-lucide="plug"></i>
+
+Connect
+
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- Student -->
+
+<div class="card">
+
+
+<h2>
+
+<i data-lucide="user-plus"></i>
+
+Add Student
+
+</h2>
+
+
+
+<input 
+id="name"
+placeholder="Student Name"
+>
+
+
+
+<div class="rfid">
+
+RFID:
+
+<span id="uid">
+Waiting...
+</span>
+
+
+</div>
+
+
+
+<button onclick="scanRFID()">
+
+<i data-lucide="scan-line"></i>
+
+Scan
+
+</button>
+
+
+
+<button class="secondary" onclick="saveStudent()">
+
+<i data-lucide="save"></i>
+
+Save
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Attendance -->
+
+
+<div class="card">
+
+
+<h2>
+
+<i data-lucide="clipboard-check"></i>
+
+Attendance
+
+</h2>
+
+
+
+<button onclick="startAttendance()">
+
+<i data-lucide="play"></i>
+
+Start
+
+</button>
+
+
+
+<button class="secondary" onclick="stopAttendance()">
+
+<i data-lucide="square"></i>
+
+Stop
+
+</button>
+
+
+
+<button onclick="resetAttendance()">
+
+<i data-lucide="rotate-ccw"></i>
+
+Reset
+
+</button>
+
+
+
+<button onclick="downloadExcel()">
+
+<i data-lucide="file-spreadsheet"></i>
+
+Excel
+
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<div class="card" style="margin-top:30px;">
+
+
+
+<h2>
+
+<i data-lucide="users"></i>
+
+Students
+
+</h2>
+
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>RFID</th>
+
+<th>Status</th>
+
+<th>Actions</th>
+
+</tr>
+
+
+</thead>
+
+
+<tbody id="list">
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+
+
+
+<div id="notification"></div>
+
+
+
+<div class="footer">
+
+© 2026 Plate2Purpose™
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<script src="arduino.js"></script>
+
+
+<script>
+
+
+lucide.createIcons();
+
+
+
+function showMessage(text){
+
+let box=document.getElementById("notification");
+
+box.innerHTML=text;
+
+box.style.display="block";
+
+
+setTimeout(()=>{
+
+box.style.display="none";
+
+},3000);
+
+
+}
+
+
+
+function renderAttendance(){
+
+
+let table=document.getElementById("list");
+
+
+table.innerHTML="";
+
+
+students.forEach((s,index)=>{
+
+
+table.innerHTML += `
+
+<tr>
+
+<td>${s.name}</td>
+
+
+<td>
+
+<span class="badge">
+
+${s.rfid}
+
+</span>
+
+</td>
+
+
+<td>
+
+${s.status || "Absent"}
+
+</td>
+
+
+<td>
+
+
+<button onclick="editStudent(${index})">
+
+<i data-lucide="pencil"></i>
+
+</button>
+
+
+
+<button class="danger" onclick="deleteStudent(${index})">
+
+<i data-lucide="trash-2"></i>
+
+</button>
+
+
+</td>
+
+
+</tr>
+
+`;
+
+});
+
+
+lucide.createIcons();
+
+}
+
+
+
+setInterval(renderAttendance,1000);
+
+
+
+</script>
+
+
+
+</body>
+
+</html>

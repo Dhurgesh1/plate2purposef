@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Redirecting...</title>
+    <link rel="icon" href="images/recycle-sign.png" type="image/png" />
+
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        padding-top: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ✅ ES Module version of Supabase -->
+     
+    <script type="module">
+      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+    
+      const supabaseUrl = "https://pljmachiuahkrkiddehc.supabase.co";
+      const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsam1hY2hpdWFoa3JraWRkZWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMTAyNDEsImV4cCI6MjA2NjY4NjI0MX0.ke4EYw5lGX5DHrgu1GCDxRUbMYU-M6KzbLZVeesoVm8";
+    
+      const client = createClient(supabaseUrl, supabaseKey);
+    
+      const { data, error } = await client.auth.getSession();
+    
+      const session = data?.session;
+    
+      if (!session || error) {
+        alert("❌ Login failed or cancelled.");
+        window.location.href = "login";
+      } else {
+        const user = session.user;
+    
+        const userId = user.id;
+    
+        const name =
+          user.user_metadata?.full_name ||
+          user.user_metadata?.name ||
+          "User";
+    
+        const email = user.email;
+    
+        localStorage.setItem("username", name);
+    
+        // check if user exists
+        const { data: existingUser } = await client
+          .from("user_data")
+          .select("id")
+          .eq("id", userId)
+          .maybeSingle();
+    
+        const isNewUser = !existingUser;
+    
+        // save/update user
+        await client.from("user_data").upsert({
+          id: userId,
+          name,
+          email,
+          updated_at: new Date().toISOString(),
+        });
+    
+        // send welcome email via EDGE FUNCTION (correct)
+        if (isNewUser) {
+          await fetch("https://pljmachiuahkrkiddehc.supabase.co/functions/v1/send-welcome-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email,
+              name,
+            }),
+          });
+        }
+    
+        window.location.href = "mode-select";
+      }
+    </script>
+
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
+
+    <script src="credentials.js"></script>
+    <script>
+      const client = supabase.createClient(
+        "https://pljmachiuahkrkiddehc.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsam1hY2hpdWFoa3JraWRkZWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMTAyNDEsImV4cCI6MjA2NjY4NjI0MX0.ke4EYw5lGX5DHrgu1GCDxRUbMYU-M6KzbLZVeesoVm8"
+      );
+    </script>
+  </body>
+</html>

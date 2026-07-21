@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plate2Purpose - Account Confirmed</title>
+    <link rel="icon" href="images/recycle-sign.png" type="image/png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Playfair+Display&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS Files -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-icons.css" rel="stylesheet" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background: #fff;
+        font-family: "Playfair Display", serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+
+      .success-container {
+        max-width: 400px;
+      }
+
+      /* Circle */
+      .checkmark-circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #ffe6d9; /* light peach background */
+        border: 5px solid #ff9966; /* peach border */
+        margin: 0 auto 20px;
+        position: relative;
+      }
+
+      /* Animated Check */
+      .checkmark {
+        stroke: #ff9966; /* peach stroke */
+        stroke-width: 6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+        animation: draw 0.8s forwards ease-in-out;
+      }
+
+      @keyframes draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        color: #333;
+        font-family: "Amatic SC", cursive;
+      }
+
+      p {
+        font-size: 18px;
+        margin-bottom: 25px;
+        color: #666;
+      }
+
+      a {
+        display: inline-block;
+        padding: 10px 22px;
+        background: #ff9966;
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-size: 18px;
+        font-family: "Amatic SC", cursive;
+        font-weight: bold;
+        transition: background 0.3s ease;
+      }
+
+      a:hover {
+        background: #ff7b42;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="success-container">
+      <div class="checkmark-circle">
+        <svg viewBox="0 0 52 52" width="60" height="60">
+          <path class="checkmark" d="M14 27l7 7 17-17" />
+        </svg>
+      </div>
+      <h1>Account Confirmed</h1>
+      <p>Your account has been verified successfully.</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "Plate2Purpose",
+  "short_name": "P2P",
+  "description": "Plate2Purpose is a platform to reduce food waste in schools.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "dir": "ltr",
+  "lang": "en",
+  "orientation": "any",
+  "theme_color": "#2E7D32",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "https://plate2purpose.com/images/recycle-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+build/
+*.zip
+*.exe
+*.log
+.DS_Store
+.env

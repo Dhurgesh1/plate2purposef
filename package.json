@@ -1,0 +1,24 @@
+{
+  "name": "plate2purpose",
+  "version": "1.0.0",
+  "description": "A school food wastage reduction app aligned with SDG 12",
+  "author": "© Plate2Purpose",
+  "license": "MIT",
+
+  "scripts": {
+    "build": "echo Static site deployment"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dhurgesh1/plate2purposef.git"
+  },
+
+  "keywords": [
+    "food-waste",
+    "sdg12",
+    "sustainability"
+  ],
+
+  "homepage": "https://plate2purpose.com"
+} 
