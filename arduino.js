@@ -38,7 +38,7 @@ const connection = document.getElementById("connection");
 
 connection.innerHTML = `
     <i data-lucide="badge-check"></i>
-    Arduino Connected
+    Connected
 `;
 
 connection.style.color = "#22c55e"; // Green text
@@ -290,6 +290,11 @@ student.present=true;
 student.status="Present";
 
 
+// Ask the Arduino LCD to greet the recognised student.
+// This keeps the existing Web Serial transport and newline protocol unchanged.
+sendCommand("WELCOME:" + student.name);
+
+
 
 localStorage.setItem(
 "students",
@@ -310,6 +315,10 @@ lucide.createIcons();
 
 
 else{
+
+
+// Display a helpful message on the Arduino LCD for unknown cards.
+sendCommand("ERROR:Not Registered");
 
 
 showMessage(

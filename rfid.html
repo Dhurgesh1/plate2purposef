@@ -1,751 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
-<title>Plate2Purpose RFID Attendance</title>
-
-
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-
-<script src="https://unpkg.com/lucide@latest"></script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
-
-<style>
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
-
-
-body{
-
-font-family:"Nunito",sans-serif;
-
-background:
-linear-gradient(135deg,#ffdab9,#ffb6a0);
-
-min-height:100vh;
-
-padding:40px;
-
-color:#333;
-
-}
-
-
-
-.container{
-
-max-width:1200px;
-
-margin:auto;
-
-}
-
-
-
-.header{
-
-text-align:center;
-
-margin-bottom:40px;
-
-}
-
-
-.logo{
-
-font-size:48px;
-
-font-weight:800;
-
-color:#a94442;
-
-}
-
-
-
-.subtitle{
-
-color:#6d4c41;
-
-font-size:18px;
-
-}
-
-
-
-.grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(330px,1fr));
-
-gap:25px;
-
-}
-
-
-
-.card{
-
-background:
-rgba(255,255,255,.75);
-
-backdrop-filter:blur(20px);
-
-border-radius:30px;
-
-padding:30px;
-
-box-shadow:
-0 20px 50px rgba(0,0,0,.12);
-
-}
-
-
-
-h2{
-
-display:flex;
-
-align-items:center;
-
-gap:12px;
-
-color:#a94442;
-
-margin-bottom:20px;
-
-}
-
-
-
-svg{
-
-width:22px;
-
-height:22px;
-
-}
-
-
-
-.status{
-
-background:#fff4ed;
-
-padding:15px;
-
-border-radius:18px;
-
-font-weight:700;
-
-margin-bottom:15px;
-
-}
-
-
-
-input{
-
-width:100%;
-
-padding:15px;
-
-border:none;
-
-outline:none;
-
-border-radius:15px;
-
-background:#fff7f1;
-
-font-size:16px;
-
-margin-bottom:15px;
-
-}
-
-
-
-.rfid{
-
-background:#ffe4d2;
-
-padding:15px;
-
-border-radius:15px;
-
-font-weight:800;
-
-color:#a94442;
-
-}
-
-
-
-button{
-
-border:none;
-
-padding:13px 22px;
-
-border-radius:30px;
-
-background:#a94442;
-
-color:white;
-
-font-weight:700;
-
-cursor:pointer;
-
-display:inline-flex;
-
-align-items:center;
-
-gap:8px;
-
-margin:5px;
-
-transition:.3s;
-
-}
-
-
-
-button:hover{
-
-transform:translateY(-3px);
-
-}
-
-
-
-.secondary{
-
-background:#cb7575;
-
-}
-
-
-
-.danger{
-
-background:#8b3a3a;
-
-}
-
-
-
-table{
-
-width:100%;
-
-border-collapse:collapse;
-
-margin-top:15px;
-
-}
-
-
-
-th{
-
-background:#a94442;
-
-color:white;
-
-padding:14px;
-
-}
-
-
-
-td{
-
-background:#fff;
-
-padding:14px;
-
-text-align:center;
-
-}
-
-
-
-tr:nth-child(even) td{
-
-background:#fff0e6;
-
-}
-
-
-
-.badge{
-
-background:#ffd6c7;
-
-padding:6px 12px;
-
-border-radius:20px;
-
-font-weight:700;
-
-color:#a94442;
-
-}
-
-
-
-#notification{
-
-position:fixed;
-
-right:30px;
-
-bottom:30px;
-
-background:#a94442;
-
-color:white;
-
-padding:18px 25px;
-
-border-radius:20px;
-
-display:none;
-
-font-weight:700;
-
-box-shadow:
-0 10px 30px rgba(0,0,0,.2);
-
-}
-
-
-.footer{
-
-text-align:center;
-
-margin-top:40px;
-
-color:#6d4c41;
-
-}
-
-.status {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-#connection svg {
-  width: 18px;
-  height: 18px;
-  color: #ef4444;
-}
-
-.logo img {
-  height: 45px;
-  width: auto;
-  object-fit: contain;
-}
-
-
-</style>
-
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#CB7575">
+  <title>Plate2Purpose | RFID Attendance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="enhancements.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
-
-
-
 <body>
-
-
-
-<div class="container">
-
-
-
-<div class="header">
-
-
-<div class="logo">
-  <img src="images/plate2purposename.png" alt="Plate2Purpose Logo">
-</div>
-
-
-<div class="subtitle">
-RFID Smart Attendance System
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="grid">
-
-
-
-<!-- Arduino -->
-
-<div class="card">
-
-
-<h2>
-<i data-lucide="usb"></i>
-Arduino
-</h2>
-
-
-<div id="connection" class="status">
-  <i data-lucide="circle-alert"></i>
-  Not Connected
-</div>
-
-<script src="https://unpkg.com/lucide@latest"></script>
-<script>
-  lucide.createIcons();
-</script>
-
-
-<button onclick="connectArduino()">
-
-<i data-lucide="plug"></i>
-
-Connect
-
-</button>
-
-
-</div>
-
-
-
-
-
-<!-- Student -->
-
-<div class="card">
-
-
-<h2>
-
-<i data-lucide="user-plus"></i>
-
-Add Student
-
-</h2>
-
-
-
-<input 
-id="name"
-placeholder="Student Name"
->
-
-
-
-<div class="rfid">
-
-RFID:
-
-<span id="uid">
-Waiting...
-</span>
-
-
-</div>
-
-
-
-<button onclick="scanRFID()">
-
-<i data-lucide="scan-line"></i>
-
-Scan
-
-</button>
-
-
-
-<button class="secondary" onclick="saveStudent()">
-
-<i data-lucide="save"></i>
-
-Save
-
-</button>
-
-
-
-</div>
-
-
-
-
-
-
-
-<!-- Attendance -->
-
-
-<div class="card">
-
-
-<h2>
-
-<i data-lucide="clipboard-check"></i>
-
-Attendance
-
-</h2>
-
-
-
-<button onclick="startAttendance()">
-
-<i data-lucide="play"></i>
-
-Start
-
-</button>
-
-
-
-<button class="secondary" onclick="stopAttendance()">
-
-<i data-lucide="square"></i>
-
-Stop
-
-</button>
-
-
-
-<button onclick="resetAttendance()">
-
-<i data-lucide="rotate-ccw"></i>
-
-Reset
-
-</button>
-
-
-
-<button onclick="downloadExcel()">
-
-<i data-lucide="file-spreadsheet"></i>
-
-Excel
-
-</button>
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-
-<div class="card" style="margin-top:30px;">
-
-
-
-<h2>
-
-<i data-lucide="users"></i>
-
-Students
-
-</h2>
-
-
-
-<table>
-
-
-<thead>
-
-<tr>
-
-<th>Name</th>
-
-<th>RFID</th>
-
-<th>Status</th>
-
-<th>Actions</th>
-
-</tr>
-
-
-</thead>
-
-
-<tbody id="list">
-
-
-</tbody>
-
-
-</table>
-
-
-</div>
-
-
-
-
-
-<div id="notification"></div>
-
-
-
-<div class="footer">
-
-© 2026 Plate2Purpose™
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-<script src="arduino.js"></script>
-
-
-<script>
-
-
-lucide.createIcons();
-
-
-
-function showMessage(text){
-
-let box=document.getElementById("notification");
-
-box.innerHTML=text;
-
-box.style.display="block";
-
-
-setTimeout(()=>{
-
-box.style.display="none";
-
-},3000);
-
-
-}
-
-
-
-function renderAttendance(){
-
-
-let table=document.getElementById("list");
-
-
-table.innerHTML="";
-
-
-students.forEach((s,index)=>{
-
-
-table.innerHTML += `
-
-<tr>
-
-<td>${s.name}</td>
-
-
-<td>
-
-<span class="badge">
-
-${s.rfid}
-
-</span>
-
-</td>
-
-
-<td>
-
-${s.status || "Absent"}
-
-</td>
-
-
-<td>
-
-
-<button onclick="editStudent(${index})">
-
-<i data-lucide="pencil"></i>
-
-</button>
-
-
-
-<button class="danger" onclick="deleteStudent(${index})">
-
-<i data-lucide="trash-2"></i>
-
-</button>
-
-
-</td>
-
-
-</tr>
-
-`;
-
-});
-
-
-lucide.createIcons();
-
-}
-
-
-
-setInterval(renderAttendance,1000);
-
-
-
-</script>
-
-
-
+  <main class="dashboard-shell">
+    <header class="navbar glass-card">
+      <a class="brand" href="dashboard" aria-label="Plate2Purpose RFID Attendance">
+        <img src="images/plate2purposename.png" alt="Plate2Purpose logo">
+        <span>RFID Attendance</span>
+      </a>
+      <div class="navbar-status" aria-label="Application status">
+        <span class="nav-pill" id="nav-connection"><i data-lucide="circle-off"></i>Disconnected</span>
+        <span class="nav-pill" id="nav-mode"><i data-lucide="radio"></i>Idle</span>
+        <span class="nav-time"><i data-lucide="calendar-days"></i><span id="current-datetime"></span></span>
+      </div>
+    </header>
+
+    <section class="intro">
+      <div><p class="eyebrow">Plate2Purpose smart attendance system.</p><h1>RFID attendance dashboard</h1><p>Connect your reader, register learners, and manage attendance from one place.</p></div>
+      <span class="version">v1.0.0</span>
+    </section>
+
+    <section class="insight-strip" aria-label="Session insights">
+      <article class="insight-item glass-card"><span class="insight-icon"><i data-lucide="timer"></i></span><div><span>Attendance session</span><strong id="session-timer">00:00:00</strong><small id="session-state">Not started</small></div></article>
+      <article class="insight-item glass-card"><span class="insight-icon"><i data-lucide="scan-line"></i></span><div><span>Latest RFID card</span><strong class="latest-card" id="latest-rfid">Waiting for scan</strong><small>Updates when a card is read</small></div></article>
+      <article class="insight-item glass-card quick-actions"><div><span>Quick actions</span><strong>Jump straight in</strong></div><div><button type="button" onclick="focusRegistration()"><i data-lucide="user-round-plus"></i>Register</button><button type="button" onclick="focusStudentSearch()"><i data-lucide="search"></i>Find student</button></div></article>
+    </section>
+
+    <section class="dashboard-grid" aria-label="RFID dashboard controls">
+      <article class="glass-card module-card">
+        <div class="card-heading"><span class="heading-icon"><i data-lucide="usb"></i></span><div><h2>Arduino</h2><p>Web Serial connection</p></div></div>
+        <div class="connection-panel"><div id="connection"><i data-lucide="circle-alert"></i>Not Connected</div><span id="connected-time">Not connected</span></div>
+        <div class="device-meta"><span><small>COM Port</small><strong id="com-port">Not selected</strong></span><span><small>Reader</small><strong>MFRC522</strong></span></div>
+        <div class="button-row"><button class="button primary" onclick="connectArduino()"><i data-lucide="plug"></i>Connect</button>
+      </article>
+
+      <article class="glass-card module-card">
+        <div class="card-heading"><span class="heading-icon"><i data-lucide="user-round-plus"></i></span><div><h2>Student Registration</h2><p id="registration-hint">Ready to register a card</p></div></div>
+        <label class="field-label" for="name">Student name</label><input id="name" type="text" placeholder="Enter full name" autocomplete="off">
+        <div class="rfid-display" id="scan-display"><span><i data-lucide="scan-line"></i>Current RFID</span><strong id="uid">Waiting...</strong></div>
+        <div class="button-row"><button class="button secondary" onclick="scanRFID()"><i data-lucide="scan-line"></i>Scan RFID</button><button class="button primary" onclick="saveStudent()"><i data-lucide="save"></i>Save Student</button></div>
+      </article>
+
+      <article class="glass-card module-card">
+        <div class="card-heading"><span class="heading-icon"><i data-lucide="clipboard-check"></i></span><div><h2>Attendance</h2><p id="attendance-state">Session ready</p></div></div>
+        <div class="button-row attendance-actions"><button class="button primary" onclick="startAttendance()"><i data-lucide="play"></i>Start Attendance</button><button class="button secondary" onclick="stopAttendance()"><i data-lucide="square"></i>Stop Attendance</button><button class="button outline" onclick="resetAttendance()"><i data-lucide="rotate-ccw"></i>Reset</button><button class="button outline" onclick="downloadExcel()"><i data-lucide="file-spreadsheet"></i>Export Excel</button></div>
+        <div class="progress-block"><div><span>Attendance progress</span><strong id="progress-copy">0 / 0 present</strong></div><div class="progress-track"><span id="attendance-progress"></span></div></div>
+      </article>
+
+      <article class="glass-card module-card stats-card">
+        <div class="card-heading"><span class="heading-icon"><i data-lucide="chart-no-axes-combined"></i></span><div><h2>Statistics</h2><p>Updates automatically</p></div></div>
+        <div class="statistics"><div><span>Total students</span><strong id="total-students">0</strong></div><div><span>Present</span><strong class="success" id="present-students">0</strong></div><div><span>Absent</span><strong class="danger-text" id="absent-students">0</strong></div><div><span>Attendance</span><strong id="attendance-percent">0%</strong></div></div>
+      </article>
+    </section>
+
+    <section class="glass-card activity-card" aria-label="Live activity">
+      <div class="activity-header"><div><p class="eyebrow">System feed</p><h2><i data-lucide="activity"></i>Live activity</h2></div><div class="activity-controls"><span class="activity-status"><i data-lucide="radio"></i>Auto-scrolling</span><button type="button" class="clear-log" onclick="clearActivityLog()"><i data-lucide="trash-2"></i>Clear</button></div></div>
+      <div class="activity-log" id="activity-log" aria-live="polite"><p class="activity-empty" id="activity-empty">Waiting for system activity...</p></div>
+    </section>
+
+    <section class="glass-card table-card">
+      <div class="table-header"><div><p class="eyebrow">Directory</p><h2>Registered students</h2></div><label class="search"><i data-lucide="search"></i><input id="student-search" type="search" placeholder="Search by name or RFID"></label></div>
+      <div class="table-scroll"><table><thead><tr><th>Name</th><th>RFID</th><th>Status</th><th>Actions</th></tr></thead><tbody id="list"></tbody></table></div>
+    </section>
+
+    <div id="notification" role="status" aria-live="polite"></div>
+    <footer>Plate2Purpose RFID Attendance System <span>•</span> Arduino + MFRC522 <span>•</span> v1.0.0</footer>
+  </main>
+  <script src="arduino.js"></script>
+  <script src="script.js"></script>
+  <script src="activity.js"></script>
+  <script src="enhancements.js"></script>
 </body>
-
 </html>
