@@ -1252,6 +1252,17 @@ a.p2p-stamp-link:hover .core { background: var(--p2p-green); }
   text-transform: uppercase;
   color: var(--p2p-text-soft);
 }
+.brand-alpha {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #2563eb;
+    text-transform: uppercase;
+    border: 1px solid #2563eb;
+    padding: 3px 7px;
+    border-radius: 4px;
+    background: #eff6ff;
+}
 
 /* Touch targets — 44px minimum on coarse pointers */
 @media (pointer: coarse) {
